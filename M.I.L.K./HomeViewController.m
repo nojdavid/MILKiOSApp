@@ -7,9 +7,9 @@
 //
 
 #import "HomeViewController.h"
-#import "ViewController.h"
 #import "ImageCollectionViewCell.h"
 #import "CustomImageFlowLayout.h"
+#import "DetailViewController.h"
 
 @interface HomeViewController ()
 
@@ -34,6 +34,32 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return 25.0;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"openDetailView" sender:indexPath];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"openDetailView"])
+    {
+        /*
+        if (!self.customTransitioningDelegate) {
+            self.customTransitioningDelegate = [ImageOpeningTransitioningDelegate new];
+        }
+        */
+        DetailViewController *detailViewController = segue.destinationViewController;
+        //detailViewController.transitioningDelegate = self.customTransitioningDelegate;
+        
+        if ([sender isKindOfClass:[NSIndexPath class]]) {
+            NSIndexPath *indexPath = (NSIndexPath*)sender;
+            
+            UIImage *selectedImage = ((ImageCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath]).imageView.image;
+            detailViewController.imageToPresent = selectedImage;
+        }
+    }
 }
 
 #pragma mark - view methods

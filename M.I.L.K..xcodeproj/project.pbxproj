@@ -15,6 +15,8 @@
 		855930371FE0B83200B0DE18 /* ImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 855930361FE0B83200B0DE18 /* ImageCollectionViewCell.m */; };
 		8559303A1FE0B93600B0DE18 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 855930391FE0B93600B0DE18 /* HomeViewController.m */; };
 		8559303D1FE0BAF100B0DE18 /* CustomImageFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8559303C1FE0BAF100B0DE18 /* CustomImageFlowLayout.m */; };
+		859416711FE1C04D0096C2C3 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 859416701FE1C04D0096C2C3 /* DetailViewController.m */; };
+		859416741FE1C9770096C2C3 /* CommentBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 859416731FE1C9770096C2C3 /* CommentBoardViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,10 @@
 		855930391FE0B93600B0DE18 /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		8559303B1FE0BAF100B0DE18 /* CustomImageFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomImageFlowLayout.h; sourceTree = "<group>"; };
 		8559303C1FE0BAF100B0DE18 /* CustomImageFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomImageFlowLayout.m; sourceTree = "<group>"; };
+		8594166F1FE1C04D0096C2C3 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		859416701FE1C04D0096C2C3 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		859416721FE1C9770096C2C3 /* CommentBoardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentBoardViewController.h; sourceTree = "<group>"; };
+		859416731FE1C9770096C2C3 /* CommentBoardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentBoardViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +83,10 @@
 				855930391FE0B93600B0DE18 /* HomeViewController.m */,
 				8559303B1FE0BAF100B0DE18 /* CustomImageFlowLayout.h */,
 				8559303C1FE0BAF100B0DE18 /* CustomImageFlowLayout.m */,
+				8594166F1FE1C04D0096C2C3 /* DetailViewController.h */,
+				859416701FE1C04D0096C2C3 /* DetailViewController.m */,
+				859416721FE1C9770096C2C3 /* CommentBoardViewController.h */,
+				859416731FE1C9770096C2C3 /* CommentBoardViewController.m */,
 			);
 			path = M.I.L.K.;
 			sourceTree = "<group>";
@@ -157,6 +167,8 @@
 				855930211FE0B78200B0DE18 /* AppDelegate.m in Sources */,
 				8559303D1FE0BAF100B0DE18 /* CustomImageFlowLayout.m in Sources */,
 				8559303A1FE0B93600B0DE18 /* HomeViewController.m in Sources */,
+				859416741FE1C9770096C2C3 /* CommentBoardViewController.m in Sources */,
+				859416711FE1C04D0096C2C3 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
