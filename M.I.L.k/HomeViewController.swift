@@ -43,8 +43,10 @@ class HomeViewController : UIViewController, UICollectionViewDataSource, UIColle
         if segue.identifier == "openDetailView" {
             let cell = sender as? ImageCollectionViewCell
             let detailVC = segue.destination as! DetailedImageViewController
-            detailVC.imageToPresent = cell?.imageView.image
-            
+
+            //THIS IS WHERE YOU DO GET REQUEST ON MESSAGES AND WHATEVER YOU NEED TO PASS FROM CELL DATA
+
+            detailVC.selectedItem = SelectedItem(messages: [Message(name: "BOB", text:"Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up"), Message(name: "Jerry", text:"Because i said so")], image: (cell?.imageView.image)!)
         }
     }
 }

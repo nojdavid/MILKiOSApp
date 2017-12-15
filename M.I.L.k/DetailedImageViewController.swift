@@ -7,15 +7,33 @@
 //
 
 import UIKit
+class SelectedItem{
+    var image: UIImage?
+    var messages: [Message]?
+    
+    init(messages:[Message], image:UIImage){
+        self.image = image
+        self.messages = messages
+    }
+}
 
 class DetailedImageViewController : UIViewController{
     
-    var imageToPresent: UIImage!
+    //var imageToPresent: UIImage!
     @IBOutlet weak var imageView: UIImageView!
+    
+    var selectedItem : SelectedItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = imageToPresent
+        imageView.image = selectedItem?.image
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "openCommentBoard" {
+            let commentVC = segue.destination as! CommentBoardViewController
+            commentVC.messages = selectedItem?.messages
+        }
     }
 
 }
