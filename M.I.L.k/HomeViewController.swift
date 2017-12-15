@@ -8,7 +8,9 @@
 
 import UIKit
 
+/*
 class HomeViewController : UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
+    
     
     @IBOutlet weak var collectionView: UICollectionView!
     var collectionViewLayout: CustomImageFlowLayout!
@@ -49,4 +51,6 @@ class HomeViewController : UIViewController, UICollectionViewDataSource, UIColle
             detailVC.selectedItem = SelectedItem(messages: [Message(name: "BOB", text:"Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up Hello, why is this not showing up"), Message(name: "Jerry", text:"Because i said so")], image: (cell?.imageView.image)!)
         }
     }
+
 }
+ */

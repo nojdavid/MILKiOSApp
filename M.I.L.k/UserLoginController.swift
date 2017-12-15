@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginScreenController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class UserLoginController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     let plusPhotoButton : UIButton = {
         let button = UIButton(type: UIButtonType.system)
@@ -111,25 +111,25 @@ class LoginScreenController: UIViewController, UIImagePickerControllerDelegate, 
         //CREATE USER PROFILE IN DB HERE
         //------------------------------
         
-            //GET IMAGE URL
-            //guard let profileImageUrl = metaData?.downloadURL()?.absoluateString else {return}
+        //GET IMAGE URL
+        //guard let profileImageUrl = metaData?.downloadURL()?.absoluateString else {return}
         
-            //UID IS USERS HASHED ID
-            //gaurd let uid = user?iuid else {return}
+        //UID IS USERS HASHED ID
+        //gaurd let uid = user?iuid else {return}
         
-            //GET AND COMPRESSES IMAGE OR STORAGE
-            //guard let image = plusPhotoButton.imageView?.image else {return}
-            //guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
+        //GET AND COMPRESSES IMAGE OR STORAGE
+        //guard let image = plusPhotoButton.imageView?.image else {return}
+        //guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
         
-            //NEED TO UPDATE:
-            //------------------------
-            //SAVE USERINFO TO DB HERE
-            //------------------------
-                //DICT OF key:"username" value:user's entered name
-                //let dictionaryValues = ["username":username, "profileImageUrl":profileImageUrl]
+        //NEED TO UPDATE:
+        //------------------------
+        //SAVE USERINFO TO DB HERE
+        //------------------------
+        //DICT OF key:"username" value:user's entered name
+        //let dictionaryValues = ["username":username, "profileImageUrl":profileImageUrl]
         
-                //DICT OF HASHED ID w/ DICT USERNAME
-                //let values = [uid:dictionaryValues]
+        //DICT OF HASHED ID w/ DICT USERNAME
+        //let values = [uid:dictionaryValues]
         
         print("success")
         
@@ -169,5 +169,6 @@ class LoginScreenController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
 }
+
 
 
