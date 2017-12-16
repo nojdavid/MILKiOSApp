@@ -8,10 +8,27 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController{
+class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+        let index = viewControllers?.index(of: viewController)
+        if index == 2 {
+            
+            let layout =  UICollectionViewFlowLayout()
+            let photoSelectorController = PhotoSelectorController(collectionViewLayout: layout)
+            let navController = UINavigationController(rootViewController: photoSelectorController)
+            present(navController, animated: true, completion: nil)
+            
+            return false
+        }
+        return true;
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.delegate = self
         
         //THIS VARIABLE IS TEMPORARY NEEDS TO BE REMOVED
         var currentUser: (Any)? = true
@@ -55,7 +72,7 @@ class MainTabBarController: UITabBarController{
         
         tabBar.tintColor = .black
         
-        viewControllers = [homeNavController, searchNavController, plusNavController, likeNavController,userProfileNavController]
+        viewControllers = [homeNavController, searchNavController, plusNavController, likeNavController, userProfileNavController]
         
         //modify tab bar item insets
         guard let items = tabBar.items else {return}

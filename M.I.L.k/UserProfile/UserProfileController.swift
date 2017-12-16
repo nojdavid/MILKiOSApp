@@ -11,6 +11,7 @@ import UIKit
 class UserProfileController : UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     let cellId = "cellId"
+    let headerId = "headerId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +20,7 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         //NEED TO UPDATE: fetch User tree from DB and store user info in user struct
         fetchUser()
 
-        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
+        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         
         collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         
@@ -91,7 +92,7 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as! UserProfileHeader
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! UserProfileHeader
         
         header.user = self.user
         return header
