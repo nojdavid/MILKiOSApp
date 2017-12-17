@@ -13,26 +13,29 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     let cellId = "cellId"
     let headerId = "headerId"
     
+    var userId: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.backgroundColor = .white
         
-        //NEED TO UPDATE: fetch User tree from DB and store user info in user struct
-        fetchUser()
+        collectionView?.backgroundColor = .white
 
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-        
         collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         
         setupLogoutButton()
         
-        fetchOrderedPosts()
+        //NEED TO UPDATE: fetch User tree from DB and store user info in user struct
+        fetchUser()
+        //fetchOrderedPosts()
     }
 
     var posts = [Post]()
     fileprivate func fetchOrderedPosts(){
-        //NEED TO DO: GET CURRENT USER'S ID
-        //NEED TO DO: GET ref to posts of user id
+        
+        guard let uid = user?.uid else {return}
+        
+        //NEED TO DO: GET REFERENCE TO ALL POSTS FROM UID
         //NEED TO DO: GET ALL POSTS FOR USER IN ORDER OF DATE POSTED
         //NEED TO DO: PARSE USER POST IMAGE DICT
         
@@ -75,22 +78,21 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     
     var user: User?
     fileprivate func fetchUser(){
-        //Assumed loged in get user ID
-        //guard let uid = currentUser?.uid else {return}
         
-        //GET ALL USER PROFILE DATA HERE AND STORE IT
-        //NEED TO UPDATE: GET USERNAME FROM USER ID HASH
+        //NEED TO DO: GET CURRENT USER
+        let uid = userId ?? (/*GET THE currentUser?.uid FROM THE DB??*/ "")
         
-        //This creates user element to store fetched data in
-        //self.user = User(dictionary: dictionary)
+        //NEED TO DO: UPDATE THIS USER WITH USER FROM THE REFERENCED UID ABOVE
+        //self.user = User(uid: uid, dictionary: dictionary)
         
-        //THIS DUMMY USER NEEDS TO BE UPDATED TO REAL USER ABOVE
-        self.user = User(uid: "123", dictionary: ["username": "Noah Davidson"])
-        self.navigationItem.title = user?.username
+        //NEED TO DO: THIS DUMMY USER NEEDS TO BE DELETED ONCE REAL USER IS TAKEN FROM DB
+        self.user = User(uid: uid, dictionary: ["username": "Noah Davidson"])
         
-        //Set title with user object username
-        //self.navigationItem.title = self.user?.username
+        self.navigationItem.title = self.user?.username
+   
         self.collectionView?.reloadData()
+        
+        self.fetchOrderedPosts()
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
