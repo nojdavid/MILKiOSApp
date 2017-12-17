@@ -30,7 +30,6 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     }
 
     var posts = [Post]()
-    
     fileprivate func fetchOrderedPosts(){
         //NEED TO DO: GET CURRENT USER'S ID
         //NEED TO DO: GET ref to posts of user id
@@ -42,9 +41,13 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         
         //NEED TO DO: GET IMAGE POST VALUES AND SAVE IT TO THIS VARIABLE
         guard let dictionary = value as? [String : Any] else {return}
-        
+
         //SAVE IMAGE INFO IN POST OBJ
-        let post = Post(dictionary: dictionary)
+        guard let user = self.user else {return}
+        
+        let post = Post(user: user, dictionary: dictionary)
+
+        //self.posts.insert(post, at: 0)
         self.posts.append(post)
         
         self.collectionView?.reloadData()
@@ -125,15 +128,3 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         return CGSize(width: view.frame.width, height: 200)
     }
 }
-
-struct User{
-    let username: String
-    let profileImageUrl: String
-    
-    init(dictionary: [String: Any]){
-        self.username = dictionary["Username"] as? String ?? ""
-        self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
-    }
-}
-
-
