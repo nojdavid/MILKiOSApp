@@ -84,9 +84,10 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         //This creates user element to store fetched data in
         //self.user = User(dictionary: dictionary)
         
-        //remove this once you have DB objects
-        let username = "User Profile"
-        self.navigationItem.title = username
+        //THIS DUMMY USER NEEDS TO BE UPDATED TO REAL USER ABOVE
+        self.user = User(uid: "123", dictionary: ["username": "Noah Davidson"])
+        self.navigationItem.title = user?.username
+        
         //Set title with user object username
         //self.navigationItem.title = self.user?.username
         self.collectionView?.reloadData()

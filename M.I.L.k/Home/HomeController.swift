@@ -39,11 +39,12 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         guard let dictionary = value as? [String : Any] else {return}
         
         //THIS DUMMY USER NEEDS TO BE UPDATED TO REAL USER
-        let dummyUser = User(dictionary: ["username": "Noah Davidson"])
+        let dummyUser = User(uid: "123", dictionary: ["username": "Noah Davidson"])
 
         //SAVE IMAGE INFO IN POST OBJ
         let post = Post(user: dummyUser, dictionary: dictionary)
-
+        
+        //POST ALL POSTS NOT JUST FROM USER THAT IS LOGGED IN ON THIS DEVICE
         self.posts.append(post)
         
         self.collectionView?.reloadData()

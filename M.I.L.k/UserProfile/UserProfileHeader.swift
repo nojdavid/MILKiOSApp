@@ -15,8 +15,7 @@ class UserProfileHeader: UICollectionViewCell{
             guard let profileImageUrl = user?.profileImageUrl else {return}
             profileImageView.loadImage(urlString: profileImageUrl)
             
-            //NEED TO DO: ADD IN ONCE USER IS CAPTURED
-            //usernameLabel.text = user?.username
+            usernameLabel.text = user?.username
         }
     }
     
