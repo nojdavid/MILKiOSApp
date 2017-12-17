@@ -22,9 +22,32 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
 
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         
         setupLogoutButton()
+        
+        fetchOrderedPosts()
+    }
+
+    var posts = [Post]()
+    
+    fileprivate func fetchOrderedPosts(){
+        //NEED TO DO: GET CURRENT USER'S ID
+        //NEED TO DO: GET ref to posts of user id
+        //NEED TO DO: GET ALL POSTS FOR USER IN ORDER OF DATE POSTED
+        //NEED TO DO: PARSE USER POST IMAGE DICT
+        
+        //THIS VALUE NEED TO BE IMAGE POST INFO. REMOVE WHEN HAVE DB INFO
+        let value = [String: Any]()
+        
+        //NEED TO DO: GET IMAGE POST VALUES AND SAVE IT TO THIS VARIABLE
+        guard let dictionary = value as? [String : Any] else {return}
+        
+        //SAVE IMAGE INFO IN POST OBJ
+        let post = Post(dictionary: dictionary)
+        self.posts.append(post)
+        
+        self.collectionView?.reloadData()
     }
     
     fileprivate func setupLogoutButton(){
@@ -63,17 +86,17 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         self.navigationItem.title = username
         //Set title with user object username
         //self.navigationItem.title = self.user?.username
-        //self.collectionView?.reloadData()
+        self.collectionView?.reloadData()
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
         
-        cell.backgroundColor = .purple
+        cell.post = posts[indexPath.item]
         
         return cell
     }

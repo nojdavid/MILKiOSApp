@@ -1,17 +1,26 @@
 //
-//  PhotoSelectorHeader.swift
+//  UserProfilePhotoCell.swift
 //  M.I.L.k
 //
-//  Created by noah davidson on 12/15/17.
+//  Created by noah davidson on 12/16/17.
 //  Copyright © 2017 noah davidson. All rights reserved.
 //
 
 import UIKit
 
-class PhotoSelectorHeader: UICollectionViewCell{
+class UserProfilePhotoCell : UICollectionViewCell{
     
-    let photoImageView: UIImageView = {
-        let iv = UIImageView()
+    var post: Post? {
+        didSet {
+            guard let imageUrl = post?.imageUrl else {return}
+            
+            photoImageView.loadImage(urlString: imageUrl)
+        }
+    }
+    
+    let photoImageView: CustomImageView = {
+        let iv = CustomImageView()
+        iv.backgroundColor = .red
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
@@ -22,7 +31,6 @@ class PhotoSelectorHeader: UICollectionViewCell{
         
         addSubview(photoImageView)
         photoImageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -12,15 +12,16 @@ class UserProfileHeader: UICollectionViewCell{
     
     var user: User? {
         didSet{
-            //print("Did set \(user?.username)")
-            //NEED TO DO: IMPLEMENT THIS FUNCTION
-            setupProfileImage()
+            guard let profileImageUrl = user?.profileImageUrl else {return}
+            profileImageView.loadImage(urlString: profileImageUrl)
+            
+            //NEED TO DO: ADD IN ONCE USER IS CAPTURED
             //usernameLabel.text = user?.username
         }
     }
     
-    let profileImageView: UIImageView = {
-        let iv = UIImageView()
+    let profileImageView: CustomImageView = {
+        let iv = CustomImageView()
         iv.backgroundColor = .red
         return iv
     }()
@@ -160,16 +161,6 @@ class UserProfileHeader: UICollectionViewCell{
         topDividerView.anchor(top: stackView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
         
         bottomDividerView.anchor(top: stackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
-    }
-    
-    fileprivate func setupProfileImage(){
-        //NEED TO DO: SET UP USER IMAGE FOR PROFILEIMAGEVIEW
-        //let url = URL(string: String)
-        
-        //make sure cell changes are happening in the correct thread
-        //dispatchqueue.main.async{
-            //self.profileImageView.image = image
-        //}
     }
     
     required init?(coder aDecoder: NSCoder) {

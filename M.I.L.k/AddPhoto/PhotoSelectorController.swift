@@ -30,6 +30,9 @@ class PhotoSelectorController : UICollectionViewController, UICollectionViewDele
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedImage = images[indexPath.item]
         self.collectionView?.reloadData()
+        
+        let topIndexPath = IndexPath(item: 0, section: 0)
+        collectionView.scrollToItem(at: topIndexPath, at: .bottom, animated: true)
     }
     
     var selectedImage: UIImage?
@@ -38,7 +41,7 @@ class PhotoSelectorController : UICollectionViewController, UICollectionViewDele
     
     fileprivate func assetsFetchOptions() -> PHFetchOptions{
         let fetchOptions = PHFetchOptions()
-        fetchOptions.fetchLimit = 10
+        fetchOptions.fetchLimit = 30
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchOptions.sortDescriptors = [sortDescriptor]
         return fetchOptions
@@ -82,19 +85,24 @@ class PhotoSelectorController : UICollectionViewController, UICollectionViewDele
         return CGSize(width: width, height: width)
     }
     
+    var header: PhotoSelectorHeader?
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! PhotoSelectorHeader
         
+        self.header = header
         
-        
+        header.photoImageView.image = selectedImage
+
         if let selectedImage = selectedImage{
             if let index = self.images.index(of: selectedImage){
                 let selectedAsset = self.assets[index]
-                let targetSize = CGSize(width:view.frame.width, height:view.frame.width) //may need to change this for better photo res
+                
+                let targetSize = CGSize(width: 600,height: 600) //may need to change this for better photo res
                 let imageManager = PHImageManager.default()
                 imageManager.requestImage(for: selectedAsset, targetSize: targetSize, contentMode: .default, options: nil, resultHandler: { (image, info) in
                     
-                    header.photoImageView.image = selectedImage
+                    header.photoImageView.image = image
                 })
             }
         }
@@ -139,7 +147,9 @@ class PhotoSelectorController : UICollectionViewController, UICollectionViewDele
     }
     
     @objc func handleNext(){
-        print("handling next")
+        let sharePhotoController = SharePhotoController()
+        sharePhotoController.selectedImage = header?.photoImageView.image
+        navigationController?.pushViewController(sharePhotoController, animated: true)
     }
     
     @objc func handleCancel(){
