@@ -16,6 +16,20 @@ class UserProfileHeader: UICollectionViewCell{
             profileImageView.loadImage(urlString: profileImageUrl)
             
             usernameLabel.text = user?.username
+            
+            let currentUserId :String? = ""
+            guard let currentLoggedInUserId = currentUserId else {return}
+            guard let userId = user?.uid else {return}
+            if currentLoggedInUserId == userId{
+                //edit profile
+                editProfileButton.isEnabled = true
+                editProfileButton.backgroundColor = .white
+            }else{
+                //not your profile, make button invisible
+                editProfileButton.isEnabled = false
+                editProfileButton.setTitleColor(.white, for: .normal)
+                editProfileButton.layer.borderColor = UIColor.white.cgColor
+            }
         }
     }
     
@@ -95,7 +109,7 @@ class UserProfileHeader: UICollectionViewCell{
         return label
     }()
     
-    let editProfileButton: UIButton = {
+    lazy var editProfileButton: UIButton = {
         let button = UIButton(type: UIButtonType.system)
         button.setTitle("Edit Profile", for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -103,8 +117,13 @@ class UserProfileHeader: UICollectionViewCell{
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 3
+        button.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
         return button
     }()
+    
+    @objc func handleEditProfile(){
+        print("Handle Edit Profile")
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

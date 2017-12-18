@@ -106,6 +106,16 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
         //NEED TO UPDATE: VALIDATE STRENGTH OF PASSWORD
         guard let password = passwordTextField.text, password.count > 0 else {return}
         
+        guard let image = plusPhotoButton.imageView?.image else {return}
+        guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
+        
+        let user = User(username: username, password: password, email: email)
+        signUpUser(user: user) { (error) in
+            if let error = error{
+                fatalError(error.localizedDescription)
+            }
+        }
+        
         //NEED TO UPDATE:
         //------------------------------
         //CREATE USER PROFILE IN DB HERE
@@ -131,7 +141,7 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
         //DICT OF HASHED ID w/ DICT USERNAME
         //let values = [uid:dictionaryValues]
         
-        print("success")
+        print("successfully made an account")
         
         //get reference to maintab bar
         guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}

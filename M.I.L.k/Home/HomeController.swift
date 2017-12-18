@@ -21,16 +21,13 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         setupNavigationItems()
         
+        //NEED TO DO: FETCH POSTS FOR ENTIRE APP & FIGURE OUT HOW TO LOAD PROPERLY
         fetchPosts()
     }
     
     var posts = [Post]()
     fileprivate func fetchPosts(){
-        //NEED TO DO: GET CURRENT USER'S ID
-        //NEED TO DO: GET USER
-        //NEED TO DO: GET ref to posts of user id
-        //NEED TO DO: GET ALL POSTS FOR USER
-        //NEED TO DO: PARSE USER POST IMAGE DICT
+        //NEED TO DO: GET ALL POSTS FOR APP LOAD PROPERLY!!!!!
         
         //THIS VALUE NEED TO BE IMAGE POST INFO. REMOVE WHEN HAVE DB INFO
         let value = [String: Any]()
@@ -46,6 +43,10 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         //POST ALL POSTS NOT JUST FROM USER THAT IS LOGGED IN ON THIS DEVICE
         self.posts.append(post)
+        
+        self.posts.sort { (p1, p2) -> Bool in
+            return p1.creationDate.compare(p2.creationDate) == .orderedDescending
+        }
         
         self.collectionView?.reloadData()
     }
