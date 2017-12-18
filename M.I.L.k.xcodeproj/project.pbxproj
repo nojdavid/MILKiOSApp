@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		854827711FE34E7A007031E7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854827701FE34E7A007031E7 /* Extensions.swift */; };
 		85707AB81FE769AD00BD978F /* UserSignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85707AB71FE769AD00BD978F /* UserSignUp.swift */; };
+		85707ABB1FE7B62700BD978F /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85707ABA1FE7B62700BD978F /* CameraController.swift */; };
 		85752E071FE486D30002EC3D /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85752E061FE486D30002EC3D /* LoginController.swift */; };
 		85752E0A1FE4AB8D0002EC3D /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85752E091FE4AB8D0002EC3D /* PhotoSelectorController.swift */; };
 		85752E0C1FE4B4DE0002EC3D /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85752E0B1FE4B4DE0002EC3D /* PhotoSelectorCell.swift */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		854827701FE34E7A007031E7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		85707AB71FE769AD00BD978F /* UserSignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignUp.swift; sourceTree = "<group>"; };
+		85707ABA1FE7B62700BD978F /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		85752E061FE486D30002EC3D /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		85752E091FE4AB8D0002EC3D /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		85752E0B1FE4B4DE0002EC3D /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
@@ -91,6 +93,14 @@
 				85707AB71FE769AD00BD978F /* UserSignUp.swift */,
 			);
 			path = DatabaseUtils;
+			sourceTree = "<group>";
+		};
+		85707AB91FE7B61400BD978F /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				85707ABA1FE7B62700BD978F /* CameraController.swift */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 		85752E051FE486A20002EC3D /* Login */ = {
@@ -159,6 +169,7 @@
 		858E90801FE2267800E0D8A7 /* M.I.L.k */ = {
 			isa = PBXGroup;
 			children = (
+				85707AB91FE7B61400BD978F /* Camera */,
 				85707AB61FE7692200BD978F /* DatabaseUtils */,
 				85752E211FE70F310002EC3D /* Search */,
 				85752E181FE6473C0002EC3D /* Home */,
@@ -261,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				85E8DF1C1FE45E3B00E6FBD6 /* UserProfileHeader.swift in Sources */,
+				85707ABB1FE7B62700BD978F /* CameraController.swift in Sources */,
 				85752E1C1FE648D40002EC3D /* HomePostCell.swift in Sources */,
 				85E8DF191FE375D700E6FBD6 /* SignUpController.swift in Sources */,
 				85E8DF151FE371AB00E6FBD6 /* MainTabBarController.swift in Sources */,

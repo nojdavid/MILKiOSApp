@@ -14,23 +14,44 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: SharePhotoController.updateFeedNotificationName, object: nil)
         
         collectionView?.backgroundColor = .white
         
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: cellId)
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView?.refreshControl = refreshControl
+        
         setupNavigationItems()
         
         //NEED TO DO: FETCH POSTS FOR ENTIRE APP & FIGURE OUT HOW TO LOAD PROPERLY
-        fetchPosts()
+        fetchAllPosts()
     }
     
+    @objc func handleUpdateFeed(){
+        handleRefresh()
+    }
+    
+    @objc func handleRefresh(){
+        print("handle refresh...")
+        posts.removeAll()
+        fetchAllPosts()
+    }
+    
+    //IOS9
+    //let refreshControl = UIRefreshControl()
+    
     var posts = [Post]()
-    fileprivate func fetchPosts(){
+    fileprivate func fetchAllPosts(){
         //NEED TO DO: GET ALL POSTS FOR APP LOAD PROPERLY!!!!!
         
         //THIS VALUE NEED TO BE IMAGE POST INFO. REMOVE WHEN HAVE DB INFO
         let value = [String: Any]()
+        
+        self.collectionView?.refreshControl?.endRefreshing()
         
         //NEED TO DO: GET IMAGE POST VALUES AND SAVE IT TO THIS VARIABLE
         guard let dictionary = value as? [String : Any] else {return}
@@ -49,10 +70,19 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         }
         
         self.collectionView?.reloadData()
+        
+        
     }
     
     func setupNavigationItems(){
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo2"))
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "camera").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleCamera))
+    }
+    
+    @objc func handleCamera(){
+        let cameraController = CameraController()
+        present(cameraController, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -55,6 +55,8 @@ class SharePhotoController : UIViewController{
         textView.anchor(top: containerView.topAnchor, left: imageView.rightAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 4, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
+    static let updateFeedNotificationName = NSNotification.Name(rawValue: "UpdateFeed")
+    
     @objc func handleShare(){
         
         //GET USER ID AUTHENTICATION ID
@@ -77,6 +79,8 @@ class SharePhotoController : UIViewController{
         //UPLOAD IMAGE, COMMENT STRING, Date Posted, & UPLOAD USER ID WITH IMAGE
         
         self.dismiss(animated: true, completion: nil)
+        
+        NotificationCenter.default.post(name: SharePhotoController.updateFeedNotificationName, object: nil)
     }
     
     override var prefersStatusBarHidden: Bool{
