@@ -63,6 +63,8 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         var post = Post(user: dummyUser, dictionary: dictionary)
         post.id = "SOMEDUMMYKEY"
         
+        //NEED TO DO:FOR EACH POST CHECK IF USER HAS LIKED THEM AND SET EACH POST ACCORDINGLY
+        
         //POST ALL POSTS NOT JUST FROM USER THAT IS LOGGED IN ON THIS DEVICE
         self.posts.append(post)
         
@@ -114,5 +116,27 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         commentsController.post = post
         navigationController?.pushViewController(commentsController, animated: true)
         hidesBottomBarWhenPushed = false
+    }
+    
+    func didLike(for cell: HomePostCell) {
+        
+        guard let indexPath = collectionView?.indexPath(for: cell) else {return}
+        
+        var post = self.posts[indexPath.item]
+        
+        guard let postId = post.id else {return}
+        
+        //NEED TO DO: GET CURRENT USER ID
+        //guard let uid = "1" else {return}
+        
+        //let values = [uid:post.hasLiked == true ? 0 : 1]
+        
+        //NEED TO DO: UPDATE LIKES FOR USER OF UID
+        
+        post.hasLiked = !post.hasLiked
+        
+        self.posts[indexPath.item] = post
+        
+        self.collectionView?.reloadItems(at: [indexPath])
     }
 }
