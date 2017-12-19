@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout{
+class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate{
     
     let cellId = "cellId"
     
@@ -60,7 +60,8 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         let dummyUser = User(uid: "123", dictionary: ["username": "Noah Davidson"])
 
         //SAVE IMAGE INFO IN POST OBJ
-        let post = Post(user: dummyUser, dictionary: dictionary)
+        var post = Post(user: dummyUser, dictionary: dictionary)
+        post.id = "SOMEDUMMYKEY"
         
         //POST ALL POSTS NOT JUST FROM USER THAT IS LOGGED IN ON THIS DEVICE
         self.posts.append(post)
@@ -70,8 +71,6 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         }
         
         self.collectionView?.reloadData()
-        
-        
     }
     
     func setupNavigationItems(){
@@ -104,7 +103,16 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         cell.post = posts[indexPath.item]
         
+        cell.delegate = self
+        
         return cell
     }
     
+    func didTabComment(post: Post) {
+        hidesBottomBarWhenPushed = true
+        let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
+        commentsController.post = post
+        navigationController?.pushViewController(commentsController, animated: true)
+        hidesBottomBarWhenPushed = false
+    }
 }

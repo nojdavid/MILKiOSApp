@@ -31,6 +31,9 @@
 		85D9679E1FE863F100AF82A6 /* PreviewPhotoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D9679D1FE863F100AF82A6 /* PreviewPhotoContainerView.swift */; };
 		85D967A01FE86D3100AF82A6 /* CustomAnimationPresentor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D9679F1FE86D3100AF82A6 /* CustomAnimationPresentor.swift */; };
 		85D967A21FE86FE000AF82A6 /* CustomAnimationDismisser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D967A11FE86FE000AF82A6 /* CustomAnimationDismisser.swift */; };
+		85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D967A41FE8743F00AF82A6 /* CommentsController.swift */; };
+		85D967A71FE881D200AF82A6 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D967A61FE881D200AF82A6 /* CommentCell.swift */; };
+		85D967A91FE8844300AF82A6 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D967A81FE8844300AF82A6 /* Comment.swift */; };
 		85E8DF151FE371AB00E6FBD6 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E8DF141FE371AB00E6FBD6 /* MainTabBarController.swift */; };
 		85E8DF171FE372A600E6FBD6 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E8DF161FE372A600E6FBD6 /* UserProfileController.swift */; };
 		85E8DF191FE375D700E6FBD6 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E8DF181FE375D700E6FBD6 /* SignUpController.swift */; };
@@ -65,6 +68,9 @@
 		85D9679D1FE863F100AF82A6 /* PreviewPhotoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPhotoContainerView.swift; sourceTree = "<group>"; };
 		85D9679F1FE86D3100AF82A6 /* CustomAnimationPresentor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationPresentor.swift; sourceTree = "<group>"; };
 		85D967A11FE86FE000AF82A6 /* CustomAnimationDismisser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnimationDismisser.swift; sourceTree = "<group>"; };
+		85D967A41FE8743F00AF82A6 /* CommentsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsController.swift; sourceTree = "<group>"; };
+		85D967A61FE881D200AF82A6 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		85D967A81FE8844300AF82A6 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		85E8DF141FE371AB00E6FBD6 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		85E8DF161FE372A600E6FBD6 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
 		85E8DF181FE375D700E6FBD6 /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
@@ -137,6 +143,7 @@
 			children = (
 				85752E121FE61C2E0002EC3D /* Post.swift */,
 				85752E1D1FE65E3D0002EC3D /* User.swift */,
+				85D967A81FE8844300AF82A6 /* Comment.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -178,6 +185,7 @@
 		858E90801FE2267800E0D8A7 /* M.I.L.k */ = {
 			isa = PBXGroup;
 			children = (
+				85D967A31FE8743000AF82A6 /* Comment */,
 				85707AB91FE7B61400BD978F /* Camera */,
 				85707AB61FE7692200BD978F /* DatabaseUtils */,
 				85752E211FE70F310002EC3D /* Search */,
@@ -196,6 +204,15 @@
 				85E8DF1D1FE466BF00E6FBD6 /* Main.storyboard */,
 			);
 			path = M.I.L.k;
+			sourceTree = "<group>";
+		};
+		85D967A31FE8743000AF82A6 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				85D967A41FE8743F00AF82A6 /* CommentsController.swift */,
+				85D967A61FE881D200AF82A6 /* CommentCell.swift */,
+			);
+			path = Comment;
 			sourceTree = "<group>";
 		};
 		85E8DF1A1FE45E2C00E6FBD6 /* UserProfile */ = {
@@ -291,6 +308,8 @@
 				858E90821FE2267800E0D8A7 /* AppDelegate.swift in Sources */,
 				85E8DF171FE372A600E6FBD6 /* UserProfileController.swift in Sources */,
 				85752E101FE60BED0002EC3D /* SharePhotoController.swift in Sources */,
+				85D967A91FE8844300AF82A6 /* Comment.swift in Sources */,
+				85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */,
 				85752E231FE70FAD0002EC3D /* UserSearchController.swift in Sources */,
 				85D967A01FE86D3100AF82A6 /* CustomAnimationPresentor.swift in Sources */,
 				85752E0E1FE4BA0C0002EC3D /* PhotoSelectorHeader.swift in Sources */,
@@ -306,6 +325,7 @@
 				85D967A21FE86FE000AF82A6 /* CustomAnimationDismisser.swift in Sources */,
 				85752E251FE713B90002EC3D /* UserSearchCell.swift in Sources */,
 				85752E201FE6654F0002EC3D /* DatabaseUtils.swift in Sources */,
+				85D967A71FE881D200AF82A6 /* CommentCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

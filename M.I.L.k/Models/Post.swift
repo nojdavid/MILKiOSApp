@@ -10,6 +10,8 @@ import Foundation
 
 struct Post : Codable{
     
+    var id: String?
+    
     let user: User
     let imageUrl: String
     let caption:String
