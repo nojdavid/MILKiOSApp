@@ -17,7 +17,20 @@ class PhotoSelectorController : UICollectionViewController, UICollectionViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView?.backgroundColor = .white
+        collectionView?.backgroundColor = .lightGray
+        
+        //Regist for photolibrarydidchange protocol
+        /*
+        PHPhotoLibrary.requestAuthorization { (status) in
+            if status == PHAuthorizationStatus.authorized {
+                PHPhotoLibrary.shared().register(self)
+            }
+        }
+         
+         deinit {
+         PHPhotoLibrary.shared().unregisterChangeObserver(self)
+         }
+        */
         
         setupNavigationButtons()
         
@@ -26,6 +39,9 @@ class PhotoSelectorController : UICollectionViewController, UICollectionViewDele
         
         fetchPhotos()
     }
+    
+    
+    
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedImage = images[indexPath.item]
@@ -38,9 +54,11 @@ class PhotoSelectorController : UICollectionViewController, UICollectionViewDele
     var selectedImage: UIImage?
     var images = [UIImage]()
     var assets = [PHAsset]()
+    var allPhotos = PHFetchResult<PHAsset>()
     
     fileprivate func assetsFetchOptions() -> PHFetchOptions{
         let fetchOptions = PHFetchOptions()
+        //NEED TO DO: THE LIMIT NEEDS TO BE FOR ALL PHOTOS IN PAGINATION PATTERN
         fetchOptions.fetchLimit = 30
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchOptions.sortDescriptors = [sortDescriptor]
@@ -49,9 +67,9 @@ class PhotoSelectorController : UICollectionViewController, UICollectionViewDele
     
     fileprivate func fetchPhotos(){
         
-        let allPhotos = PHAsset.fetchAssets(with: .image, options: assetsFetchOptions())
+        allPhotos = PHAsset.fetchAssets(with: .image, options: assetsFetchOptions())
         DispatchQueue.global(qos: .background).async {
-            allPhotos.enumerateObjects( { (asset, count, stop) in
+            self.allPhotos.enumerateObjects( { (asset, count, stop) in
                 let imageManager = PHImageManager.default()
                 let targetSize = CGSize(width: 200, height: 200)
                 let options = PHImageRequestOptions()
@@ -66,7 +84,7 @@ class PhotoSelectorController : UICollectionViewController, UICollectionViewDele
                         }
                     }
                     
-                    if count == allPhotos.count - 1{
+                    if count == self.allPhotos.count - 1{
                         DispatchQueue.main.async {
                             self.collectionView?.reloadData()
                         }

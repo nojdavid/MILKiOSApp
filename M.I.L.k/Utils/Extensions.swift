@@ -54,6 +54,10 @@ extension UIColor{
     static func mainBlue() -> UIColor {
         return UIColor.rgb(red: 17, green: 154, blue: 237)
     }
+    
+    static func unselectedGrey() -> UIColor {
+        return UIColor(white:0, alpha: 0.2)
+    }
 }
 
 extension UIView {
