@@ -43,6 +43,9 @@
 		85E8DF1E1FE466BF00E6FBD6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85E8DF1D1FE466BF00E6FBD6 /* Main.storyboard */; };
 		85EAD43B1FEB2576004EDE5E /* HomeCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD43A1FEB2576004EDE5E /* HomeCollectionController.swift */; };
 		85EAD43D1FEB288D004EDE5E /* HomeCollectionPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD43C1FEB288D004EDE5E /* HomeCollectionPostCell.swift */; };
+		85EAD4401FEB5091004EDE5E /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD43F1FEB5091004EDE5E /* MapController.swift */; };
+		85EAD4421FEB5769004EDE5E /* Statue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4411FEB5769004EDE5E /* Statue.swift */; };
+		85EAD4441FEB6A5C004EDE5E /* StatueMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4431FEB6A5C004EDE5E /* StatueMarkerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +87,9 @@
 		85E8DF1D1FE466BF00E6FBD6 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		85EAD43A1FEB2576004EDE5E /* HomeCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionController.swift; sourceTree = "<group>"; };
 		85EAD43C1FEB288D004EDE5E /* HomeCollectionPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionPostCell.swift; sourceTree = "<group>"; };
+		85EAD43F1FEB5091004EDE5E /* MapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
+		85EAD4411FEB5769004EDE5E /* Statue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statue.swift; sourceTree = "<group>"; };
+		85EAD4431FEB6A5C004EDE5E /* StatueMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatueMarkerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +199,7 @@
 		858E90801FE2267800E0D8A7 /* M.I.L.k */ = {
 			isa = PBXGroup;
 			children = (
+				85EAD43E1FEB5083004EDE5E /* Map */,
 				85D967A31FE8743000AF82A6 /* Comment */,
 				85707AB91FE7B61400BD978F /* Camera */,
 				85707AB61FE7692200BD978F /* DatabaseUtils */,
@@ -251,6 +258,16 @@
 				85752E141FE61ECC0002EC3D /* UserProfilePhotoCell.swift */,
 			);
 			path = UserProfile;
+			sourceTree = "<group>";
+		};
+		85EAD43E1FEB5083004EDE5E /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				85EAD43F1FEB5091004EDE5E /* MapController.swift */,
+				85EAD4411FEB5769004EDE5E /* Statue.swift */,
+				85EAD4431FEB6A5C004EDE5E /* StatueMarkerView.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,8 +354,10 @@
 				85E8DF171FE372A600E6FBD6 /* UserProfileController.swift in Sources */,
 				85752E101FE60BED0002EC3D /* SharePhotoController.swift in Sources */,
 				85D967A91FE8844300AF82A6 /* Comment.swift in Sources */,
+				85EAD4421FEB5769004EDE5E /* Statue.swift in Sources */,
 				85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */,
 				85752E231FE70FAD0002EC3D /* UserSearchController.swift in Sources */,
+				85EAD4401FEB5091004EDE5E /* MapController.swift in Sources */,
 				85D967A01FE86D3100AF82A6 /* CustomAnimationPresentor.swift in Sources */,
 				85EAD43D1FEB288D004EDE5E /* HomeCollectionPostCell.swift in Sources */,
 				85752E0E1FE4BA0C0002EC3D /* PhotoSelectorHeader.swift in Sources */,
@@ -347,6 +366,7 @@
 				85EAD43B1FEB2576004EDE5E /* HomeCollectionController.swift in Sources */,
 				85707AB81FE769AD00BD978F /* UserSignUp.swift in Sources */,
 				85752E1A1FE6474A0002EC3D /* HomeController.swift in Sources */,
+				85EAD4441FEB6A5C004EDE5E /* StatueMarkerView.swift in Sources */,
 				85D006291FE9B7E100D5463A /* PhotoSelectorCameraController.swift in Sources */,
 				85752E1E1FE65E3D0002EC3D /* User.swift in Sources */,
 				85752E151FE61ECC0002EC3D /* UserProfilePhotoCell.swift in Sources */,

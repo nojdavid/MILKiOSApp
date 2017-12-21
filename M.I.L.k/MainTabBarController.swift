@@ -59,13 +59,13 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeCollectionController(collectionViewLayout: UICollectionViewFlowLayout()))
         
         //search
-        let searchNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), selectedImage: #imageLiteral(resourceName: "search_selected"), rootViewController: UserSearchController(collectionViewLayout: UICollectionViewFlowLayout()))
+        //let searchNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), selectedImage: #imageLiteral(resourceName: "search_selected"), rootViewController: UserSearchController(collectionViewLayout: UICollectionViewFlowLayout()))
+        
+        //map
+        let mapController = templateNavController(unselectedImage: #imageLiteral(resourceName: "map_unselected"), selectedImage: #imageLiteral(resourceName: "map_selected"), rootViewController: MapController())
         
         //camera
         let plusNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "plus_unselected"), selectedImage: #imageLiteral(resourceName: "plus_unselected"))
-        
-        //likes
-        let likeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "like_unselected"), selectedImage: #imageLiteral(resourceName: "like_selected"))
         
         //user Profile
         let layout = UICollectionViewFlowLayout()
@@ -78,7 +78,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         
         tabBar.tintColor = .black
         
-        viewControllers = [homeNavController, searchNavController, plusNavController, likeNavController, userProfileNavController]
+        viewControllers = [homeNavController, mapController, plusNavController, userProfileNavController]
         
         //modify tab bar item insets
         guard let items = tabBar.items else {return}
