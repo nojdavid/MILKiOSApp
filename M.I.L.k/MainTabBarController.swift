@@ -36,7 +36,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         self.delegate = self
         
         //THIS VARIABLE IS TEMPORARY NEEDS TO BE REMOVED
-        var currentUser: (Any)? = true
+        var currentUser: (Any)? = nil
         //NEED TO DO: CHECK IF USER IS LOGGED IN TO DECIDE WHICH VIEW TO PRESENT
         if currentUser == nil {
             //if not logged in
@@ -55,7 +55,8 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
     
     func setupViewController(){
         //home
-        let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeController(collectionViewLayout: UICollectionViewFlowLayout()))
+        //let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeController(collectionViewLayout: UICollectionViewFlowLayout()))
+        let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeCollectionController(collectionViewLayout: UICollectionViewFlowLayout()))
         
         //search
         let searchNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), selectedImage: #imageLiteral(resourceName: "search_selected"), rootViewController: UserSearchController(collectionViewLayout: UICollectionViewFlowLayout()))

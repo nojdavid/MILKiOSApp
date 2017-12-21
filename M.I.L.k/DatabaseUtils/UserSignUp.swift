@@ -13,7 +13,7 @@ func signUpUser(user: User, completion:((Error?) -> Void)?){
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
     urlComponents.host = "milk-backend.herokuapp.com"
-    urlComponents.path = "/new_user"
+    urlComponents.path = "/add-new-user"
     guard let url = urlComponents.url else {fatalError("Could not create URL from components")}
     
     //specify as POST method

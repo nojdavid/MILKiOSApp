@@ -27,7 +27,6 @@
 		858E90821FE2267800E0D8A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858E90811FE2267800E0D8A7 /* AppDelegate.swift */; };
 		858E90891FE2267800E0D8A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 858E90881FE2267800E0D8A7 /* Assets.xcassets */; };
 		858E908C1FE2267800E0D8A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 858E908A1FE2267800E0D8A7 /* LaunchScreen.storyboard */; };
-		858E90941FE226DE00E0D8A7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858E90931FE226DE00E0D8A7 /* HomeViewController.swift */; };
 		85D006271FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D006261FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift */; };
 		85D006291FE9B7E100D5463A /* PhotoSelectorCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D006281FE9B7E100D5463A /* PhotoSelectorCameraController.swift */; };
 		85D0062D1FE9C48300D5463A /* PhotoSelectorPreviewPhotoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0062C1FE9C48300D5463A /* PhotoSelectorPreviewPhotoContainerView.swift */; };
@@ -42,6 +41,8 @@
 		85E8DF191FE375D700E6FBD6 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E8DF181FE375D700E6FBD6 /* SignUpController.swift */; };
 		85E8DF1C1FE45E3B00E6FBD6 /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E8DF1B1FE45E3B00E6FBD6 /* UserProfileHeader.swift */; };
 		85E8DF1E1FE466BF00E6FBD6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85E8DF1D1FE466BF00E6FBD6 /* Main.storyboard */; };
+		85EAD43B1FEB2576004EDE5E /* HomeCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD43A1FEB2576004EDE5E /* HomeCollectionController.swift */; };
+		85EAD43D1FEB288D004EDE5E /* HomeCollectionPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD43C1FEB288D004EDE5E /* HomeCollectionPostCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,7 +68,6 @@
 		858E90881FE2267800E0D8A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		858E908B1FE2267800E0D8A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		858E908D1FE2267800E0D8A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		858E90931FE226DE00E0D8A7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		85D006261FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorTabBarController.swift; sourceTree = "<group>"; };
 		85D006281FE9B7E100D5463A /* PhotoSelectorCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCameraController.swift; sourceTree = "<group>"; };
 		85D0062C1FE9C48300D5463A /* PhotoSelectorPreviewPhotoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorPreviewPhotoContainerView.swift; sourceTree = "<group>"; };
@@ -82,6 +82,8 @@
 		85E8DF181FE375D700E6FBD6 /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
 		85E8DF1B1FE45E3B00E6FBD6 /* UserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
 		85E8DF1D1FE466BF00E6FBD6 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		85EAD43A1FEB2576004EDE5E /* HomeCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionController.swift; sourceTree = "<group>"; };
+		85EAD43C1FEB288D004EDE5E /* HomeCollectionPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionPostCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,11 +205,12 @@
 				8548276F1FE34E6A007031E7 /* Utils */,
 				858E90811FE2267800E0D8A7 /* AppDelegate.swift */,
 				85E8DF141FE371AB00E6FBD6 /* MainTabBarController.swift */,
-				858E90931FE226DE00E0D8A7 /* HomeViewController.swift */,
 				858E908D1FE2267800E0D8A7 /* Info.plist */,
 				858E908A1FE2267800E0D8A7 /* LaunchScreen.storyboard */,
 				858E90881FE2267800E0D8A7 /* Assets.xcassets */,
 				85E8DF1D1FE466BF00E6FBD6 /* Main.storyboard */,
+				85EAD43A1FEB2576004EDE5E /* HomeCollectionController.swift */,
+				85EAD43C1FEB288D004EDE5E /* HomeCollectionPostCell.swift */,
 			);
 			path = M.I.L.k;
 			sourceTree = "<group>";
@@ -337,15 +340,16 @@
 				85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */,
 				85752E231FE70FAD0002EC3D /* UserSearchController.swift in Sources */,
 				85D967A01FE86D3100AF82A6 /* CustomAnimationPresentor.swift in Sources */,
+				85EAD43D1FEB288D004EDE5E /* HomeCollectionPostCell.swift in Sources */,
 				85752E0E1FE4BA0C0002EC3D /* PhotoSelectorHeader.swift in Sources */,
 				85752E071FE486D30002EC3D /* LoginController.swift in Sources */,
 				854827711FE34E7A007031E7 /* Extensions.swift in Sources */,
+				85EAD43B1FEB2576004EDE5E /* HomeCollectionController.swift in Sources */,
 				85707AB81FE769AD00BD978F /* UserSignUp.swift in Sources */,
 				85752E1A1FE6474A0002EC3D /* HomeController.swift in Sources */,
 				85D006291FE9B7E100D5463A /* PhotoSelectorCameraController.swift in Sources */,
 				85752E1E1FE65E3D0002EC3D /* User.swift in Sources */,
 				85752E151FE61ECC0002EC3D /* UserProfilePhotoCell.swift in Sources */,
-				858E90941FE226DE00E0D8A7 /* HomeViewController.swift in Sources */,
 				85D9679E1FE863F100AF82A6 /* PreviewPhotoContainerView.swift in Sources */,
 				85752E0C1FE4B4DE0002EC3D /* PhotoSelectorCell.swift in Sources */,
 				85D967A21FE86FE000AF82A6 /* CustomAnimationDismisser.swift in Sources */,
