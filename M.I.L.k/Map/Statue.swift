@@ -42,6 +42,15 @@ class Statue: NSObject, MKAnnotation {
         return mapItem
     }
     
+    static func getStatues() -> [Statue]{
+        var statues = [Statue]()
+        for index in 0...(Statue.StatueNames.count-1){
+            let statue = Statue(title: Statue.StatueNames[index], locationName: "", discipline: "Statue", coordinate: Statue.StatueLocation[index])
+            statues.append(statue)
+        }
+        return statues
+    }
+    
     static var StatueNames :[String] = ["Staples Center", "The Grove", "Coldwater Canyon Park", "Downtown LA Arts District", "Hammer Museum",
     "Abbot Kinney","3rd Street Promenade"," L.A. Union Station","Balboa Park", "Manhattan Beach Blvd"]
     

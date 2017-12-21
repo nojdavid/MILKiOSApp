@@ -9,14 +9,13 @@
 import UIKit
 import MapKit
 
-class MapController : UIViewController, MKMapViewDelegate {
-    
+class MapController : UIViewController, MKMapViewDelegate, StatueSelectionControllerDelegate {
+
     var mapView: MKMapView?
     var statues: [Statue] = []
     let locationManager = CLLocationManager()
     
     let regionRadius: CLLocationDistance = 1000
-    let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
     
     let userLocationButton : UIButton = {
         let button = UIButton(type: UIButtonType.system)
@@ -29,10 +28,52 @@ class MapController : UIViewController, MKMapViewDelegate {
         centerMapOnLocation(location: locationManager.location!)
     }
     
+    var statueSelection: StatueSelectionController?
     @objc func handleSelectStatue(){
-        print("Picking Statue To GOTO")
+        print("Handling Selecting Statue...")
+        /*
+        statueSelection = StatueSelectionController(collectionViewLayout: UICollectionViewFlowLayout())
+        statueSelection?.delegate = self
+        present(CameraController(), animated: true, completion: nil)
+        animateIn()
+         */
     }
     
+    func didSelectCell(statue: Statue){
+        print("didSelectCell")
+        animateOut()
+        centerMapOnLocation(location: CLLocation(latitude: statue.coordinate.latitude, longitude: statue.coordinate.longitude))
+    }
+    
+    func animateIn(){
+        let view = statueSelection!.collectionView
+        view?.alpha = 0
+        view?.frame = CGRect(x: 0, y: 0, width: (mapView?.bounds.width)! / 2, height: (mapView?.bounds.height)! / 2)
+        view?.center = (mapView?.center)!
+        
+        mapView?.addSubview((view)!)
+        
+        
+        view?.transform = CGAffineTransform.init(scaleX: 1.3, y:1.3)
+        
+        UIView.animate(withDuration: 0.5) {
+            view?.alpha = 1
+            view?.transform = CGAffineTransform.identity
+        }
+    }
+    
+    func animateOut(){
+        let view = statueSelection!.collectionView
+        UIView.animate(withDuration: 0.3, animations: {
+            view?.transform = CGAffineTransform.init(scaleX: 1.3, y:1.3)
+            view?.alpha = 0
+        }) { (success:Bool) in
+            view?.removeFromSuperview()
+            self.statueSelection?.dismiss(animated: false, completion: nil)
+        }
+    }
+    
+    var tap: UITapGestureRecognizer?
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -51,8 +92,19 @@ class MapController : UIViewController, MKMapViewDelegate {
        mapView?.addSubview(userLocationButton)
         userLocationButton.anchor(top: nil, left: nil, bottom: mapView?.bottomAnchor, right: mapView?.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 12, paddingRight: 12, width: 40, height: 40)
         userLocationButton.layer.cornerRadius = 40/2
+        
+        tap = UITapGestureRecognizer(target: self, action: #selector(dismissStatueSelection))
+        tap?.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap!)
     }
     
+    @objc func dismissStatueSelection() {
+        print("touched view")
+        if statueSelection != nil {
+            animateOut()
+        }
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -61,6 +113,10 @@ class MapController : UIViewController, MKMapViewDelegate {
         centerMapOnLocation(location: locationManager.location!)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.removeGestureRecognizer(tap!)
+    }
     
     func checkLocationAuthorizationStatus() {
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
@@ -85,10 +141,7 @@ class MapController : UIViewController, MKMapViewDelegate {
     }
     
     fileprivate func loadInitialMapData(){
-        for index in 0...(Statue.StatueNames.count-1){
-            let statue = Statue(title: Statue.StatueNames[index], locationName: "", discipline: "Statue", coordinate: Statue.StatueLocation[index])
-            statues.append(statue)
-        }
+        statues = Statue.getStatues()
     }
     
     fileprivate func initializeMapView(){

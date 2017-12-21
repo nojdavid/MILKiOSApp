@@ -46,6 +46,8 @@
 		85EAD4401FEB5091004EDE5E /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD43F1FEB5091004EDE5E /* MapController.swift */; };
 		85EAD4421FEB5769004EDE5E /* Statue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4411FEB5769004EDE5E /* Statue.swift */; };
 		85EAD4441FEB6A5C004EDE5E /* StatueMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4431FEB6A5C004EDE5E /* StatueMarkerView.swift */; };
+		85EAD4461FEB8379004EDE5E /* StatueSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4451FEB8379004EDE5E /* StatueSelectionController.swift */; };
+		85EAD44D1FEB9679004EDE5E /* StatueSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD44C1FEB9679004EDE5E /* StatueSelectionCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +92,8 @@
 		85EAD43F1FEB5091004EDE5E /* MapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		85EAD4411FEB5769004EDE5E /* Statue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statue.swift; sourceTree = "<group>"; };
 		85EAD4431FEB6A5C004EDE5E /* StatueMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatueMarkerView.swift; sourceTree = "<group>"; };
+		85EAD4451FEB8379004EDE5E /* StatueSelectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatueSelectionController.swift; sourceTree = "<group>"; };
+		85EAD44C1FEB9679004EDE5E /* StatueSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatueSelectionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,11 +267,21 @@
 		85EAD43E1FEB5083004EDE5E /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				85EAD4471FEB83AD004EDE5E /* StatueSelection */,
 				85EAD43F1FEB5091004EDE5E /* MapController.swift */,
 				85EAD4411FEB5769004EDE5E /* Statue.swift */,
 				85EAD4431FEB6A5C004EDE5E /* StatueMarkerView.swift */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		85EAD4471FEB83AD004EDE5E /* StatueSelection */ = {
+			isa = PBXGroup;
+			children = (
+				85EAD4451FEB8379004EDE5E /* StatueSelectionController.swift */,
+				85EAD44C1FEB9679004EDE5E /* StatueSelectionCell.swift */,
+			);
+			path = StatueSelection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -352,6 +366,7 @@
 				85752E131FE61C2E0002EC3D /* Post.swift in Sources */,
 				858E90821FE2267800E0D8A7 /* AppDelegate.swift in Sources */,
 				85E8DF171FE372A600E6FBD6 /* UserProfileController.swift in Sources */,
+				85EAD44D1FEB9679004EDE5E /* StatueSelectionCell.swift in Sources */,
 				85752E101FE60BED0002EC3D /* SharePhotoController.swift in Sources */,
 				85D967A91FE8844300AF82A6 /* Comment.swift in Sources */,
 				85EAD4421FEB5769004EDE5E /* Statue.swift in Sources */,
@@ -373,6 +388,7 @@
 				85D9679E1FE863F100AF82A6 /* PreviewPhotoContainerView.swift in Sources */,
 				85752E0C1FE4B4DE0002EC3D /* PhotoSelectorCell.swift in Sources */,
 				85D967A21FE86FE000AF82A6 /* CustomAnimationDismisser.swift in Sources */,
+				85EAD4461FEB8379004EDE5E /* StatueSelectionController.swift in Sources */,
 				85752E251FE713B90002EC3D /* UserSearchCell.swift in Sources */,
 				85D0062D1FE9C48300D5463A /* PhotoSelectorPreviewPhotoContainerView.swift in Sources */,
 				85752E201FE6654F0002EC3D /* DatabaseUtils.swift in Sources */,
