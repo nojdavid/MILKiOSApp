@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     let plusPhotoButton : UIButton = {
         let button = UIButton(type: UIButtonType.system)
@@ -168,7 +168,7 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
         _ = navigationController?.popViewController(animated: true)
     }
     
-    
+    var tap: UITapGestureRecognizer?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -185,8 +185,39 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
         plusPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         setUpInputFields()
+        
+        emailTextField.delegate = self
+        userNameTextField.delegate = self
+        passwordTextField.delegate = self
+        
+        tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap?.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap!)
     }
     
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if emailTextField.isFirstResponder {
+            userNameTextField.becomeFirstResponder()
+            return false
+        }else if userNameTextField.isFirstResponder{
+            passwordTextField.becomeFirstResponder()
+            return false
+        }else {
+            view.endEditing(true)
+            return true
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.removeGestureRecognizer(tap!)
+    }
+
     fileprivate func setUpInputFields(){
         
         let stackView = UIStackView(arrangedSubviews: [emailTextField, userNameTextField, passwordTextField, signUpButton])

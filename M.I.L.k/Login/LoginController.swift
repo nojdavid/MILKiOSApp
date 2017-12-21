@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginController : UIViewController{
+class LoginController : UIViewController, UITextFieldDelegate{
     
     let logoContainerView: UIView = {
         let view = UIView()
@@ -108,6 +108,7 @@ class LoginController : UIViewController{
         return .lightContent
     }
     
+    var tap: UITapGestureRecognizer?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -121,6 +122,32 @@ class LoginController : UIViewController{
         dontHaveAccountButton.anchor(top: nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         
         setupInputFields()
+        
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        
+        tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap?.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap!)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if emailTextField.isFirstResponder {
+            passwordTextField.becomeFirstResponder()
+            return false
+        }else {
+            view.endEditing(true)
+            return true
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.removeGestureRecognizer(tap!)
     }
     
     fileprivate func setupInputFields(){
