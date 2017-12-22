@@ -30,15 +30,23 @@ class MapController : UIViewController, MKMapViewDelegate, StatueSelectionContro
     
     var statueSelection: StatueSelectionController?
     @objc func handleSelectStatue(){
-        print("Handling Selecting Statue...")
-        /*
+        for vs in self.childViewControllers{
+            if vs.isKind(of: StatueSelectionController.self){
+                return
+            }
+        }
         statueSelection = StatueSelectionController(collectionViewLayout: UICollectionViewFlowLayout())
         statueSelection?.delegate = self
-        present(CameraController(), animated: true, completion: nil)
+        
+        addChildViewController(statueSelection!)
+        containerView.addSubview((statueSelection?.collectionView)!)
+        statueSelection?.collectionView?.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        statueSelection?.didMove(toParentViewController: self)
         animateIn()
-         */
     }
     
+    //DELEGATE PROTOCOL FROM STATUE SELECTION CONTROLLER
     func didSelectCell(statue: Statue){
         print("didSelectCell")
         animateOut()
@@ -46,81 +54,88 @@ class MapController : UIViewController, MKMapViewDelegate, StatueSelectionContro
     }
     
     func animateIn(){
-        let view = statueSelection!.collectionView
-        view?.alpha = 0
-        view?.frame = CGRect(x: 0, y: 0, width: (mapView?.bounds.width)! / 2, height: (mapView?.bounds.height)! / 2)
-        view?.center = (mapView?.center)!
-        
-        mapView?.addSubview((view)!)
-        
-        
-        view?.transform = CGAffineTransform.init(scaleX: 1.3, y:1.3)
-        
+        containerView.alpha = 0
+        containerView.transform = CGAffineTransform.init(scaleX: 1.3, y:1.3)
         UIView.animate(withDuration: 0.5) {
-            view?.alpha = 1
-            view?.transform = CGAffineTransform.identity
+            self.containerView.alpha = 1
+            self.containerView.transform = CGAffineTransform.identity
         }
     }
     
     func animateOut(){
-        let view = statueSelection!.collectionView
         UIView.animate(withDuration: 0.3, animations: {
-            view?.transform = CGAffineTransform.init(scaleX: 1.3, y:1.3)
-            view?.alpha = 0
+            self.containerView.transform = CGAffineTransform.init(scaleX: 1.3, y:1.3)
+            self.containerView.alpha = 0
         }) { (success:Bool) in
-            view?.removeFromSuperview()
-            self.statueSelection?.dismiss(animated: false, completion: nil)
+            self.statueSelection?.removeFromParentViewController()
         }
     }
     
-    var tap: UITapGestureRecognizer?
+    lazy var tap: UITapGestureRecognizer = {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissStatueSelection))
+        gesture.cancelsTouchesInView = false
+        return gesture
+    }()
+    
+    @objc func dismissStatueSelection() {
+        for vs in self.childViewControllers{
+            if vs.isKind(of: StatueSelectionController.self){
+                animateOut()
+            }
+        }
+    }
+    
+    var containerView = UIView()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
         initializeMapView()
         mapView?.delegate = self
+        
+        setupMapUI()
 
         mapView?.register(StatueMarkerView.self,
                         forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
         loadInitialMapData()
         mapView?.addAnnotations(statues)
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "bars").withRenderingMode(.alwaysOriginal), style: UIBarButtonItemStyle.plain, target: self, action: #selector(handleSelectStatue))
 
-       mapView?.addSubview(userLocationButton)
-        userLocationButton.anchor(top: nil, left: nil, bottom: mapView?.bottomAnchor, right: mapView?.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 12, paddingRight: 12, width: 40, height: 40)
-        userLocationButton.layer.cornerRadius = 40/2
+        mapView?.addGestureRecognizer(tap)
         
-        tap = UITapGestureRecognizer(target: self, action: #selector(dismissStatueSelection))
-        tap?.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap!)
+        setupContainerView()
     }
     
-    @objc func dismissStatueSelection() {
-        print("touched view")
-        if statueSelection != nil {
-            animateOut()
-        }
-    }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        //CHECK IF USER ALLOWS THEIR LOCATION SHOWN AND SHOW IT
         checkLocationAuthorizationStatus()
-        
-        centerMapOnLocation(location: locationManager.location!)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        view.removeGestureRecognizer(tap!)
+        mapView?.removeGestureRecognizer(tap)
     }
     
+    fileprivate func setupMapUI(){
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "bars").withRenderingMode(.alwaysOriginal), style: UIBarButtonItemStyle.plain, target: self, action: #selector(handleSelectStatue))
+        
+        mapView?.addSubview(userLocationButton)
+        userLocationButton.anchor(top: nil, left: nil, bottom: mapView?.bottomAnchor, right: mapView?.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 12, paddingRight: 12, width: 40, height: 40)
+        userLocationButton.layer.cornerRadius = 40/2
+    }
+    
+    fileprivate func setupContainerView(){
+        containerView.alpha = 0
+        view.addSubview(containerView)
+        containerView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 50, paddingLeft: 25, paddingBottom: 50, paddingRight: 25, width: 0, height: 0)
+    }
+
     func checkLocationAuthorizationStatus() {
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             mapView?.showsUserLocation = true
+            centerMapOnLocation(location: locationManager.location!)
         } else {
             locationManager.requestWhenInUseAuthorization()
         }

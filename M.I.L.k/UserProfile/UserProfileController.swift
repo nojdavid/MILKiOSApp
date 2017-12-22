@@ -94,15 +94,33 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     fileprivate func fetchUser(){
         
         //NEED TO DO: GET CURRENT USER
-        let uid = userId ?? (/*GET THE currentUser?.uid FROM THE DB??*/ "")
-        
+        //let uid = userId ?? (/*GET THE currentUser?.uid FROM THE DB??*/ "")
+        var user = getUserFromDisk()
+        print("GOT CURRENT USER")
+        let uid = user.uid //currentUser?.uid else {return}
+        print("GOT CURRENT UID")
+        let username = user.username
+        print("GOT CURRENT USERNAME")
+        /*
+        getUserFromDB(for: username) { (result) in
+            switch result {
+            case .success(let currentUser):
+                print("GET USER SUCCESS")
+                saveUserToDisk(user: currentUser)
+                user = currentUser
+            case .failure(let error):
+                print("GET USER FAILURE")
+                fatalError("error: \(error.localizedDescription)")
+            }
+        }
+        */
         //NEED TO DO: UPDATE THIS USER WITH USER FROM THE REFERENCED UID ABOVE
         //self.user = User(uid: uid, dictionary: dictionary)
         
         //NEED TO DO: THIS DUMMY USER NEEDS TO BE DELETED ONCE REAL USER IS TAKEN FROM DB
         self.user = User(uid: uid, dictionary: ["username": "Noah Davidson"])
         
-        self.navigationItem.title = self.user?.username
+        self.navigationItem.title = user.username//self.user?.username
    
         self.collectionView?.reloadData()
         

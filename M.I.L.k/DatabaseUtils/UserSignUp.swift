@@ -8,7 +8,7 @@
 
 import Foundation
 
-func signUpUser(user: User, completion:((Error?) -> Void)?){
+func signUpUserToDB(user: User, completion:((Error?) -> Void)?){
     
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"

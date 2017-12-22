@@ -48,6 +48,8 @@
 		85EAD4441FEB6A5C004EDE5E /* StatueMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4431FEB6A5C004EDE5E /* StatueMarkerView.swift */; };
 		85EAD4461FEB8379004EDE5E /* StatueSelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4451FEB8379004EDE5E /* StatueSelectionController.swift */; };
 		85EAD44D1FEB9679004EDE5E /* StatueSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD44C1FEB9679004EDE5E /* StatueSelectionCell.swift */; };
+		85EAD4511FEC8D27004EDE5E /* GetUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4501FEC8D27004EDE5E /* GetUser.swift */; };
+		85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4521FEC997E004EDE5E /* Disk.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +96,8 @@
 		85EAD4431FEB6A5C004EDE5E /* StatueMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatueMarkerView.swift; sourceTree = "<group>"; };
 		85EAD4451FEB8379004EDE5E /* StatueSelectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatueSelectionController.swift; sourceTree = "<group>"; };
 		85EAD44C1FEB9679004EDE5E /* StatueSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatueSelectionCell.swift; sourceTree = "<group>"; };
+		85EAD4501FEC8D27004EDE5E /* GetUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUser.swift; sourceTree = "<group>"; };
+		85EAD4521FEC997E004EDE5E /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +117,7 @@
 				854827701FE34E7A007031E7 /* Extensions.swift */,
 				85752E161FE623D60002EC3D /* CustomImageView.swift */,
 				85752E1F1FE6654F0002EC3D /* DatabaseUtils.swift */,
+				85EAD4521FEC997E004EDE5E /* Disk.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -121,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				85707AB71FE769AD00BD978F /* UserSignUp.swift */,
+				85EAD4501FEC8D27004EDE5E /* GetUser.swift */,
 			);
 			path = DatabaseUtils;
 			sourceTree = "<group>";
@@ -365,12 +371,14 @@
 				85752E171FE623D60002EC3D /* CustomImageView.swift in Sources */,
 				85752E131FE61C2E0002EC3D /* Post.swift in Sources */,
 				858E90821FE2267800E0D8A7 /* AppDelegate.swift in Sources */,
+				85EAD4511FEC8D27004EDE5E /* GetUser.swift in Sources */,
 				85E8DF171FE372A600E6FBD6 /* UserProfileController.swift in Sources */,
 				85EAD44D1FEB9679004EDE5E /* StatueSelectionCell.swift in Sources */,
 				85752E101FE60BED0002EC3D /* SharePhotoController.swift in Sources */,
 				85D967A91FE8844300AF82A6 /* Comment.swift in Sources */,
 				85EAD4421FEB5769004EDE5E /* Statue.swift in Sources */,
 				85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */,
+				85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */,
 				85752E231FE70FAD0002EC3D /* UserSearchController.swift in Sources */,
 				85EAD4401FEB5091004EDE5E /* MapController.swift in Sources */,
 				85D967A01FE86D3100AF82A6 /* CustomAnimationPresentor.swift in Sources */,

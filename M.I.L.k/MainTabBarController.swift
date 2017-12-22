@@ -36,8 +36,9 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         self.delegate = self
         
         //THIS VARIABLE IS TEMPORARY NEEDS TO BE REMOVED
-        var currentUser: Any? = true
+        var currentUser: Any? = nil
         //NEED TO DO: CHECK IF USER IS LOGGED IN TO DECIDE WHICH VIEW TO PRESENT
+
         if currentUser == nil {
             //if not logged in
             DispatchQueue.main.async {

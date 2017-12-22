@@ -110,12 +110,14 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
         guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
         
         let user = User(username: username, password: password, email: email)
-        signUpUser(user: user) { (error) in
+        signUpUserToDB(user: user) { (error) in
             if let error = error{
+                print("FINAL: SIGNUPCONTRELLER RETURNED FAILURE TO SIGN UP USER")
                 fatalError(error.localizedDescription)
             }
         }
-        
+        saveUserToDisk(user: user)
+
         //NEED TO UPDATE:
         //------------------------------
         //CREATE USER PROFILE IN DB HERE
