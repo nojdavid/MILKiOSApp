@@ -101,8 +101,11 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
     @objc func handleSignUp(){
         //NEED TO UPDATE: VALIDATE EMAIL BETTER
         guard let email = emailTextField.text, email.count > 0 else {return}
+        //validateEmail(email)
+        
         //NEED TO UPDATE: CHECK USER NAME FOR VALID AND NOT OFFENSIVE
         guard let username = userNameTextField.text, username.count > 0 else {return}
+        
         //NEED TO UPDATE: VALIDATE STRENGTH OF PASSWORD
         guard let password = passwordTextField.text, password.count > 0 else {return}
         
@@ -133,6 +136,13 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
                     return
             }
         }
+    }
+    
+    func validateEmail(enteredEmail: String) -> Bool {
+        
+        let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
+        return emailPredicate.evaluate(with:enteredEmail)
     }
     
     let alreadyHaveAccountButton: UIButton = {

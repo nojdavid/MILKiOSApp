@@ -32,12 +32,14 @@ class MapController : UIViewController, MKMapViewDelegate, StatueSelectionContro
     @objc func handleSelectStatue(){
         for vs in self.childViewControllers{
             if vs.isKind(of: StatueSelectionController.self){
+                animateOut()
                 return
             }
         }
         statueSelection = StatueSelectionController(collectionViewLayout: UICollectionViewFlowLayout())
         statueSelection?.delegate = self
-        
+
+
         addChildViewController(statueSelection!)
         containerView.addSubview((statueSelection?.collectionView)!)
         statueSelection?.collectionView?.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -59,6 +61,9 @@ class MapController : UIViewController, MKMapViewDelegate, StatueSelectionContro
         UIView.animate(withDuration: 0.5) {
             self.containerView.alpha = 1
             self.containerView.transform = CGAffineTransform.identity
+            
+            //self.mapView?.alpha = 0.6
+            //self.mapView?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         }
     }
     
@@ -66,6 +71,9 @@ class MapController : UIViewController, MKMapViewDelegate, StatueSelectionContro
         UIView.animate(withDuration: 0.3, animations: {
             self.containerView.transform = CGAffineTransform.init(scaleX: 1.3, y:1.3)
             self.containerView.alpha = 0
+            
+            //self.mapView?.alpha = 1
+            //self.mapView?.backgroundColor = UIColor.black.withAlphaComponent(0)
         }) { (success:Bool) in
             self.statueSelection?.removeFromParentViewController()
         }

@@ -59,7 +59,7 @@ func loginUserToDB(user: LoginUser, completion:((Result<User>) -> Void)?){
             } else {
                 print("no readable data received in response")
             }
-
+            
             do {
                 let responseObject = try createDecoder().decode(UserResponseObject.self, from: jsonData)
                 //print("RESPONSE MESSAGE: ", responseObject.message)
@@ -67,6 +67,7 @@ func loginUserToDB(user: LoginUser, completion:((Result<User>) -> Void)?){
                 completion!(.success(responseObject.data))
             } catch let error as NSError {
                 print("failure to decode user from JSON")
+                //error.set
                 completion!(.failure(error))
             }
         }

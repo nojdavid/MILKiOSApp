@@ -93,15 +93,6 @@ class LoginController : UIViewController, UITextFieldDelegate{
                     return
             }
         }
-        
-        /*
-        //get reference to maintab bar
-        guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
-        //reset all views
-        mainTabBarController.setupViewController()
-        
-        self.dismiss(animated: true, completion: nil)
-        */
     }
     
     let dontHaveAccountButton: UIButton = {

@@ -34,20 +34,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         super.viewDidLoad()
         
         self.delegate = self
-        
-        //var currentUser: User?
-        //currentUser = getUserFromDisk()
-        /*
-        guard let currentUserName = currentUser?.username else {return}
-        getUserFromDB(for: currentUserName) { (result) in
-            switch result {
-            case .success(let user):
-                currentUser = user
-            case .failure(let error):
-                fatalError("error: \(error.localizedDescription)")
-            }
-        }
-        */
+
         if getUserFromDisk() == nil {
             //if not logged in
             DispatchQueue.main.async {
@@ -65,7 +52,6 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
     
     func setupViewController(){
         //home
-        //let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeController(collectionViewLayout: UICollectionViewFlowLayout()))
         let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeCollectionController(collectionViewLayout: UICollectionViewFlowLayout()))
         
         //search

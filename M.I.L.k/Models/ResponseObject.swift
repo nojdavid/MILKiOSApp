@@ -12,3 +12,7 @@ struct UserResponseObject: Decodable {
     let message: String
     let data: User
 }
+
+struct ErrorObject: Decodable {
+    let message: String
+}
