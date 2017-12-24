@@ -73,6 +73,16 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
         return tf
     }()
     
+    let userErrorLabel: UILabel = {
+        let label = UILabel()
+        let attributedTitle = NSMutableAttributedString(string: "", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.red])
+        label.attributedText = attributedTitle
+        label.isEnabled = false
+        label.numberOfLines = 0
+        label.textAlignment = NSTextAlignment.center
+        return label
+    }()
+    
     let signUpButton: UIButton = {
         let button = UIButton(type: UIButtonType.system)
         button.setTitle("Sign Up", for: UIControlState.normal)
@@ -88,6 +98,11 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
     }()
     
     @objc func handleTextInputChange(){
+        
+        if userErrorLabel.isDescendant(of: stackView!) == true {
+            stackView?.removeArrangedSubview(userErrorLabel)
+        }
+        
         let isFormValid = emailTextField.text?.count ?? 0 > 0 && userNameTextField.text?.count ?? 0 > 0 && passwordTextField.text?.count ?? 0 > 0
         if isFormValid{
             signUpButton.isEnabled = true
@@ -131,7 +146,15 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
                     self.dismiss(animated: true, completion: nil)
                 
                 case .user_message(let message):
-                    self.present( customUserError(title: "Signup Error", message: message), animated: true, completion: nil)
+                    
+                    //remove error message if already there
+                    if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
+                        self.stackView?.removeArrangedSubview(self.userErrorLabel)
+                    }
+                    //add error message
+                    let attributedTitle = NSMutableAttributedString(string: message, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.red])
+                    self.userErrorLabel.attributedText = attributedTitle
+                    self.stackView?.insertArrangedSubview(self.userErrorLabel, at: 3)
                     return
                 
                 case .failure(let error):
@@ -216,18 +239,19 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
         view.removeGestureRecognizer(tap!)
     }
 
+    var stackView: UIStackView?
     fileprivate func setUpInputFields(){
         
-        let stackView = UIStackView(arrangedSubviews: [emailTextField, userNameTextField, passwordTextField, signUpButton])
+        stackView = UIStackView(arrangedSubviews: [emailTextField, userNameTextField, passwordTextField, signUpButton])
         
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillEqually
-        stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView?.translatesAutoresizingMaskIntoConstraints = false
+        stackView?.distribution = .fillEqually
+        stackView?.axis = .vertical
+        stackView?.spacing = 10
         
-        view.addSubview(stackView)
+        view.addSubview(stackView!)
         
-        stackView.anchor(top: plusPhotoButton.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 40, paddingRight: 40, width: 0, height: 200)
+        stackView?.anchor(top: plusPhotoButton.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingBottom: 40, paddingRight: 40, width: 0, height: 200)
         
     }
     

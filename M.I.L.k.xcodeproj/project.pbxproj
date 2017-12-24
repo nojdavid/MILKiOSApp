@@ -187,6 +187,8 @@
 			children = (
 				85752E191FE6474A0002EC3D /* HomeController.swift */,
 				85752E1B1FE648D40002EC3D /* HomePostCell.swift */,
+				85EAD43A1FEB2576004EDE5E /* HomeCollectionController.swift */,
+				85EAD43C1FEB288D004EDE5E /* HomeCollectionPostCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -235,8 +237,6 @@
 				858E908A1FE2267800E0D8A7 /* LaunchScreen.storyboard */,
 				858E90881FE2267800E0D8A7 /* Assets.xcassets */,
 				85E8DF1D1FE466BF00E6FBD6 /* Main.storyboard */,
-				85EAD43A1FEB2576004EDE5E /* HomeCollectionController.swift */,
-				85EAD43C1FEB288D004EDE5E /* HomeCollectionPostCell.swift */,
 			);
 			path = M.I.L.k;
 			sourceTree = "<group>";

@@ -46,6 +46,11 @@ class LoginController : UIViewController, UITextFieldDelegate{
     }()
     
     @objc func handleTextInputChange(){
+        
+        if userErrorLabel.isDescendant(of: stackView!) == true {
+            stackView?.removeArrangedSubview(userErrorLabel)
+        }
+        
         let isFormValid = emailTextField.text?.count ?? 0 > 0  && passwordTextField.text?.count ?? 0 > 0
         if isFormValid{
             loginButton.isEnabled = true
@@ -55,6 +60,16 @@ class LoginController : UIViewController, UITextFieldDelegate{
             loginButton.backgroundColor = UIColor.rgb(red:149,green:204,blue:244)
         }
     }
+    
+    let userErrorLabel: UILabel = {
+        let label = UILabel()
+        let attributedTitle = NSMutableAttributedString(string: "", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.red])
+        label.attributedText = attributedTitle
+        label.isEnabled = false
+        label.numberOfLines = 0
+        label.textAlignment = NSTextAlignment.center
+        return label
+    }()
     
     let loginButton: UIButton = {
         let button = UIButton(type: UIButtonType.system)
@@ -88,8 +103,15 @@ class LoginController : UIViewController, UITextFieldDelegate{
                     self.dismiss(animated: true, completion: nil)
                 
                 case .user_message(let message):
-                    self.present( customUserError(title: "Login Error", message: message), animated: true, completion: nil)
-                    return
+                    //remove error message if already there
+                    if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
+                        self.stackView?.removeArrangedSubview(self.userErrorLabel)
+                    }
+                    //add error message
+                    let attributedTitle = NSMutableAttributedString(string: message, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.red])
+                    self.userErrorLabel.attributedText = attributedTitle
+                    self.stackView?.insertArrangedSubview(self.userErrorLabel, at: 2)
+                return
                 
                 case .failure(let error):
                     print("LOG IN FAILURE")
@@ -163,16 +185,17 @@ class LoginController : UIViewController, UITextFieldDelegate{
         view.removeGestureRecognizer(tap!)
     }
     
+    var stackView: UIStackView?
     fileprivate func setupInputFields(){
         
-        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
+        stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
         
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.distribution = .fillEqually
+        stackView?.axis = .vertical
+        stackView?.spacing = 10
+        stackView?.distribution = .fillEqually
         
-        view.addSubview(stackView)
-        stackView.anchor(top: logoContainerView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 140)
+        view.addSubview(stackView!)
+        stackView?.anchor(top: logoContainerView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 140)
         
     }
 }
