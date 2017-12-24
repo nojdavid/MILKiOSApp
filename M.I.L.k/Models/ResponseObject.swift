@@ -9,10 +9,6 @@
 import Foundation
 
 struct UserResponseObject: Decodable {
-    let message: String
-    let data: User
-}
-
-struct ErrorObject: Decodable {
-    let message: String
+    let message: String?
+    let data: User?
 }

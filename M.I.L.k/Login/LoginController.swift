@@ -87,6 +87,10 @@ class LoginController : UIViewController, UITextFieldDelegate{
                     
                     self.dismiss(animated: true, completion: nil)
                 
+                case .user_message(let message):
+                    self.present( customUserError(title: "Login Error", message: message), animated: true, completion: nil)
+                    return
+                
                 case .failure(let error):
                     print("LOG IN FAILURE")
                     print("error: \(error.localizedDescription)")

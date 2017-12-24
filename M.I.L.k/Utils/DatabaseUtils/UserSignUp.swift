@@ -64,8 +64,15 @@ func signUpUserToDB(user: CreateUser, completion:((Result<User>) -> Void)?){
                 let responseObject = try createDecoder().decode(UserResponseObject.self, from: jsonData)
                 //print("RESPONSE MESSAGE: ", responseObject.message)
                 //print("SIGNUP USER DATA: ",responseObject.data)
-                completion!(.success(responseObject.data))
-            } catch let error as NSError {
+                
+                if responseObject.data == nil && responseObject.message != nil {
+                    completion!(Result.user_message(responseObject.message!))
+                }
+                
+                if responseObject.data != nil {
+                    completion!(Result.success(responseObject.data!))
+                }
+            }catch let error as NSError {
                 print("failure to decode user from JSON")
                 completion!(.failure(error))
             }

@@ -11,6 +11,7 @@ import Foundation
 enum Result<Value> {
     case success(Value)
     case failure(Error)
+    case user_message(String)
 }
 
 
@@ -53,7 +54,10 @@ func getUserFromDB(for userName: String, completion: ((Result<User>) -> Void)? )
                 let responseObject = try createDecoder().decode(UserResponseObject.self, from: jsonData)
                 //print("RESPONSE MESSAGE: ", responseObject.message)
                 //print("GET USER DATA: ",responseObject.data)
-                completion!(.success(responseObject.data))
+
+                if responseObject.data != nil {
+                    completion!(Result.success(responseObject.data!))
+                }
             } catch let error as NSError {
                 print("failure to decode user from JSON")
                 completion!(.failure(error))

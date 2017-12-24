@@ -130,6 +130,10 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
                     
                     self.dismiss(animated: true, completion: nil)
                 
+                case .user_message(let message):
+                    self.present( customUserError(title: "Signup Error", message: message), animated: true, completion: nil)
+                    return
+                
                 case .failure(let error):
                     print("SIGN UP FAILURE")
                     print("error: \(error.localizedDescription)")

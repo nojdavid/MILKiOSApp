@@ -52,6 +52,7 @@
 		85EAD4561FEEEC95004EDE5E /* LogInUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4551FEEEC95004EDE5E /* LogInUser.swift */; };
 		85EAD4581FEF3FA3004EDE5E /* ResponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */; };
 		85EAD45A1FEF4639004EDE5E /* DecodeUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */; };
+		85EAD45E1FF0365F004EDE5E /* CustomUserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD45D1FF0365F004EDE5E /* CustomUserError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +103,7 @@
 		85EAD4551FEEEC95004EDE5E /* LogInUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInUser.swift; sourceTree = "<group>"; };
 		85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseObject.swift; sourceTree = "<group>"; };
 		85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeUtilities.swift; sourceTree = "<group>"; };
+		85EAD45D1FF0365F004EDE5E /* CustomUserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUserError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				85EAD4541FEEE28E004EDE5E /* FileManagerUtils */,
 				854827701FE34E7A007031E7 /* Extensions.swift */,
 				85752E161FE623D60002EC3D /* CustomImageView.swift */,
+				85EAD45D1FF0365F004EDE5E /* CustomUserError.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				85752E131FE61C2E0002EC3D /* Post.swift in Sources */,
 				858E90821FE2267800E0D8A7 /* AppDelegate.swift in Sources */,
 				85EAD4511FEC8D27004EDE5E /* GetUser.swift in Sources */,
+				85EAD45E1FF0365F004EDE5E /* CustomUserError.swift in Sources */,
 				85E8DF171FE372A600E6FBD6 /* UserProfileController.swift in Sources */,
 				85EAD44D1FEB9679004EDE5E /* StatueSelectionCell.swift in Sources */,
 				85752E101FE60BED0002EC3D /* SharePhotoController.swift in Sources */,
