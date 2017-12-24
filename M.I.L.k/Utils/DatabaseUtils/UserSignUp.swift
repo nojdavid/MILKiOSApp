@@ -60,21 +60,14 @@ func signUpUserToDB(user: CreateUser, completion:((Result<User>) -> Void)?){
                 print("no readable data received in response")
             }
             
-            if let utf8Representation = String(data: jsonData, encoding: .utf8) {
-                print("response: ", utf8Representation)
-            } else {
-                print("no readable data received in response")
-            }
-            
             do {
-                let json = try JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as! [String:Any]
-                let userData = json["data"] as? [String: Any] ?? [:]
-                print("USER DATA::   ", userData)
-                let user = User(dictionary: userData)
-                completion?(.success(user))
+                let responseObject = try createDecoder().decode(UserResponseObject.self, from: jsonData)
+                //print("RESPONSE MESSAGE: ", responseObject.message)
+                //print("SIGNUP USER DATA: ",responseObject.data)
+                completion!(.success(responseObject.data))
             } catch let error as NSError {
                 print("failure to decode user from JSON")
-                completion?(.failure(error))
+                completion!(.failure(error))
             }
         }
     }

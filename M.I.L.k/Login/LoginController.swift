@@ -73,15 +73,13 @@ class LoginController : UIViewController, UITextFieldDelegate{
     @objc func handleLogin(){
         guard let email = emailTextField.text else {return}
         guard let password = passwordTextField.text else {return}
-        
-        var loginUser = LoginUser(email: email, password: password)
-        
-        loginUserToDB(user: loginUser) { (result) in
+
+        loginUserToDB(user: LoginUser(email: email, password: password)) { (result) in
             switch result {
                 case .success(let user):
-                    print("Logged In:", user)
+                    //save user to disk
                     saveUserToDisk(user: user)
-                    print("SAVED USER TO DISK")
+                    
                     //get reference to maintab bar
                     guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
                     //reset all views

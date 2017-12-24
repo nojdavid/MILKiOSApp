@@ -117,10 +117,9 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
         signUpUserToDB(user: user) { (result) in
             switch result {
                 case .success(let user):
-                    print("SIGNED UP:", user)
+                    //save user to disk
                     saveUserToDisk(user: user)
-                    print("SAVED USER TO DISK")
-                    
+
                     //get reference to maintab bar
                     guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
                     //reset all views

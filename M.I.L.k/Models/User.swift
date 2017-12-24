@@ -36,8 +36,8 @@ struct User : Codable{
     var password: String
     var email: String
     //var profileImageUrl: String?
-    var createdAt: String
-    var updatedAt: String
+    var createdAt: Date
+    var updatedAt: Date
     
     init(dictionary: [String: Any]){
         self.id = dictionary["id"] as? Int ?? -1
@@ -45,8 +45,8 @@ struct User : Codable{
         //self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
         self.password = dictionary["password"] as? String ?? ""
         self.email = dictionary["email"] as? String ?? ""
-        self.createdAt = dictionary["createdAt"] as? String ?? ""
-        self.updatedAt = dictionary["updatedAt"] as? String ?? ""
+        self.createdAt = dictionary["createdAt"] as? Date ?? Date()
+        self.updatedAt = dictionary["updatedAt"] as? Date ?? Date()
     }
  
 }

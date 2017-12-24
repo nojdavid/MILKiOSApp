@@ -50,6 +50,8 @@
 		85EAD4511FEC8D27004EDE5E /* GetUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4501FEC8D27004EDE5E /* GetUser.swift */; };
 		85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4521FEC997E004EDE5E /* Disk.swift */; };
 		85EAD4561FEEEC95004EDE5E /* LogInUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4551FEEEC95004EDE5E /* LogInUser.swift */; };
+		85EAD4581FEF3FA3004EDE5E /* ResponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */; };
+		85EAD45A1FEF4639004EDE5E /* DecodeUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +100,8 @@
 		85EAD4501FEC8D27004EDE5E /* GetUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUser.swift; sourceTree = "<group>"; };
 		85EAD4521FEC997E004EDE5E /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
 		85EAD4551FEEEC95004EDE5E /* LogInUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInUser.swift; sourceTree = "<group>"; };
+		85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseObject.swift; sourceTree = "<group>"; };
+		85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeUtilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +132,7 @@
 				85707AB71FE769AD00BD978F /* UserSignUp.swift */,
 				85EAD4501FEC8D27004EDE5E /* GetUser.swift */,
 				85EAD4551FEEEC95004EDE5E /* LogInUser.swift */,
+				85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */,
 			);
 			path = DatabaseUtils;
 			sourceTree = "<group>";
@@ -169,6 +174,7 @@
 				85752E121FE61C2E0002EC3D /* Post.swift */,
 				85752E1D1FE65E3D0002EC3D /* User.swift */,
 				85D967A81FE8844300AF82A6 /* Comment.swift */,
+				85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -384,6 +390,7 @@
 				85EAD44D1FEB9679004EDE5E /* StatueSelectionCell.swift in Sources */,
 				85752E101FE60BED0002EC3D /* SharePhotoController.swift in Sources */,
 				85D967A91FE8844300AF82A6 /* Comment.swift in Sources */,
+				85EAD45A1FEF4639004EDE5E /* DecodeUtilities.swift in Sources */,
 				85EAD4421FEB5769004EDE5E /* Statue.swift in Sources */,
 				85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */,
 				85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */,
@@ -403,6 +410,7 @@
 				85752E1E1FE65E3D0002EC3D /* User.swift in Sources */,
 				85752E151FE61ECC0002EC3D /* UserProfilePhotoCell.swift in Sources */,
 				85D9679E1FE863F100AF82A6 /* PreviewPhotoContainerView.swift in Sources */,
+				85EAD4581FEF3FA3004EDE5E /* ResponseObject.swift in Sources */,
 				85752E0C1FE4B4DE0002EC3D /* PhotoSelectorCell.swift in Sources */,
 				85D967A21FE86FE000AF82A6 /* CustomAnimationDismisser.swift in Sources */,
 				85EAD4461FEB8379004EDE5E /* StatueSelectionController.swift in Sources */,

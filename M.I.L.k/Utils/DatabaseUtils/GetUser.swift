@@ -13,6 +13,7 @@ enum Result<Value> {
     case failure(Error)
 }
 
+
 func getUserFromDB(for userName: String, completion: ((Result<User>) -> Void)? ){
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
@@ -49,14 +50,13 @@ func getUserFromDB(for userName: String, completion: ((Result<User>) -> Void)? )
             }
             
             do {
-                let json = try JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as! [String:Any]
-                let userData = json["data"] as? [String: Any] ?? [:]
-                print("USER DATA::   ", userData)
-                let user = User(dictionary: userData)
-                completion?(.success(user))
+                let responseObject = try createDecoder().decode(UserResponseObject.self, from: jsonData)
+                //print("RESPONSE MESSAGE: ", responseObject.message)
+                //print("GET USER DATA: ",responseObject.data)
+                completion!(.success(responseObject.data))
             } catch let error as NSError {
                 print("failure to decode user from JSON")
-                completion?(.failure(error))
+                completion!(.failure(error))
             }
         }
     }

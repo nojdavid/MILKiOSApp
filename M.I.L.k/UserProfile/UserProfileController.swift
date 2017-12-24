@@ -41,7 +41,6 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         
         //NEED TO UPDATE: fetch User tree from DB and store user info in user struct
         fetchUser()
-        //fetchOrderedPosts()
     }
 
     var posts = [Post]()
@@ -82,6 +81,9 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
             //NEED TO DO: SIGN OUT USER HERE
             let loginController = LoginController()
             let navController = UINavigationController(rootViewController: loginController)
+            
+            deleteUsrFromDisk()
+            
             self.present(navController, animated: true, completion: nil)
         }))
         
@@ -95,10 +97,17 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         
         var currentUser: User?
         currentUser = getUserFromDisk()
+
+        self.user = currentUser
+        self.navigationItem.title = self.user?.username
         
+        self.collectionView?.reloadData()
         
+        self.fetchOrderedPosts()
+        
+        //IS IT NEEDED TO CHECK USER IN DATABASE HERE??
+        /*
         let username = user?.username ?? (currentUser?.username ?? "")
-        
         getUserFromDB(for: username) { (result) in
             switch result {
             case .success(let user):
@@ -115,6 +124,7 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
                 return
             }
         }
+        */
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
