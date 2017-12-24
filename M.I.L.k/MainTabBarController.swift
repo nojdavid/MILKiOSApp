@@ -35,11 +35,20 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         
         self.delegate = self
         
-        //THIS VARIABLE IS TEMPORARY NEEDS TO BE REMOVED
-        var currentUser: Any? = nil
-        //NEED TO DO: CHECK IF USER IS LOGGED IN TO DECIDE WHICH VIEW TO PRESENT
-
-        if currentUser == nil {
+        //var currentUser: User?
+        //currentUser = getUserFromDisk()
+        /*
+        guard let currentUserName = currentUser?.username else {return}
+        getUserFromDB(for: currentUserName) { (result) in
+            switch result {
+            case .success(let user):
+                currentUser = user
+            case .failure(let error):
+                fatalError("error: \(error.localizedDescription)")
+            }
+        }
+        */
+        if getUserFromDisk() == nil {
             //if not logged in
             DispatchQueue.main.async {
                 let loginController = LoginController()

@@ -20,7 +20,8 @@ class CommentCell: UICollectionViewCell {
             
             textView.attributedText = attributedText
 
-            profileImageView.loadImage(urlString: comment.user.profileImageUrl)
+            //guard let image = comment.user.profileImageUrl else {return}
+            //profileImageView.loadImage(urlString: image)
         }
     }
     

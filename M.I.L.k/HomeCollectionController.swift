@@ -57,9 +57,10 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
         //NEED TO DO: GET IMAGE POST VALUES AND SAVE IT TO THIS VARIABLE
         guard let dictionary = value as? [String : Any] else {return}
         
+        
         for index in 1...20{
             //THIS DUMMY USER NEEDS TO BE UPDATED TO REAL USER
-            let dummyUser = User(uid: String(index) , dictionary: ["username": "Noah Davidson "+String(index)])
+            let dummyUser = User(dictionary: ["id": String(index), "username": "Noah Davidson "+String(index)])
             
             //SAVE IMAGE INFO IN POST OBJ
             var post = Post(user: dummyUser, dictionary: dictionary)

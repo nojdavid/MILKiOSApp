@@ -108,49 +108,32 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
         
         guard let image = plusPhotoButton.imageView?.image else {return}
         guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
-        
-        let user = User(username: username, password: password, email: email)
-        signUpUserToDB(user: user) { (error) in
-            if let error = error{
-                print("FINAL: SIGNUPCONTRELLER RETURNED FAILURE TO SIGN UP USER")
-                fatalError(error.localizedDescription)
-            }
-        }
-        saveUserToDisk(user: user)
-
-        //NEED TO UPDATE:
-        //------------------------------
-        //CREATE USER PROFILE IN DB HERE
-        //------------------------------
-        
-        //GET IMAGE URL
+        //GET IMAGE URL: IDK IF I NEED THIS 
         //guard let profileImageUrl = metaData?.downloadURL()?.absoluateString else {return}
         
-        //UID IS USERS HASHED ID
-        //gaurd let uid = user?iuid else {return}
-        
-        //GET AND COMPRESSES IMAGE OR STORAGE
-        //guard let image = plusPhotoButton.imageView?.image else {return}
-        //guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
-        
-        //NEED TO UPDATE:
-        //------------------------
-        //SAVE USERINFO TO DB HERE
-        //------------------------
-        //DICT OF key:"username" value:user's entered name
-        //let dictionaryValues = ["username":username, "profileImageUrl":profileImageUrl]
-        
-        //DICT OF HASHED ID w/ DICT USERNAME
-        //let values = [uid:dictionaryValues]
-        
-        print("successfully made an account")
-        
-        //get reference to maintab bar
-        guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
-        //reset all views
-        mainTabBarController.setupViewController()
-        
-        self.dismiss(animated: true, completion: nil)
+        //let user = User(username: username, password: password, email: email)
+        let user = CreateUser(email: email, username: username, password: password)
+
+        signUpUserToDB(user: user) { (result) in
+            switch result {
+                case .success(let user):
+                    print("SIGNED UP:", user)
+                    saveUserToDisk(user: user)
+                    print("SAVED USER TO DISK")
+                    
+                    //get reference to maintab bar
+                    guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
+                    //reset all views
+                    mainTabBarController.setupViewController()
+                    
+                    self.dismiss(animated: true, completion: nil)
+                
+                case .failure(let error):
+                    print("SIGN UP FAILURE")
+                    print("error: \(error.localizedDescription)")
+                    return
+            }
+        }
     }
     
     let alreadyHaveAccountButton: UIButton = {

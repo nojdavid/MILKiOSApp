@@ -21,7 +21,6 @@
 		85752E1A1FE6474A0002EC3D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85752E191FE6474A0002EC3D /* HomeController.swift */; };
 		85752E1C1FE648D40002EC3D /* HomePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85752E1B1FE648D40002EC3D /* HomePostCell.swift */; };
 		85752E1E1FE65E3D0002EC3D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85752E1D1FE65E3D0002EC3D /* User.swift */; };
-		85752E201FE6654F0002EC3D /* DatabaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85752E1F1FE6654F0002EC3D /* DatabaseUtils.swift */; };
 		85752E231FE70FAD0002EC3D /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85752E221FE70FAD0002EC3D /* UserSearchController.swift */; };
 		85752E251FE713B90002EC3D /* UserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85752E241FE713B90002EC3D /* UserSearchCell.swift */; };
 		858E90821FE2267800E0D8A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858E90811FE2267800E0D8A7 /* AppDelegate.swift */; };
@@ -50,6 +49,7 @@
 		85EAD44D1FEB9679004EDE5E /* StatueSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD44C1FEB9679004EDE5E /* StatueSelectionCell.swift */; };
 		85EAD4511FEC8D27004EDE5E /* GetUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4501FEC8D27004EDE5E /* GetUser.swift */; };
 		85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4521FEC997E004EDE5E /* Disk.swift */; };
+		85EAD4561FEEEC95004EDE5E /* LogInUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4551FEEEC95004EDE5E /* LogInUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,7 +67,6 @@
 		85752E191FE6474A0002EC3D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		85752E1B1FE648D40002EC3D /* HomePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostCell.swift; sourceTree = "<group>"; };
 		85752E1D1FE65E3D0002EC3D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		85752E1F1FE6654F0002EC3D /* DatabaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseUtils.swift; sourceTree = "<group>"; };
 		85752E221FE70FAD0002EC3D /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		85752E241FE713B90002EC3D /* UserSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchCell.swift; sourceTree = "<group>"; };
 		858E907E1FE2267800E0D8A7 /* M.I.L.k.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = M.I.L.k.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +97,7 @@
 		85EAD44C1FEB9679004EDE5E /* StatueSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatueSelectionCell.swift; sourceTree = "<group>"; };
 		85EAD4501FEC8D27004EDE5E /* GetUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUser.swift; sourceTree = "<group>"; };
 		85EAD4521FEC997E004EDE5E /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
+		85EAD4551FEEEC95004EDE5E /* LogInUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInUser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,10 +114,10 @@
 		8548276F1FE34E6A007031E7 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				85707AB61FE7692200BD978F /* DatabaseUtils */,
+				85EAD4541FEEE28E004EDE5E /* FileManagerUtils */,
 				854827701FE34E7A007031E7 /* Extensions.swift */,
 				85752E161FE623D60002EC3D /* CustomImageView.swift */,
-				85752E1F1FE6654F0002EC3D /* DatabaseUtils.swift */,
-				85EAD4521FEC997E004EDE5E /* Disk.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -127,6 +127,7 @@
 			children = (
 				85707AB71FE769AD00BD978F /* UserSignUp.swift */,
 				85EAD4501FEC8D27004EDE5E /* GetUser.swift */,
+				85EAD4551FEEEC95004EDE5E /* LogInUser.swift */,
 			);
 			path = DatabaseUtils;
 			sourceTree = "<group>";
@@ -212,7 +213,6 @@
 				85EAD43E1FEB5083004EDE5E /* Map */,
 				85D967A31FE8743000AF82A6 /* Comment */,
 				85707AB91FE7B61400BD978F /* Camera */,
-				85707AB61FE7692200BD978F /* DatabaseUtils */,
 				85752E211FE70F310002EC3D /* Search */,
 				85752E181FE6473C0002EC3D /* Home */,
 				85752E111FE61C1E0002EC3D /* Models */,
@@ -288,6 +288,14 @@
 				85EAD44C1FEB9679004EDE5E /* StatueSelectionCell.swift */,
 			);
 			path = StatueSelection;
+			sourceTree = "<group>";
+		};
+		85EAD4541FEEE28E004EDE5E /* FileManagerUtils */ = {
+			isa = PBXGroup;
+			children = (
+				85EAD4521FEC997E004EDE5E /* Disk.swift */,
+			);
+			path = FileManagerUtils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -380,6 +388,7 @@
 				85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */,
 				85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */,
 				85752E231FE70FAD0002EC3D /* UserSearchController.swift in Sources */,
+				85EAD4561FEEEC95004EDE5E /* LogInUser.swift in Sources */,
 				85EAD4401FEB5091004EDE5E /* MapController.swift in Sources */,
 				85D967A01FE86D3100AF82A6 /* CustomAnimationPresentor.swift in Sources */,
 				85EAD43D1FEB288D004EDE5E /* HomeCollectionPostCell.swift in Sources */,
@@ -399,7 +408,6 @@
 				85EAD4461FEB8379004EDE5E /* StatueSelectionController.swift in Sources */,
 				85752E251FE713B90002EC3D /* UserSearchCell.swift in Sources */,
 				85D0062D1FE9C48300D5463A /* PhotoSelectorPreviewPhotoContainerView.swift in Sources */,
-				85752E201FE6654F0002EC3D /* DatabaseUtils.swift in Sources */,
 				85D967A71FE881D200AF82A6 /* CommentCell.swift in Sources */,
 				85D006271FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift in Sources */,
 			);

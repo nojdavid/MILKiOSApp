@@ -65,7 +65,7 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         let user = filteredUsers[indexPath.item]
         
         let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
-        userProfileController.userId = user.uid
+        userProfileController.userId = user.id
         navigationController?.pushViewController(userProfileController, animated: true)
     }
     
@@ -93,7 +93,7 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         */
         
         //THIS IS A DUMMY USER, DESTORY THIS ONCE CORRECT IMPLEMENTATION IS DONE
-        let user = User(uid: "123", dictionary: ["username": "Billy Bob"])
+        let user = User(dictionary: ["id": "123", "username": "Billy Bob"])
         self.users.append(user)
         
         //sort list alphabetically
@@ -103,6 +103,7 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         
         //gives filtered users master list of users until filtered
         self.filteredUsers = self.users
+        
         self.collectionView?.reloadData()
     }
     

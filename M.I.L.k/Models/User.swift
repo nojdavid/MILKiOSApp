@@ -8,34 +8,45 @@
 
 import Foundation
 
-struct User : Codable{
-    let uid: String
+struct CreateUser : Codable{
     let email: String
     let username: String
     let password: String
-    let profileImageUrl: String
     
-    init(username: String, password: String, email: String) {
+    init( email: String, username: String, password: String) {
+        self.password = password
         self.username = username
+        self.email = email
+    }
+}
+
+struct LoginUser : Codable{
+    let email: String
+    let password: String
+    
+    init( email: String, password: String) {
         self.password = password
         self.email = email
-        self.uid = ""
-        self.profileImageUrl = ""
     }
+}
+
+struct User : Codable{
+    var id: Int
+    var username: String
+    var password: String
+    var email: String
+    //var profileImageUrl: String?
+    var createdAt: String
+    var updatedAt: String
     
-    init(uid: String, username: String, password: String, profileImageUrl: String) {
-        self.uid = uid
-        self.username = username
-        self.password = password
-        self.profileImageUrl = profileImageUrl
-        self.email = ""
-    }
-    
-    init(uid: String, dictionary: [String: Any]){
-        self.uid = uid
+    init(dictionary: [String: Any]){
+        self.id = dictionary["id"] as? Int ?? -1
         self.username = dictionary["username"] as? String ?? ""
-        self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
+        //self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
         self.password = dictionary["password"] as? String ?? ""
         self.email = dictionary["email"] as? String ?? ""
+        self.createdAt = dictionary["createdAt"] as? String ?? ""
+        self.updatedAt = dictionary["updatedAt"] as? String ?? ""
     }
+ 
 }

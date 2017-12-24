@@ -19,14 +19,14 @@ class UserProfileHeader: UICollectionViewCell{
     
     var user: User? {
         didSet{
-            guard let profileImageUrl = user?.profileImageUrl else {return}
-            profileImageView.loadImage(urlString: profileImageUrl)
+            //guard let profileImageUrl = user?.profileImageUrl else {return}
+            //profileImageView.loadImage(urlString: profileImageUrl)
             
             usernameLabel.text = user?.username
             
-            let currentUserId :String? = ""
+            let currentUserId :Int? =  0
             guard let currentLoggedInUserId = currentUserId else {return}
-            guard let userId = user?.uid else {return}
+            guard let userId = user?.id else {return}
             if currentLoggedInUserId == userId{
                 //edit profile
                 editProfileButton.isEnabled = true

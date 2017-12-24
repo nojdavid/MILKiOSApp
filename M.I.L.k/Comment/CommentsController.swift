@@ -35,14 +35,16 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         //NEED TO DO: FETCH ALL COMMENTS FOR THIS POST
         
         //REMOVE THIS DUMMY DICT WHEN REAL VALUES ARE AVAILABLE
-        let dictionary = ["text": "THIS IS DUMMY TEXt", "uid": "THIS IS DUMMY UID"]
-        let dummyUser = User(uid: "123", dictionary: ["username": "Noah Davidson"])
+        
+        let dictionary = ["text": "THIS IS DUMMY TEXt", "id": "THIS IS DUMMY UID","username": "Noah Davidson"]
+        let dummyUser = User(dictionary: dictionary)
         //THIS IS TO GET USER PHOTO FOR COMMENT CELL
-        guard let uid = dictionary["uid"] as? String else {return}
+        guard let uid = dictionary["id"] as? Int else {return}
         
         let comment = Comment(user: dummyUser, dictionary: dictionary)
         //NEED TO DO: GET USER AND STORE IN COMMENT
         comments.append(comment)
+ 
         self.collectionView?.reloadData()
     }
     

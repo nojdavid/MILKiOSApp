@@ -17,7 +17,7 @@ func getUserFromDB(for userName: String, completion: ((Result<User>) -> Void)? )
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
     urlComponents.host = "milk-backend.herokuapp.com"
-    urlComponents.path = "/get-user-by-username/:username"
+    urlComponents.path = "/users/get-user-by-username/"+userName
     let userNameItem = URLQueryItem(name: "username", value: "\(userName)")
     urlComponents.queryItems = [userNameItem]
     guard let url = urlComponents.url else {fatalError("Could not create URL from components")}
@@ -42,19 +42,25 @@ func getUserFromDB(for userName: String, completion: ((Result<User>) -> Void)? )
                     return
             }
             
-            let decoder = JSONDecoder()
+            if let utf8Representation = String(data: jsonData, encoding: .utf8) {
+                print("response: ", utf8Representation)
+            } else {
+                print("no readable data received in response")
+            }
             
-            do{
-                let user = try decoder.decode(User.self, from: jsonData)
-                print("successfully decoded user from JSON")
+            do {
+                let json = try JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as! [String:Any]
+                let userData = json["data"] as? [String: Any] ?? [:]
+                print("USER DATA::   ", userData)
+                let user = User(dictionary: userData)
                 completion?(.success(user))
-            }catch{
+            } catch let error as NSError {
                 print("failure to decode user from JSON")
                 completion?(.failure(error))
             }
         }
     }
-    
+    print("resuming task")
     task.resume()
-    
 }
+

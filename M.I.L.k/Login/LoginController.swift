@@ -74,16 +74,36 @@ class LoginController : UIViewController, UITextFieldDelegate{
         guard let email = emailTextField.text else {return}
         guard let password = passwordTextField.text else {return}
         
-        //NEED TO DO: SIGN IN USER HERE
+        var loginUser = LoginUser(email: email, password: password)
         
-        print("Successfully logged back in")
+        loginUserToDB(user: loginUser) { (result) in
+            switch result {
+                case .success(let user):
+                    print("Logged In:", user)
+                    saveUserToDisk(user: user)
+                    print("SAVED USER TO DISK")
+                    //get reference to maintab bar
+                    guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
+                    //reset all views
+                    mainTabBarController.setupViewController()
+                    
+                    self.dismiss(animated: true, completion: nil)
+                
+                case .failure(let error):
+                    print("LOG IN FAILURE")
+                    print("error: \(error.localizedDescription)")
+                    return
+            }
+        }
         
+        /*
         //get reference to maintab bar
         guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
         //reset all views
         mainTabBarController.setupViewController()
         
         self.dismiss(animated: true, completion: nil)
+        */
     }
     
     let dontHaveAccountButton: UIButton = {

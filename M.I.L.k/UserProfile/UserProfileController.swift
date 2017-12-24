@@ -14,7 +14,7 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     let headerId = "headerId"
     let homePostCellId = "homePostCellId"
     
-    var userId: String?
+    var userId: Int?
     
     var isGridView = true
     
@@ -47,7 +47,7 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     var posts = [Post]()
     fileprivate func fetchOrderedPosts(){
         
-        guard let uid = user?.uid else {return}
+        guard let uid = user?.id else {return}
         
         //NEED TO DO: GET REFERENCE TO ALL POSTS FROM UID
         //NEED TO DO: GET ALL POSTS FOR USER IN ORDER OF DATE POSTED
@@ -93,38 +93,28 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     var user: User?
     fileprivate func fetchUser(){
         
-        //NEED TO DO: GET CURRENT USER
-        //let uid = userId ?? (/*GET THE currentUser?.uid FROM THE DB??*/ "")
-        var user = getUserFromDisk()
-        print("GOT CURRENT USER")
-        let uid = user.uid //currentUser?.uid else {return}
-        print("GOT CURRENT UID")
-        let username = user.username
-        print("GOT CURRENT USERNAME")
-        /*
+        var currentUser: User?
+        currentUser = getUserFromDisk()
+        
+        
+        let username = user?.username ?? (currentUser?.username ?? "")
+        
         getUserFromDB(for: username) { (result) in
             switch result {
-            case .success(let currentUser):
-                print("GET USER SUCCESS")
-                saveUserToDisk(user: currentUser)
-                user = currentUser
+            case .success(let user):
+                self.user = user
+                self.navigationItem.title = self.user?.username
+                
+                self.collectionView?.reloadData()
+                
+                self.fetchOrderedPosts()
+                
             case .failure(let error):
-                print("GET USER FAILURE")
-                fatalError("error: \(error.localizedDescription)")
+                print("USER PROFILE GET USER ERROR")
+                print("error: \(error.localizedDescription)")
+                return
             }
         }
-        */
-        //NEED TO DO: UPDATE THIS USER WITH USER FROM THE REFERENCED UID ABOVE
-        //self.user = User(uid: uid, dictionary: dictionary)
-        
-        //NEED TO DO: THIS DUMMY USER NEEDS TO BE DELETED ONCE REAL USER IS TAKEN FROM DB
-        self.user = User(uid: uid, dictionary: ["username": "Noah Davidson"])
-        
-        self.navigationItem.title = user.username//self.user?.username
-   
-        self.collectionView?.reloadData()
-        
-        self.fetchOrderedPosts()
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
