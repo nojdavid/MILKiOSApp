@@ -35,7 +35,7 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
 
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: homePostCellId)
+        collectionView?.register(DetailPostCell.self, forCellWithReuseIdentifier: homePostCellId)
         
         setupLogoutButton()
         
@@ -77,13 +77,22 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         alertController.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (_) in
+
+            //MAKE SURE THIS FUNCTIONALITY IS ONLY PRESENT IF THE PROFILE IS YOURS!!!!!!!!!
+            /*
+            guard let user = self.user else {return}
+            logoutUserFromDB(user: user, completion: { (error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+            })
+            */
+            deleteUserFromDisk()
             
-            //NEED TO DO: SIGN OUT USER HERE
+            
             let loginController = LoginController()
             let navController = UINavigationController(rootViewController: loginController)
-            
-            deleteUsrFromDisk()
-            
             self.present(navController, animated: true, completion: nil)
         }))
         
@@ -138,7 +147,7 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
             cell.post = posts[indexPath.item]
             return cell
         }else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: homePostCellId, for: indexPath) as! HomePostCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: homePostCellId, for: indexPath) as! DetailPostCell
             cell.post = posts[indexPath.item]
             return cell
         }

@@ -70,7 +70,7 @@ func getUserFromDisk() -> User? {
     }
 }
 
-func deleteUsrFromDisk() {
+func deleteUserFromDisk() {
     
     let url = getDocumentsURL().appendingPathComponent(userPath)
     do {

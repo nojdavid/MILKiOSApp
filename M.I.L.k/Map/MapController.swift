@@ -96,6 +96,8 @@ class MapController : UIViewController, MKMapViewDelegate, StatueSelectionContro
     var containerView = UIView()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.title = "Map"
         view.backgroundColor = .white
         
         initializeMapView()

@@ -18,7 +18,7 @@ class PhotoSelectorController : UICollectionViewController, UICollectionViewDele
         super.viewDidLoad()
         
         collectionView?.backgroundColor = .lightGray
-        
+        navigationItem.title = "Library"
         //Regist for photolibrarydidchange protocol
         /*
         PHPhotoLibrary.requestAuthorization { (status) in

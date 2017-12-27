@@ -12,22 +12,34 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     
     var post: Post?
     let cellId = "cellId"
+    var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "Comments"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(handleBack))
         
         collectionView?.backgroundColor = .white
         collectionView?.alwaysBounceVertical = true
         collectionView?.keyboardDismissMode = .interactive
-        
-        collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
-        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
-        
+
         collectionView?.register(CommentCell.self, forCellWithReuseIdentifier: cellId)
+
+        //REMOVE THIS ONCE YOU GET USER THE RIGHT WAY
+        user = getUserFromDisk()
         
         fetchComments()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        commentTextField.becomeFirstResponder()
+        scrollToBottomAnimated(animated: true)
+    }
+
+    @objc func handleBack(){
+        navigationController?.popViewController(animated: true)
     }
     
     var comments = [Comment]()
@@ -44,7 +56,7 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         let comment = Comment(user: dummyUser, dictionary: dictionary)
         //NEED TO DO: GET USER AND STORE IN COMMENT
         comments.append(comment)
- 
+        
         self.collectionView?.reloadData()
     }
     
@@ -84,15 +96,8 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         containerView.backgroundColor = .white
         containerView.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
         
-        let submitButton = UIButton(type: .system)
-        submitButton.setTitle("Send", for: .normal)
-        submitButton.setTitleColor(.black, for: .normal)
-        submitButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        submitButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
-        
         containerView.addSubview(submitButton)
         submitButton.anchor(top: containerView.topAnchor, left: nil, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 12, width: 50, height: 0)
-        
         
         containerView.addSubview(commentTextField)
         commentTextField.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 0, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -105,25 +110,59 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         return containerView
     }()
     
+    let submitButton : UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Send", for: .normal)
+        button.setTitleColor(UIColor.unselectedGrey(), for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
+        button.isEnabled = false
+        return button
+    }()
+    
     let commentTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter Comment"
+        textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return textField
     }()
     
-    @objc func handleSend(){
-        if commentTextField.text?.count == 0 {
-            return
+    @objc func handleTextInputChange(){
+        let isFormValid = commentTextField.text?.count != 0
+        if isFormValid{
+            submitButton.isEnabled = true
+            submitButton.setTitleColor(.black, for: .normal)
+        }else{
+            submitButton.isEnabled = false
+            submitButton.setTitleColor(UIColor.unselectedGrey(), for: .normal)
         }
-        
+    }
+    
+    @objc func handleSend(){
         let uid = "this persons uid"
         let postId = self.post?.id ?? ""
         let values = ["text": commentTextField.text ?? "", "creationDate": Date().timeIntervalSince1970, "uid": uid] as [String:Any]
-        
-        print("post id", self.post?.id)
+
         print("sending text", commentTextField.text ?? "")
         
-        //NEED TO DO: APPEND TEXT TO PHOTO COMMENTS IN DB
+        //REMOVE THIS GET USER AND PROPEGATE USERS THROUGH NAV CONTROLLER
+        let comment = Comment(user: user!, dictionary: values)
+
+        /*
+        sendCommentToDB(comment: comment, completion: { (error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            print("Successfuly inserted Comment")
+        })
+        */
+        
+        //REMOVE THESE COMMENTS AND ONLY US METHODS TO DB FOR POSTING COMMENT
+        comments.append(comment)
+        collectionView?.reloadData()
+
+        scrollToBottomAnimated(animated: true)
     }
     
     override var inputAccessoryView: UIView? {
@@ -134,5 +173,25 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     
     override var canBecomeFirstResponder: Bool {
         return true
+    }
+    
+    func scrollToBottomAnimated(animated: Bool) {
+        guard (self.collectionView?.numberOfSections)! > 0 else{
+            return
+        }
+        
+        let items = self.collectionView?.numberOfItems(inSection: 0)
+        if items == 0 { return }
+        
+        let collectionViewContentHeight = self.collectionView?.collectionViewLayout.collectionViewContentSize.height
+        let isContentTooSmall: Bool = (collectionViewContentHeight! < self.collectionView!.bounds.size.height)
+        
+        if isContentTooSmall {
+            self.collectionView?.scrollRectToVisible(CGRect(x: 0, y: collectionViewContentHeight! - 1, width: 1, height: 1), animated: animated)
+            return
+        }
+        
+        self.collectionView?.scrollToItem(at: NSIndexPath(item: items! - 1, section: 0) as IndexPath, at: .bottom, animated: animated)
+        
     }
 }

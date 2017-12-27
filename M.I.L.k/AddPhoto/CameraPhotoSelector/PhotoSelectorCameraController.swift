@@ -120,6 +120,7 @@ class PhotoSelectorCameraController : UIViewController, AVCapturePhotoCaptureDel
         super.viewDidLoad()
         view.backgroundColor = UIColor.lightGray
         
+        navigationItem.title = "Camera"
         navigationItem.leftBarButtonItem = cancelBarButton
 
         setupHUD()

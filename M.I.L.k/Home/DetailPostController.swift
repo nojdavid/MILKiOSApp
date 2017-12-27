@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate{
+class DetailPostController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate{
     
     let cellId = "cellId"
     var post: Post?
@@ -18,15 +18,21 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         
         collectionView?.backgroundColor = .white
         
-        collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.register(DetailPostCell.self, forCellWithReuseIdentifier: cellId)
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         collectionView?.refreshControl = refreshControl
         
         navigationItem.title = "Photo"
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(handleBack))
  
         renderPost()
+    }
+    
+    @objc func handleBack(){
+       navigationController?.popViewController(animated: true)
     }
 
     @objc func handleRefresh(){
@@ -60,7 +66,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HomePostCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DetailPostCell
         
         cell.post = posts[indexPath.item]
         
@@ -77,7 +83,7 @@ class HomeController : UICollectionViewController, UICollectionViewDelegateFlowL
         hidesBottomBarWhenPushed = false
     }
     
-    func didLike(for cell: HomePostCell) {
+    func didLike(for cell: DetailPostCell) {
         
         guard let indexPath = collectionView?.indexPath(for: cell) else {return}
         

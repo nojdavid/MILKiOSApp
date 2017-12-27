@@ -81,7 +81,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let post = posts[indexPath.item]
-        let detailHomeController = HomeController(collectionViewLayout: UICollectionViewFlowLayout())
+        let detailHomeController = DetailPostController(collectionViewLayout: UICollectionViewFlowLayout())
         detailHomeController.post = post
         navigationController?.pushViewController(detailHomeController, animated: true)
     }

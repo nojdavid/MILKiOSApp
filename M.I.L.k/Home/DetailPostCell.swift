@@ -10,10 +10,10 @@ import UIKit
 
 protocol HomePostCellDelegate {
     func didTabComment(post: Post)
-    func didLike(for cell: HomePostCell)
+    func didLike(for cell: DetailPostCell)
 }
 
-class HomePostCell : UICollectionViewCell{
+class DetailPostCell : UICollectionViewCell{
     
     var delegate: HomePostCellDelegate?
     
