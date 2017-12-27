@@ -46,11 +46,6 @@ class LoginController : UIViewController, UITextFieldDelegate{
     }()
     
     @objc func handleTextInputChange(){
-        
-        if userErrorLabel.isDescendant(of: stackView!) == true {
-            stackView?.removeArrangedSubview(userErrorLabel)
-        }
-        
         let isFormValid = emailTextField.text?.count ?? 0 > 0  && passwordTextField.text?.count ?? 0 > 0
         if isFormValid{
             loginButton.isEnabled = true
@@ -70,6 +65,16 @@ class LoginController : UIViewController, UITextFieldDelegate{
         label.textAlignment = NSTextAlignment.center
         return label
     }()
+    
+    func estimatedHeightOfLabel(text: String) -> CGFloat {
+        let size = CGSize(width: view.frame.width - 80, height: 1000)
+
+        let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12)]
+        
+        let rectangleHeight = String(text).boundingRect(with: size, options: [], attributes: attributes, context: nil).height
+        
+        return ceil(rectangleHeight)
+    }
     
     let loginButton: UIButton = {
         let button = UIButton(type: UIButtonType.system)
@@ -103,14 +108,17 @@ class LoginController : UIViewController, UITextFieldDelegate{
                     self.dismiss(animated: true, completion: nil)
                 
                 case .user_message(let message):
+                    /*
                     //remove error message if already there
                     if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
-                        self.stackView?.removeArrangedSubview(self.userErrorLabel)
+                        self.stackView?.removeFromSuperview()
                     }
                     //add error message
                     let attributedTitle = NSMutableAttributedString(string: message, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.red])
                     self.userErrorLabel.attributedText = attributedTitle
-                    self.stackView?.insertArrangedSubview(self.userErrorLabel, at: 2)
+                    */
+                    
+                    self.present(customUserError(title: "Login Failed", message: message), animated: true, completion: nil)
                 return
                 
                 case .failure(let error):
@@ -186,6 +194,20 @@ class LoginController : UIViewController, UITextFieldDelegate{
     }
     
     var stackView: UIStackView?
+    var stackHeight: CGFloat = 140
+    var heightConstraint: NSLayoutConstraint?
+    
+    func updateStackViewHeight(height: CGFloat?){
+        self.stackView?.removeConstraint(self.heightConstraint!)
+        if height == nil {
+            self.heightConstraint = self.stackView?.heightAnchor.constraint(equalToConstant: stackHeight)
+        }else{
+            self.heightConstraint = self.stackView?.heightAnchor.constraint(equalToConstant: stackHeight + height!)
+        }
+        self.stackView?.addConstraints([self.heightConstraint!])
+        self.stackView?.setNeedsLayout()
+    }
+    
     fileprivate func setupInputFields(){
         
         stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
@@ -195,7 +217,10 @@ class LoginController : UIViewController, UITextFieldDelegate{
         stackView?.distribution = .fillEqually
         
         view.addSubview(stackView!)
-        stackView?.anchor(top: logoContainerView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 140)
+        stackView?.translatesAutoresizingMaskIntoConstraints = false
+        heightConstraint = stackView?.heightAnchor.constraint(equalToConstant: stackHeight)
+        stackView?.addConstraints([heightConstraint!])
+        stackView?.anchor(top: logoContainerView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 0)
         
     }
 }

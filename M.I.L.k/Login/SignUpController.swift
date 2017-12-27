@@ -98,12 +98,7 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
     }()
     
     @objc func handleTextInputChange(){
-        
-        if userErrorLabel.isDescendant(of: stackView!) == true {
-            stackView?.removeArrangedSubview(userErrorLabel)
-        }
-        
-        let isFormValid = emailTextField.text?.count ?? 0 > 0 && userNameTextField.text?.count ?? 0 > 0 && passwordTextField.text?.count ?? 0 > 0
+        let isFormValid = emailTextField.text?.count ?? 0 > 0 && userNameTextField.text?.count ?? 0 > 0 && passwordTextField.text?.count ?? 0 > 5
         if isFormValid{
             signUpButton.isEnabled = true
             signUpButton.backgroundColor = UIColor.rgb(red: 17, green: 154, blue: 237)
@@ -116,7 +111,10 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
     @objc func handleSignUp(){
         //NEED TO UPDATE: VALIDATE EMAIL BETTER
         guard let email = emailTextField.text, email.count > 0 else {return}
-        //validateEmail(email)
+        if validateEmail(enteredEmail: email) == false {
+            self.present(customUserError(title: "Invalid Email", message: "Please enter a valid email"), animated: true, completion: nil)
+            return
+        }
         
         //NEED TO UPDATE: CHECK USER NAME FOR VALID AND NOT OFFENSIVE
         guard let username = userNameTextField.text, username.count > 0 else {return}
@@ -146,15 +144,14 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
                     self.dismiss(animated: true, completion: nil)
                 
                 case .user_message(let message):
-                    
+                    /*
                     //remove error message if already there
                     if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
-                        self.stackView?.removeArrangedSubview(self.userErrorLabel)
+                        self.stackView?.removeFromSuperview()
                     }
+                    */
                     //add error message
-                    let attributedTitle = NSMutableAttributedString(string: message, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.red])
-                    self.userErrorLabel.attributedText = attributedTitle
-                    self.stackView?.insertArrangedSubview(self.userErrorLabel, at: 3)
+                    self.present(customUserError(title: "Signup Failed", message: message), animated: true, completion: nil)
                     return
                 
                 case .failure(let error):
