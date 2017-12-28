@@ -22,8 +22,9 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
             present(navController, animated: true, completion: nil)
             */
             
-            let photoSelectorTabBarController = PhotoSelectorTabBarController()
-            present(photoSelectorTabBarController, animated: true, completion: nil)
+            //let photoSelectorTabBarController = PhotoSelectorTabBarController()
+            let fusumaController = FusumaViewController()
+            present(fusumaController, animated: true, completion: nil)
             
             return false
         }
