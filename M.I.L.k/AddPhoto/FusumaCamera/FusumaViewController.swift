@@ -78,6 +78,7 @@ public var fusumaTintIcons: Bool = true
 @objc public enum FusumaMode: Int {
     
     case camera
+    case postCamera
     case library
     case video
     case none
@@ -123,7 +124,7 @@ public class FusumaViewController: UIViewController {
     @objc lazy var albumView  = FSAlbumView.instance()
     @objc lazy var cameraView = FSCameraView.instance()
     @objc lazy var videoView  = FSVideoCameraView.instance()
-
+    
     fileprivate var hasGalleryPermission: Bool {
         
         return PHPhotoLibrary.authorizationStatus() == .authorized
@@ -310,12 +311,19 @@ public class FusumaViewController: UIViewController {
     
     @IBAction func closeButtonPressed(_ sender: UIButton) {
         
-        self.delegate?.fusumaWillClosed()
-        
-        self.dismiss(animated: true) {
-        
-            self.delegate?.fusumaClosed()
+        if self.mode == .postCamera {
+            print("Restarting camera...")
+            cameraView.initialize()
+            
+        } else {
+            self.delegate?.fusumaWillClosed()
+            
+            self.dismiss(animated: true) {
+                
+                self.delegate?.fusumaClosed()
+            }
         }
+        
     }
     
     @IBAction func libraryButtonPressed(_ sender: UIButton) {
@@ -335,7 +343,12 @@ public class FusumaViewController: UIViewController {
     
     @IBAction func doneButtonPressed(_ sender: UIButton) {
         
-        allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
+        if self.mode == .postCamera {
+            print("Go TO Share...")
+        } else {
+            allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
+        }
+        
     }
     
     private func fusumaDidFinishInSingleMode() {
@@ -357,10 +370,12 @@ public class FusumaViewController: UIViewController {
                 
                 self.delegate?.fusumaImageSelected(image, source: self.mode)
                 
+                /*
                 self.dismiss(animated: true, completion: {
                     
                     self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
                 })
+                */
                 
                 let metaData = ImageMetadata(
                     mediaType: self.albumView.phAsset.mediaType,
@@ -381,10 +396,12 @@ public class FusumaViewController: UIViewController {
             print("no image crop ")
             delegate?.fusumaImageSelected(view.image, source: mode)
             
+            /*
             self.dismiss(animated: true) {
             
                 self.delegate?.fusumaDismissedWithImage(view.image, source: self.mode)
             }
+            */
         }
     }
     
@@ -457,6 +474,10 @@ public class FusumaViewController: UIViewController {
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
     
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {
+        print("Image Selected")
+    }
+    
     public func getCropHeightRatio() -> CGFloat {
         
         return cropHeightRatio
@@ -465,12 +486,17 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     // MARK: FSCameraViewDelegate
     func cameraShotFinished(_ image: UIImage) {
         
+        changeMode(.postCamera)
+
+        
         delegate?.fusumaImageSelected(image, source: mode)
         
+        /*
         self.dismiss(animated: true) {
             
             self.delegate?.fusumaDismissedWithImage(image, source: self.mode)
         }
+        */
     }
     
     public func albumViewCameraRollAuthorized() {
@@ -509,9 +535,18 @@ private extension FusumaViewController {
     func changeMode(_ mode: FusumaMode) {
 
         if self.mode == mode { return }
-        
+
         //operate this switch before changing mode to stop cameras
         switch self.mode {
+        
+        case .postCamera:
+            doneButton.setImage(#imageLiteral(resourceName: "ic_check").withRenderingMode(.alwaysOriginal) , for: UIControlState())
+            doneButton.setImage(#imageLiteral(resourceName: "ic_check").withRenderingMode(.alwaysOriginal), for: .highlighted)
+            doneButton.setImage(#imageLiteral(resourceName: "ic_check").withRenderingMode(.alwaysOriginal), for: .selected)
+            
+            closeButton.setImage(#imageLiteral(resourceName: "ic_close").withRenderingMode(.alwaysOriginal), for: UIControlState())
+            closeButton.setImage(#imageLiteral(resourceName: "ic_close").withRenderingMode(.alwaysOriginal), for: .highlighted)
+            closeButton.setImage(#imageLiteral(resourceName: "ic_close").withRenderingMode(.alwaysOriginal), for: .selected)
             
         case .camera:
             
@@ -540,11 +575,24 @@ private extension FusumaViewController {
             self.view.bringSubview(toFront: photoLibraryViewerContainer)
         
         case .camera:
-
+            
             titleLabel.text = NSLocalizedString(fusumaCameraTitle, comment: fusumaCameraTitle)
             highlightButton(cameraButton)
             self.view.bringSubview(toFront: cameraShotContainer)
-            cameraView.startCamera()
+            //cameraView.startCamera()
+            cameraView.initialize()
+            
+        case .postCamera:
+
+            doneButton.setImage(#imageLiteral(resourceName: "next_arrow").withRenderingMode(.alwaysOriginal) , for: UIControlState())
+            doneButton.setImage(#imageLiteral(resourceName: "next_arrow").withRenderingMode(.alwaysOriginal), for: .highlighted)
+            doneButton.setImage(#imageLiteral(resourceName: "next_arrow").withRenderingMode(.alwaysOriginal), for: .selected)
+            doneButton.tintColor = fusumaBaseTintColor
+            
+            closeButton.setImage(#imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysOriginal), for: UIControlState())
+            closeButton.setImage(#imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysOriginal), for: .highlighted)
+            closeButton.setImage(#imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysOriginal), for: .selected)
+            closeButton.tintColor = fusumaBaseTintColor
             
         case .video:
             
@@ -558,7 +606,7 @@ private extension FusumaViewController {
             break
         }
         
-        doneButton.isHidden = !hasGalleryPermission
+        //doneButton.isHidden = !hasGalleryPermission
         self.view.bringSubview(toFront: menuView)
     }
     
@@ -573,12 +621,14 @@ private extension FusumaViewController {
 
         switch self.mode {
             
+        case .postCamera:
+            self.doneButton.isHidden = false
+            
         case .library:
             
             self.doneButton.isHidden = false
             
         default:
-            
             self.doneButton.isHidden = true
         }
     }
