@@ -343,12 +343,7 @@ public class FusumaViewController: UIViewController {
     
     @IBAction func doneButtonPressed(_ sender: UIButton) {
         
-        if self.mode == .postCamera {
-            print("Go TO Share...")
-        } else {
-            allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
-        }
-        
+        allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
     }
     
     private func fusumaDidFinishInSingleMode() {
@@ -369,7 +364,7 @@ public class FusumaViewController: UIViewController {
             requestImage(with: self.albumView.phAsset, cropRect: cropRect) { (asset, image) in
                 
                 self.delegate?.fusumaImageSelected(image, source: self.mode)
-                
+                self.imageSelected(image, source: self.mode)
                 /*
                 self.dismiss(animated: true, completion: {
                     
@@ -395,7 +390,7 @@ public class FusumaViewController: UIViewController {
             
             print("no image crop ")
             delegate?.fusumaImageSelected(view.image, source: mode)
-            
+            imageSelected(view.image, source: mode)
             /*
             self.dismiss(animated: true) {
             
@@ -474,7 +469,7 @@ public class FusumaViewController: UIViewController {
 
 extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVideoCameraViewDelegate {
     
-    func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {
+    func imageSelected(_ image: UIImage, source: FusumaMode) {
         print("Image Selected")
     }
     
@@ -488,8 +483,7 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
         
         changeMode(.postCamera)
 
-        
-        delegate?.fusumaImageSelected(image, source: mode)
+        //delegate?.fusumaImageSelected(image, source: mode)
         
         /*
         self.dismiss(animated: true) {
