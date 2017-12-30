@@ -14,15 +14,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         
         let index = viewControllers?.index(of: viewController)
         if index == 2 {
-            
-            /*
-            let layout =  UICollectionViewFlowLayout()
-            let photoSelectorController = PhotoSelectorController(collectionViewLayout: layout)
-            let navController = UINavigationController(rootViewController: photoSelectorController)
-            present(navController, animated: true, completion: nil)
-            */
-            
-            //let photoSelectorTabBarController = PhotoSelectorTabBarController()
+
             let fusumaController = FusumaViewController()
             let navController = UINavigationController(rootViewController: fusumaController)
             present(navController, animated: true, completion: nil)

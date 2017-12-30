@@ -10,6 +10,7 @@ import UIKit
 
 class SharePhotoController : UIViewController{
     
+    public var fusumaTitleFont       = UIFont(name: "AvenirNext-DemiBold", size: 15)
     var selectedImage: UIImage?{
         didSet {
             self.imageView.image = selectedImage
@@ -38,11 +39,17 @@ class SharePhotoController : UIViewController{
         super.viewDidLoad()
         view.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         
-        navigationItem.title = "New Post"
+        navigationItem.title = "NEW POST"
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: fusumaTitleFont ?? UIFont.systemFont(ofSize: 15)]
         navigationItem.rightBarButtonItem = shareButton
         navigationItem.leftBarButtonItem = backButton
         
         setupImageAndTextViews()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        textView.endEditing(true)
     }
     
     let imageView: UIImageView = {

@@ -235,10 +235,8 @@
 			isa = PBXGroup;
 			children = (
 				8528FFE11FF5DA6B00FD908F /* FusumaCamera */,
-				85D0062B1FE9BB7800D5463A /* CameraPhotoSelector */,
-				85D0062A1FE9BB5100D5463A /* LibraryPhotoSelector */,
 				85752E0F1FE60BED0002EC3D /* SharePhotoController.swift */,
-				85D006261FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift */,
+				85D98F461FF839F7000C8F2D /* Old Camera */,
 			);
 			path = AddPhoto;
 			sourceTree = "<group>";
@@ -339,6 +337,16 @@
 				85D967A61FE881D200AF82A6 /* CommentCell.swift */,
 			);
 			path = Comment;
+			sourceTree = "<group>";
+		};
+		85D98F461FF839F7000C8F2D /* Old Camera */ = {
+			isa = PBXGroup;
+			children = (
+				85D0062B1FE9BB7800D5463A /* CameraPhotoSelector */,
+				85D0062A1FE9BB5100D5463A /* LibraryPhotoSelector */,
+				85D006261FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift */,
+			);
+			path = "Old Camera";
 			sourceTree = "<group>";
 		};
 		85E8DF1A1FE45E2C00E6FBD6 /* UserProfile */ = {

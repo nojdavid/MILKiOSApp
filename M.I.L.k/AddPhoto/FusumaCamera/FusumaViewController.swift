@@ -122,36 +122,37 @@ public class FusumaViewController: UIViewController {
     @objc lazy var cameraView = FSCameraView.instance()
     @objc lazy var videoView  = FSVideoCameraView.instance()
     
-    lazy var sharePhotoController = SharePhotoController()
+    var sharePhotoController = SharePhotoController()
     
     var firstTimeLoading : Bool = true
     
     lazy var closeButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleClose))
+        button.width = 44
         return button
     }()
     
     @objc func handleClose(){
         self.dismiss(animated: true) {
-            print("Closing..")
             self.delegate?.fusumaClosed()
         }
     }
     
     lazy var doneButton: UIBarButtonItem = {
-        print("Done")
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_check").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDone))
+        let button = UIBarButtonItem(title: "NEXT", style: .plain, target: self, action: #selector(handleDone))
+        button.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15) ], for: .normal)
+        button.tintColor = UIColor.white
         return button
     }()
     
     @objc func handleDone(){
-        
+        allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
         navigationController?.pushViewController(sharePhotoController, animated: true)
     }
     
     lazy var redoButton: UIBarButtonItem = {
-        print("Done")
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleRedo))
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(handleRedo))
+        button.tintColor = UIColor.white
         return button
     }()
     
@@ -185,7 +186,8 @@ public class FusumaViewController: UIViewController {
         videoView.delegate  = self
 
         navigationController?.navigationBar.barTintColor = fusumaBackgroundColor
-
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: fusumaTitleFont ?? UIFont.systemFont(ofSize: 15)]
+        
         albumView.allowMultipleSelection = allowMultipleSelection
         
         let bundle = Bundle(for: self.classForCoder)
