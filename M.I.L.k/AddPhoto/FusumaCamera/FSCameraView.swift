@@ -27,6 +27,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     @objc weak var delegate: FSCameraViewDelegate? = nil
     
     fileprivate var session: AVCaptureSession?
+    public func getSession() -> AVCaptureSession? {return session}
     fileprivate var device: AVCaptureDevice?
     fileprivate var videoInput: AVCaptureDeviceInput?
     fileprivate var imageOutput: AVCaptureStillImageOutput?
@@ -46,7 +47,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
     @objc func initialize() {
         
         if session != nil { return }
-        
+
         self.backgroundColor = fusumaBackgroundColor
         
         let bundle = Bundle(for: self.classForCoder)
@@ -146,7 +147,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         switch AVCaptureDevice.authorizationStatus(for: AVMediaType.video) {
             
         case .authorized:
-            
+   
             session?.startRunning()
             
             motionManager = CMMotionManager()
@@ -263,7 +264,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                 DispatchQueue.main.async(execute: { () -> Void in
                     
                     let image = fusumaCropImage ? UIImage(cgImage: imageRef, scale: sw/iw, orientation: image.imageOrientation) : image
-                    
+
                     delegate.cameraShotFinished(image)
                     
                     if fusumaSavesImage {

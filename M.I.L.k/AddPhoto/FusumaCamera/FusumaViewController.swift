@@ -146,7 +146,10 @@ public class FusumaViewController: UIViewController {
     }()
     
     @objc func handleDone(){
-        allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
+        if self.mode == .library {
+            allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
+        }
+        
         navigationController?.pushViewController(sharePhotoController, animated: true)
     }
     
@@ -331,7 +334,7 @@ public class FusumaViewController: UIViewController {
     }
     
     @IBAction func photoButtonPressed(_ sender: UIButton) {
-    
+
         changeMode(FusumaMode.camera)
     }
     
@@ -463,8 +466,8 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     // MARK: FSCameraViewDelegate
     func cameraShotFinished(_ image: UIImage) {
         
+        sharePhotoController.selectedImage = image
         changeMode(.postCamera)
-
     }
     
     public func albumViewCameraRollAuthorized() {
@@ -539,7 +542,11 @@ private extension FusumaViewController {
             navigationItem.leftBarButtonItem = closeButton
             highlightButton(cameraButton)
             self.view.bringSubview(toFront: cameraShotContainer)
-            cameraView.startCamera()
+            if cameraView.getSession() == nil {
+                cameraView.initialize()
+            }else {
+                cameraView.startCamera()
+            }
             
         case .postCamera:
             navigationItem.leftBarButtonItem = redoButton
