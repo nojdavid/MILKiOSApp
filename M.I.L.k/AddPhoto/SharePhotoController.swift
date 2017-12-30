@@ -16,12 +16,31 @@ class SharePhotoController : UIViewController{
         }
     }
     
+    lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "SHARE", style: .plain, target: self, action: #selector(handleShare))
+        button.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14) ], for: .normal)
+        button.tintColor = UIColor.white
+        return button
+    }()
+    
+    lazy var backButton:UIBarButtonItem = {
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow"), style: .plain, target: self, action: #selector(handleDismiss))
+        button.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12) ], for: .normal)
+        button.tintColor = UIColor.white
+        return button
+    }()
+    
+    @objc func handleDismiss(){
+        navigationController?.popViewController(animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         
         navigationItem.title = "New Post"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(handleShare))
+        navigationItem.rightBarButtonItem = shareButton
+        navigationItem.leftBarButtonItem = backButton
         
         setupImageAndTextViews()
     }

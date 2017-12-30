@@ -20,8 +20,6 @@
 		852800131FF5FB9F00FD908F /* FSVideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852800061FF5FB9E00FD908F /* FSVideoCameraView.swift */; };
 		852800141FF5FB9F00FD908F /* FusumaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 852800071FF5FB9E00FD908F /* FusumaViewController.xib */; };
 		852800151FF5FB9F00FD908F /* FusumaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852800081FF5FB9F00FD908F /* FusumaViewController.swift */; };
-		8528001B1FF6EC3400FD908F /* SharePhotoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8528001A1FF6EC3400FD908F /* SharePhotoView.xib */; };
-		8528001D1FF6EDC800FD908F /* SharePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528001C1FF6EDC800FD908F /* SharePhotoView.swift */; };
 		8544270C1FF4340800D81665 /* SendPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544270B1FF4340800D81665 /* SendPost.swift */; };
 		8544270E1FF4345700D81665 /* LogoutUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544270D1FF4345700D81665 /* LogoutUser.swift */; };
 		854427101FF43CB100D81665 /* SendComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544270F1FF43CB100D81665 /* SendComment.swift */; };
@@ -83,8 +81,6 @@
 		852800061FF5FB9E00FD908F /* FSVideoCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSVideoCameraView.swift; sourceTree = "<group>"; };
 		852800071FF5FB9E00FD908F /* FusumaViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FusumaViewController.xib; sourceTree = "<group>"; };
 		852800081FF5FB9F00FD908F /* FusumaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FusumaViewController.swift; sourceTree = "<group>"; };
-		8528001A1FF6EC3400FD908F /* SharePhotoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SharePhotoView.xib; sourceTree = "<group>"; };
-		8528001C1FF6EDC800FD908F /* SharePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePhotoView.swift; sourceTree = "<group>"; };
 		8528FFFC1FF5FB9D00FD908F /* FSAlbumViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumViewCell.swift; sourceTree = "<group>"; };
 		8528FFFD1FF5FB9E00FD908F /* FSAlbumViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumViewCell.xib; sourceTree = "<group>"; };
 		8528FFFE1FF5FB9E00FD908F /* FSAlbumView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumView.xib; sourceTree = "<group>"; };
@@ -169,8 +165,6 @@
 				852800081FF5FB9F00FD908F /* FusumaViewController.swift */,
 				852800031FF5FB9E00FD908F /* FusumaViewController.swift.orig */,
 				852800071FF5FB9E00FD908F /* FusumaViewController.xib */,
-				8528001A1FF6EC3400FD908F /* SharePhotoView.xib */,
-				8528001C1FF6EDC800FD908F /* SharePhotoView.swift */,
 			);
 			path = FusumaCamera;
 			sourceTree = "<group>";
@@ -449,7 +443,6 @@
 				8528000B1FF5FB9F00FD908F /* FSAlbumView.xib in Resources */,
 				8528000E1FF5FB9F00FD908F /* FSCameraView.xib in Resources */,
 				85E8DF1E1FE466BF00E6FBD6 /* Main.storyboard in Resources */,
-				8528001B1FF6EC3400FD908F /* SharePhotoView.xib in Resources */,
 				8528000A1FF5FB9F00FD908F /* FSAlbumViewCell.xib in Resources */,
 				858E908C1FE2267800E0D8A7 /* LaunchScreen.storyboard in Resources */,
 				852800141FF5FB9F00FD908F /* FusumaViewController.xib in Resources */,
@@ -483,7 +476,6 @@
 				852800151FF5FB9F00FD908F /* FusumaViewController.swift in Sources */,
 				85D967A91FE8844300AF82A6 /* Comment.swift in Sources */,
 				85EAD45A1FEF4639004EDE5E /* DecodeUtilities.swift in Sources */,
-				8528001D1FF6EDC800FD908F /* SharePhotoView.swift in Sources */,
 				85EAD4421FEB5769004EDE5E /* Statue.swift in Sources */,
 				85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */,
 				85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */,
