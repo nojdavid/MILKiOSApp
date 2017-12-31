@@ -14,18 +14,29 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     let headerId = "headerId"
     let homePostCellId = "homePostCellId"
     
+    public enum ProfileMode: Int {
+        
+        case gridView
+        case LikeListView
+        case factView
+    }
+    
+    fileprivate var mode: ProfileMode = .gridView
+    
     var userId: Int?
-    
-    var isGridView = true
-    
+
     func didChangeToGridView() {
-        isGridView = true
+        mode = .gridView
         collectionView?.reloadData()
     }
     
-    func didChangeToListView() {
-        isGridView = false
+    func didChangeToLikeListView() {
+        mode = .LikeListView
         collectionView?.reloadData()
+    }
+    
+    func didChangeToFactsView() {
+        mode = .factView
     }
     
     override func viewDidLoad() {
@@ -38,7 +49,7 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         collectionView?.register(DetailPostCell.self, forCellWithReuseIdentifier: homePostCellId)
         
         setupLogoutButton()
-        
+        print("View did load")
         //NEED TO UPDATE: fetch User tree from DB and store user info in user struct
         fetchUser()
     }
@@ -142,15 +153,17 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if isGridView {
+        if mode == .gridView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
             cell.post = posts[indexPath.item]
             return cell
-        }else {
+        }else {//else if mode == .gridView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: homePostCellId, for: indexPath) as! DetailPostCell
             cell.post = posts[indexPath.item]
             return cell
-        }
+        }/*else if mode == .factView {
+            
+        }*/
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -163,17 +176,19 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if isGridView {
+        if mode == .gridView {
             let width = (view.frame.width - 2) / 3
             return CGSize(width: width, height:width)
-        }else {
+        } else {//else if mode == .gridView {
             var height: CGFloat = 40 + 8 + 8 //username and userprofileImageview
             height += view.frame.width
             height += 50
             height += 60
             
             return CGSize(width: view.frame.width, height: height)
-        }
+        } /*else if mode == .factView {
+            
+        }*/
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

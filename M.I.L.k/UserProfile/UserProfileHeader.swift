@@ -9,8 +9,9 @@
 import UIKit
 
 protocol UserProfileHeaderDelegate {
-    func didChangeToListView()
+    func didChangeToLikeListView()
     func didChangeToGridView()
+    func didChangeToFactsView()
 }
 
 class UserProfileHeader: UICollectionViewCell{
@@ -24,19 +25,24 @@ class UserProfileHeader: UICollectionViewCell{
             
             usernameLabel.text = user?.username
             
-            let currentUserId :Int? =  0
-            guard let currentLoggedInUserId = currentUserId else {return}
-            guard let userId = user?.id else {return}
-            if currentLoggedInUserId == userId{
-                //edit profile
-                editProfileButton.isEnabled = true
-                editProfileButton.backgroundColor = .white
-            }else{
-                //not your profile, make button invisible
-                editProfileButton.isEnabled = false
-                editProfileButton.setTitleColor(.white, for: .normal)
-                editProfileButton.layer.borderColor = UIColor.white.cgColor
-            }
+            setupEditButton()
+        }
+    }
+    
+    fileprivate func setupEditButton(){
+        guard let currentLoggedInUser = getUserFromDisk() else {return}
+        
+        guard let userId = user?.id else {return}
+        
+        if currentLoggedInUser.id == userId {
+            //edit profile button
+            editProfileButton.isEnabled = true
+            editProfileButton.backgroundColor = .white
+        }else {
+            //hide edit profile
+            editProfileButton.isEnabled = false
+            editProfileButton.setTitleColor(.white, for: .normal)
+            editProfileButton.layer.borderColor = UIColor.white.cgColor
         }
     }
     
@@ -55,32 +61,49 @@ class UserProfileHeader: UICollectionViewCell{
     
     @objc func handleChangeToGridView(){
         print("change to grid view")
+        
         gridButton.tintColor = .mainBlue()
-        listButton.tintColor = UIColor(white:0, alpha:0.2)
+        likeListButton.tintColor = UIColor(white:0, alpha:0.2)
+        factsButton.tintColor = UIColor(white:0, alpha:0.2)
+        
         delegate?.didChangeToGridView()
     }
     
-    lazy var listButton: UIButton = {
+    lazy var likeListButton: UIButton = {
+        let button = UIButton(type: UIButtonType.system)
+        button.setImage(#imageLiteral(resourceName: "unselected_like_list"), for: .normal)
+        button.tintColor = UIColor(white: 0, alpha: 0.2)
+        button.addTarget(self, action: #selector(handleChangeToLikeListView), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func handleChangeToLikeListView(){
+        print("change to Like view")
+        
+        likeListButton.tintColor = .mainBlue()
+        gridButton.tintColor = UIColor(white:0, alpha:0.2)
+        factsButton.tintColor = UIColor(white:0, alpha:0.2)
+        
+        delegate?.didChangeToLikeListView()
+    }
+    
+    lazy var factsButton: UIButton = {
         let button = UIButton(type: UIButtonType.system)
         button.setImage(#imageLiteral(resourceName: "list"), for: .normal)
         button.tintColor = UIColor(white: 0, alpha: 0.2)
-        button.addTarget(self, action: #selector(handleChangeToListView), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleChangeToFactsView), for: .touchUpInside)
         return button
     }()
     
-    @objc func handleChangeToListView(){
-        print("change to list view")
-        listButton.tintColor = .mainBlue()
+    @objc func handleChangeToFactsView(){
+        print("change to Facts view")
+        
+        factsButton.tintColor = .mainBlue()
+        likeListButton.tintColor = UIColor(white:0, alpha:0.2)
         gridButton.tintColor = UIColor(white:0, alpha:0.2)
-        delegate?.didChangeToListView()
+        
+        delegate?.didChangeToFactsView()
     }
-    
-    let bookmarkButton: UIButton = {
-        let button = UIButton(type: UIButtonType.system)
-        button.setImage(#imageLiteral(resourceName: "ribbon"), for: .normal)
-        button.tintColor = UIColor(white: 0, alpha: 0.2)
-        return button
-    }()
     
     let usernameLabel: UILabel = {
         let label = UILabel()
@@ -103,6 +126,7 @@ class UserProfileHeader: UICollectionViewCell{
         label.textAlignment = .center
         return label
     }()
+    
     
     let followersLabel: UILabel = {
         let label = UILabel()
@@ -188,7 +212,7 @@ class UserProfileHeader: UICollectionViewCell{
         let bottomDividerView = UIView()
         bottomDividerView.backgroundColor = UIColor.lightGray
         
-        let stackView = UIStackView(arrangedSubviews: [gridButton, listButton, bookmarkButton])
+        let stackView = UIStackView(arrangedSubviews: [gridButton, likeListButton, factsButton])
         
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually

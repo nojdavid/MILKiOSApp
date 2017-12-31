@@ -13,6 +13,15 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     let cellId = "cellId"
     var post: Post?
     
+    lazy var backButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
+        return button
+    }()
+    
+    @objc func handleDismiss(){
+        navigationController?.popViewController(animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,13 +35,9 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         
         navigationItem.title = "Photo"
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(handleBack))
+        navigationItem.leftBarButtonItem = backButton
  
         renderPost()
-    }
-    
-    @objc func handleBack(){
-       navigationController?.popViewController(animated: true)
     }
 
     @objc func handleRefresh(){

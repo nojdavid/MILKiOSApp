@@ -14,11 +14,20 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     let cellId = "cellId"
     var user: User?
     
+    lazy var backButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
+        return button
+    }()
+    
+    @objc func handleDismiss(){
+        navigationController?.popViewController(animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "Comments"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(handleBack))
+        navigationItem.leftBarButtonItem = backButton
         
         collectionView?.backgroundColor = .white
         collectionView?.alwaysBounceVertical = true
@@ -128,14 +137,20 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     }()
     
     @objc func handleTextInputChange(){
-        let isFormValid = commentTextField.text?.count != 0
+        let isFormValid = !((commentTextField.text?.trimmingCharacters(in: .whitespaces).isEmpty)!)
         if isFormValid{
             submitButton.isEnabled = true
             submitButton.setTitleColor(.black, for: .normal)
-        }else{
+        }else if !isFormValid || isFormValid == nil {
             submitButton.isEnabled = false
             submitButton.setTitleColor(UIColor.unselectedGrey(), for: .normal)
         }
+    }
+    
+    func emptyContainerView(){
+        commentTextField.text = ""
+        submitButton.isEnabled = false
+        submitButton.setTitleColor(UIColor.unselectedGrey(), for: .normal)
     }
     
     @objc func handleSend(){
@@ -144,6 +159,8 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         let values = ["text": commentTextField.text ?? "", "creationDate": Date().timeIntervalSince1970, "uid": uid] as [String:Any]
 
         print("sending text", commentTextField.text ?? "")
+        
+        emptyContainerView()
         
         //REMOVE THIS GET USER AND PROPEGATE USERS THROUGH NAV CONTROLLER
         let comment = Comment(user: user!, dictionary: values)

@@ -18,6 +18,7 @@ import Photos
 final class FSCameraView: UIView, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var previewViewContainer: UIView!
+    @IBOutlet weak var actionButtonContainer: UIView!
     @IBOutlet weak var shotButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var flipButton: UIButton!
@@ -49,6 +50,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         if session != nil { return }
 
         self.backgroundColor = fusumaBackgroundColor
+        shouldHideActionButtons(shouldHide: false)
         
         let bundle = Bundle(for: self.classForCoder)
         
@@ -149,6 +151,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
         case .authorized:
    
             session?.startRunning()
+            shouldHideActionButtons(shouldHide: false)
             
             motionManager = CMMotionManager()
             motionManager!.accelerometerUpdateInterval = 0.2
@@ -265,6 +268,7 @@ final class FSCameraView: UIView, UIGestureRecognizerDelegate {
                     
                     let image = fusumaCropImage ? UIImage(cgImage: imageRef, scale: sw/iw, orientation: image.imageOrientation) : image
 
+                    self.shouldHideActionButtons(shouldHide: true)
                     delegate.cameraShotFinished(image)
                     
                     if fusumaSavesImage {
@@ -453,6 +457,12 @@ fileprivate extension FSCameraView {
         } catch _ {
             
             return
+        }
+    }
+    
+    func shouldHideActionButtons(shouldHide: Bool){
+        for case let button as UIButton in actionButtonContainer.subviews {
+            button.isHidden = shouldHide
         }
     }
 
