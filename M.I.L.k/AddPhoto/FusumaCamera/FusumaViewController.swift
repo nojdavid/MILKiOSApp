@@ -123,6 +123,7 @@ public class FusumaViewController: UIViewController {
     @objc lazy var videoView  = FSVideoCameraView.instance()
     
     var sharePhotoController = SharePhotoController()
+    var shareController = ShareController()
     
     var firstTimeLoading : Bool = true
     
@@ -147,10 +148,13 @@ public class FusumaViewController: UIViewController {
     
     @objc func handleDone(){
         if self.mode == .library {
-            allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode()
+            allowMultipleSelection ? fusumaDidFinishInMultipleMode() : fusumaDidFinishInSingleMode(){ () in
+                self.navigationController?.pushViewController(self.shareController, animated: true)
+            }
+        }else{
+            navigationController?.pushViewController(shareController, animated: true)
         }
         
-        navigationController?.pushViewController(sharePhotoController, animated: true)
     }
     
     lazy var redoButton: UIBarButtonItem = {
@@ -343,12 +347,11 @@ public class FusumaViewController: UIViewController {
         changeMode(FusumaMode.video)
     }
     
-    private func fusumaDidFinishInSingleMode() {
+    private func fusumaDidFinishInSingleMode(completionHandler: @escaping () -> Void) {
         
         guard let view = albumView.imageCropView else { return }
         
         if fusumaCropImage {
-            
             let normalizedX = view.contentOffset.x / view.contentSize.width
             let normalizedY = view.contentOffset.y / view.contentSize.height
             
@@ -363,7 +366,7 @@ public class FusumaViewController: UIViewController {
                 self.delegate?.fusumaImageSelected(image, source: self.mode)
                 
                 //SET SHARE PHOTO IMAGE
-                self.sharePhotoController.selectedImage = image
+                self.shareController.selectedImage = image
                 
                 let metaData = ImageMetadata(
                     mediaType: self.albumView.phAsset.mediaType,
@@ -377,6 +380,8 @@ public class FusumaViewController: UIViewController {
                     isHidden: self.albumView.phAsset.isHidden)
                 
                 self.delegate?.fusumaImageSelected(image, source: self.mode, metaData: metaData)
+                
+                completionHandler()
             }
             
         } else {
@@ -385,7 +390,7 @@ public class FusumaViewController: UIViewController {
             delegate?.fusumaImageSelected(view.image, source: mode)
             
             //SET SHARE PHOTO IMAGE
-            sharePhotoController.selectedImage = view.image
+            self.shareController.selectedImage = view.image
         }
     }
     
@@ -413,7 +418,7 @@ public class FusumaViewController: UIViewController {
                 guard let result = result else { return }
                     
                 DispatchQueue.main.async(execute: {
-                    
+                    print("REQUEST COMPLETE")
                     completion(asset, result)
                 })
             }
@@ -466,7 +471,7 @@ extension FusumaViewController: FSAlbumViewDelegate, FSCameraViewDelegate, FSVid
     // MARK: FSCameraViewDelegate
     func cameraShotFinished(_ image: UIImage) {
         
-        sharePhotoController.selectedImage = image
+        shareController.selectedImage = image
         changeMode(.postCamera)
     }
     

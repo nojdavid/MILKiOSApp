@@ -10,7 +10,9 @@ import UIKit
 
 class SharePhotoController : UIViewController{
     
-    public var fusumaTitleFont       = UIFont(name: "AvenirNext-DemiBold", size: 15)
+    
+    
+    public var fusumaTitleFont = UIFont(name: "AvenirNext-DemiBold", size: 15)
     var selectedImage: UIImage?{
         didSet {
             self.imageView.image = selectedImage
@@ -65,10 +67,11 @@ class SharePhotoController : UIViewController{
         return tv
     }()
     
+    var containerView = UIView()
+    
     fileprivate func setupImageAndTextViews(){
-       
-        let containerView = UIView()
-        containerView.backgroundColor = .white
+
+        containerView.backgroundColor = .blue
         
         view.addSubview(containerView)
         
