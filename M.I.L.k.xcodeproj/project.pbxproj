@@ -20,6 +20,7 @@
 		852800131FF5FB9F00FD908F /* FSVideoCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852800061FF5FB9E00FD908F /* FSVideoCameraView.swift */; };
 		852800141FF5FB9F00FD908F /* FusumaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 852800071FF5FB9E00FD908F /* FusumaViewController.xib */; };
 		852800151FF5FB9F00FD908F /* FusumaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852800081FF5FB9F00FD908F /* FusumaViewController.swift */; };
+		853E18A3200D6C0C004AE42C /* TitlesAndFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853E18A2200D6C0C004AE42C /* TitlesAndFonts.swift */; };
 		8544270C1FF4340800D81665 /* SendPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544270B1FF4340800D81665 /* SendPost.swift */; };
 		8544270E1FF4345700D81665 /* LogoutUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544270D1FF4345700D81665 /* LogoutUser.swift */; };
 		854427101FF43CB100D81665 /* SendComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544270F1FF43CB100D81665 /* SendComment.swift */; };
@@ -86,6 +87,7 @@
 		8528FFFD1FF5FB9E00FD908F /* FSAlbumViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumViewCell.xib; sourceTree = "<group>"; };
 		8528FFFE1FF5FB9E00FD908F /* FSAlbumView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumView.xib; sourceTree = "<group>"; };
 		8528FFFF1FF5FB9E00FD908F /* FSVideoCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSVideoCameraView.xib; sourceTree = "<group>"; };
+		853E18A2200D6C0C004AE42C /* TitlesAndFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitlesAndFonts.swift; sourceTree = "<group>"; };
 		8544270B1FF4340800D81665 /* SendPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPost.swift; sourceTree = "<group>"; };
 		8544270D1FF4345700D81665 /* LogoutUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUser.swift; sourceTree = "<group>"; };
 		8544270F1FF43CB100D81665 /* SendComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendComment.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				854827701FE34E7A007031E7 /* Extensions.swift */,
 				85752E161FE623D60002EC3D /* CustomImageView.swift */,
 				85EAD45D1FF0365F004EDE5E /* CustomUserError.swift */,
+				853E18A2200D6C0C004AE42C /* TitlesAndFonts.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -505,6 +508,7 @@
 				85752E0E1FE4BA0C0002EC3D /* PhotoSelectorHeader.swift in Sources */,
 				8528000D1FF5FB9F00FD908F /* FSCameraView.swift in Sources */,
 				85752E071FE486D30002EC3D /* LoginController.swift in Sources */,
+				853E18A3200D6C0C004AE42C /* TitlesAndFonts.swift in Sources */,
 				854827711FE34E7A007031E7 /* Extensions.swift in Sources */,
 				852800091FF5FB9F00FD908F /* FSAlbumViewCell.swift in Sources */,
 				85EAD43B1FEB2576004EDE5E /* HomeCollectionController.swift in Sources */,

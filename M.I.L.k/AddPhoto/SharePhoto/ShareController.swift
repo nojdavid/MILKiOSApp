@@ -12,7 +12,6 @@ import UIKit
 //
 class ShareController: UITableViewController {
     
-    public var navigationTitleFont = UIFont(name: "AvenirNext-DemiBold", size: 15)
     var selectedImage: UIImage?{
         didSet{
             tableView.reloadData()
@@ -24,15 +23,15 @@ class ShareController: UITableViewController {
     //
     
     lazy var shareButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "SHARE", style: .plain, target: self, action: #selector(handleShare))
-        button.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14) ], for: .normal)
-        button.tintColor = UIColor.white
+        let button = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(handleShare))
+        button.setTitleTextAttributes([NSAttributedStringKey.font: navigationButtonFont ], for: .normal)
+        button.tintColor = UIColor.mainBlue()
         return button
     }()
     
     lazy var backButton:UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow"), style: .plain, target: self, action: #selector(handleDismiss))
-        button.tintColor = UIColor.white
+        button.tintColor = UIColor.black
         return button
     }()
     
@@ -89,7 +88,8 @@ class ShareController: UITableViewController {
         super.viewDidLoad()
         
         navigationItem.title = "New Post"
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: fusumaTitleFont ?? UIFont.systemFont(ofSize: 15)]
+        //navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: navigationTitleFont ?? UIFont.systemFont(ofSize: 20)]
+        print(navigationTitleFont)
         navigationItem.rightBarButtonItem = shareButton
         navigationItem.leftBarButtonItem = backButton
         

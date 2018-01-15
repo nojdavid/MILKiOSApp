@@ -47,9 +47,9 @@ public extension FusumaDelegate {
     func fusumaWillClosed() {}
 }
 
-public var fusumaBaseTintColor   = UIColor.hex("#FFFFFF", alpha: 1.0)
-public var fusumaTintColor       = UIColor.hex("#F38181", alpha: 1.0)
-public var fusumaBackgroundColor = UIColor.hex("#3B3D45", alpha: 1.0)
+public var fusumaBaseTintColor   = UIColor.lightGray //hex("#FFFFFF", alpha: 1.0)
+public var fusumaTintColor       = UIColor.black //hex("#F38181", alpha: 1.0)
+public var fusumaBackgroundColor = UIColor.white //hex("#3B3D45", alpha: 1.0)
 
 public var fusumaAlbumImage: UIImage?
 public var fusumaCameraImage: UIImage?
@@ -68,10 +68,9 @@ public var fusumaCropImage: Bool  = true
 
 public var fusumaSavesImage: Bool = false
 
-public var fusumaCameraRollTitle = "CAMERA ROLL"
-public var fusumaCameraTitle     = "PHOTO"
-public var fusumaVideoTitle      = "VIDEO"
-public var fusumaTitleFont       = UIFont(name: "AvenirNext-DemiBold", size: 15)
+public var fusumaCameraRollTitle = "Camera Roll"
+public var fusumaCameraTitle     = "Photo"
+public var fusumaVideoTitle      = "Video"
 
 public var fusumaTintIcons: Bool = true
 
@@ -127,7 +126,8 @@ public class FusumaViewController: UIViewController {
     var firstTimeLoading : Bool = true
     
     lazy var closeButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleClose))
+        let button = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(handleClose))
+        button.tintColor = UIColor.gray
         button.width = 44
         return button
     }()
@@ -139,9 +139,9 @@ public class FusumaViewController: UIViewController {
     }
     
     lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "NEXT", style: .plain, target: self, action: #selector(handleDone))
-        button.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15) ], for: .normal)
-        button.tintColor = UIColor.white
+        let button = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handleDone))
+        button.setTitleTextAttributes([NSAttributedStringKey.font: navigationButtonFont ], for: .normal)
+        button.tintColor = UIColor.mainBlue()
         return button
     }()
     
@@ -153,12 +153,11 @@ public class FusumaViewController: UIViewController {
         }else{
             navigationController?.pushViewController(shareController, animated: true)
         }
-        
     }
     
     lazy var redoButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(handleRedo))
-        button.tintColor = UIColor.white
+        button.tintColor = UIColor.black
         return button
     }()
     
@@ -192,7 +191,7 @@ public class FusumaViewController: UIViewController {
         videoView.delegate  = self
 
         navigationController?.navigationBar.barTintColor = fusumaBackgroundColor
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: fusumaTitleFont ?? UIFont.systemFont(ofSize: 15)]
+        //navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: navigationTitleFont ?? UIFont.systemFont(ofSize: 20)]
         
         albumView.allowMultipleSelection = allowMultipleSelection
         
@@ -245,10 +244,7 @@ public class FusumaViewController: UIViewController {
         photoLibraryViewerContainer.addSubview(albumView)
         cameraShotContainer.addSubview(cameraView)
         videoShotContainer.addSubview(videoView)
-        
-        //titleLabel.textColor = fusumaBaseTintColor
-        //titleLabel.font      = fusumaTitleFont
-        
+
         if !hasVideo {
             
             videoButton.removeFromSuperview()

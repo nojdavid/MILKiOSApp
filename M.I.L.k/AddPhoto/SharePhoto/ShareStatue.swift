@@ -17,12 +17,10 @@ protocol ShareStatueDelegate {
 class ShareStatue : UITableViewController {
     
     var delegate: ShareStatueDelegate?
-    
-    public var navigationTitleFont = UIFont(name: "AvenirNext-DemiBold", size: 15)
-    
+
     lazy var cancelButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-        button.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14) ], for: .normal)
+        button.setTitleTextAttributes([NSAttributedStringKey.font: navigationButtonFont ], for: .normal)
         button.tintColor = UIColor.black
         return button
     }()
@@ -37,9 +35,8 @@ class ShareStatue : UITableViewController {
         super.viewDidLoad()
         
         navigationItem.title = "Statues"
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: fusumaTitleFont ?? UIFont.systemFont(ofSize: 15)]
-        
-        
+        //navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: navigationTitleFont ?? UIFont.systemFont(ofSize: 20)]
+
         items = Statue.StatueNames
         
         navigationItem.rightBarButtonItem = cancelButton
