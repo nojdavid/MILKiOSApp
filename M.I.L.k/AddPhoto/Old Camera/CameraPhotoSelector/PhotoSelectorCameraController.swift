@@ -96,7 +96,7 @@ class PhotoSelectorCameraController : UIViewController, AVCapturePhotoCaptureDel
     }()
     
     @objc func handleNext(){
-        let sharePhotoController = SharePhotoController()
+        let sharePhotoController = ShareController()
         sharePhotoController.selectedImage = outputContainerView?.previewIamgeView.image
         navigationController?.pushViewController(sharePhotoController, animated: true)
     }

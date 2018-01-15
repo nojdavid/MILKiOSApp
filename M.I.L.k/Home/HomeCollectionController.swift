@@ -16,7 +16,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
         super.viewDidLoad()
         
         //UPDATE FEED WHEN SOMEONE SHARES A NEW PHOTO
-        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: SharePhotoController.updateFeedNotificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: ShareController.updateFeedNotificationName, object: nil)
         
         //MANUAL SCROLL REFRESH
         let refreshControl = UIRefreshControl()

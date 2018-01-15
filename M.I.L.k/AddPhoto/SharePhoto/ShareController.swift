@@ -19,9 +19,6 @@ class ShareController: UITableViewController {
         }
     }
     
-    private let headerId = "headerId"
-    private let cellId = "cellId"
-    
     //
     // MARK: BUTTONS
     //
@@ -47,13 +44,12 @@ class ShareController: UITableViewController {
     // MARK :- HEADER
     //
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
         return 100
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: headerId) as! CustomTableViewHeader
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: CustomTableViewHeader.identifier) as! CustomTableViewHeader
         
         header.selectedImage = self.selectedImage
         return header
@@ -64,36 +60,35 @@ class ShareController: UITableViewController {
     //
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        print(indexPath.item)
         if indexPath.item == 0 {
-            let locationController = UIViewController()
-            let navController = UINavigationController(rootViewController: locationController)
-            present(navController, animated: true, completion: nil)
+            if tableView.cellForRow(at: indexPath)?.selectionStyle != UITableViewCellSelectionStyle.none {
+                let statueController = ShareStatue()
+                statueController.delegate = tableView.cellForRow(at: indexPath) as! CustomTableCell
+                let navController = UINavigationController(rootViewController: statueController)
+                present(navController, animated: true, completion: nil)
+            }
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return 1
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        return 75
+        return 80
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CustomTableCell
-        cell.selectionStyle = .none
+        let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableCell.identifier, for: indexPath) as! CustomTableCell
+        cell.selectionStyle = .default
         return cell
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "NEW POST"
+        navigationItem.title = "New Post"
         navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: fusumaTitleFont ?? UIFont.systemFont(ofSize: 15)]
         navigationItem.rightBarButtonItem = shareButton
         navigationItem.leftBarButtonItem = backButton
@@ -107,8 +102,10 @@ class ShareController: UITableViewController {
     
     func setupTableView() {
         tableView.backgroundColor = .white
-        tableView.register(CustomTableViewHeader.self, forHeaderFooterViewReuseIdentifier: headerId)
-        tableView.register(CustomTableCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(CustomTableViewHeader.self, forHeaderFooterViewReuseIdentifier: CustomTableViewHeader.identifier)
+        tableView.register(CustomTableCell.self, forCellReuseIdentifier: CustomTableCell.identifier)
+        
+        tableView.separatorStyle = .none
         
         let view = UIView()
         view.backgroundColor = .white
@@ -156,6 +153,8 @@ class ShareController: UITableViewController {
 //
 class CustomTableViewHeader: UITableViewHeaderFooterView {
     
+    static var identifier  = "headerId"
+    
     var selectedImage: UIImage?{
         didSet {
             self.imageView.image = selectedImage
@@ -195,12 +194,41 @@ class CustomTableViewHeader: UITableViewHeaderFooterView {
 //
 // MARK :- CELL
 //
-class CustomTableCell: UITableViewCell {
+class CustomTableCell: UITableViewCell, ShareStatueDelegate {
+    
+    lazy var removeStatueButton : UIButton = {
+        let button = UIButton(type: UIButtonType.system)
+        button.setImage(#imageLiteral(resourceName: "ic_close"), for: .normal)
+        button.tintColor = UIColor.gray
+        button.addTarget(self, action: #selector(removeStatue), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func removeStatue(){
+        removeStatueButton.removeFromSuperview()
+        
+        accessoryType = .disclosureIndicator
+        selectionStyle = .default
+        textLabel?.text = "Add Statue Location"
+    }
+    
+    func selectStatueCell(StatueName: String) {
+
+        textLabel?.text = StatueName
+        accessoryType = .none
+        selectionStyle = .none
+        
+        self.addSubview(removeStatueButton)
+        removeStatueButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 30, paddingRight: 10, width: 20, height: 20)
+    }
+    
+    
+    static var identifier = "cellId"
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        textLabel?.text = "Statue Location"
+        textLabel?.text = "Add Statue Location"
         
         textLabel?.textAlignment = .left
         accessoryType = .disclosureIndicator

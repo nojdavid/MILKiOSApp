@@ -122,7 +122,6 @@ public class FusumaViewController: UIViewController {
     @objc lazy var cameraView = FSCameraView.instance()
     @objc lazy var videoView  = FSVideoCameraView.instance()
     
-    var sharePhotoController = SharePhotoController()
     var shareController = ShareController()
     
     var firstTimeLoading : Bool = true
