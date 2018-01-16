@@ -9,16 +9,10 @@
 import MapKit
 import UIKit
 
-protocol StatueSelectionControllerDelegate {
-    func didSelectCell(statue: Statue)
-}
+class StatueSelectionController : UITableViewController  {
 
-class StatueSelectionController : UICollectionViewController, UICollectionViewDelegateFlowLayout  {
+    var handleMapSearchDelegate: HandleMapSearch? = nil
 
-    var delegate: StatueSelectionControllerDelegate?
-    
-    let cellId = "cellId"
-    
     var statues = [Statue]()
     var filteredStatues = [Statue]()
 
@@ -26,19 +20,16 @@ class StatueSelectionController : UICollectionViewController, UICollectionViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView?.backgroundColor = .white
-        collectionView?.layer.cornerRadius = 10
-        collectionView?.register(StatueSelectionCell.self, forCellWithReuseIdentifier: cellId)
+        tableView?.backgroundColor = .white
+        tableView?.layer.cornerRadius = 10
+        tableView.register(StatueSelectionCell.self, forCellReuseIdentifier: StatueSelectionCell.identifier )
         initializeStatues()
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("touched")
-        delegate?.didSelectCell(statue: filteredStatues[indexPath.item])
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 40)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let statue = filteredStatues[indexPath.item]
+        handleMapSearchDelegate?.ZoomToLocation(coordinate: statue.coordinate)
+        dismiss(animated: true, completion: nil)
     }
     
     fileprivate func initializeStatues(){
@@ -46,14 +37,19 @@ class StatueSelectionController : UICollectionViewController, UICollectionViewDe
         filteredStatues = statues
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredStatues.count
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! StatueSelectionCell
-        
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: StatueSelectionCell.identifier, for: indexPath) as! StatueSelectionCell
         cell.statue = filteredStatues[indexPath.item]
+        let selectedItem = filteredStatues[indexPath.item].mapItem()
+        cell.textLabel?.text = selectedItem.name
+        print("SELECTED ITEM::  ", selectedItem)
+        
+        //TODO:: GET STATUE WITH PLACEMARK TO SHOW REAL STREET LOCATIONS
+        //cell.detailTextLabel?.text = self.parseAddress(selectedItem: mkPlacemark)
         
         return cell
     }
@@ -97,6 +93,6 @@ extension StatueSelectionController : UISearchResultsUpdating {
             }
         }
         
-        self.collectionView?.reloadData()
+        self.tableView?.reloadData()
     }
 }

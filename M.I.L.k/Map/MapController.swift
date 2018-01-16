@@ -9,6 +9,10 @@
 import UIKit
 import MapKit
 
+protocol HandleMapSearch {
+    func ZoomToLocation(coordinate: CLLocationCoordinate2D)
+}
+
 class MapController : UIViewController, MKMapViewDelegate {
 
     //
@@ -73,7 +77,6 @@ class MapController : UIViewController, MKMapViewDelegate {
         userLocationButton.anchor(top: nil, left: nil, bottom: mapView?.bottomAnchor, right: mapView?.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 15, paddingRight: 15, width: 40, height: 40)
         
         
-        
         //MARK :- Add pin info
         loadInitialMapData()
     }
@@ -108,8 +111,10 @@ class MapController : UIViewController, MKMapViewDelegate {
     
     fileprivate func initializeSearchBar(){
         
-        let statueSearchTable = StatueSelectionController(collectionViewLayout: UICollectionViewFlowLayout())
+        let statueSearchTable = StatueSelectionController()
         statueSearchTable.mapView = mapView
+        statueSearchTable.handleMapSearchDelegate = self
+        
         resultSearchController = UISearchController(searchResultsController: statueSearchTable)
         resultSearchController?.searchResultsUpdater = statueSearchTable
         
@@ -133,7 +138,6 @@ class MapController : UIViewController, MKMapViewDelegate {
         
         mapView?.isZoomEnabled = true
         mapView?.isScrollEnabled = true
-        //mapView?.center = view.center
         
         view.addSubview(mapView!)
         
@@ -160,10 +164,8 @@ extension MapController : CLLocationManagerDelegate {
     }
 }
 
-extension MapController : StatueSelectionControllerDelegate {
-    func didSelectCell(statue: Statue){
-        print("didSelectCell")
-        //animateOut()
-        centerMapOnLocation(location: statue.coordinate)
+extension MapController : HandleMapSearch {
+    func ZoomToLocation(coordinate: CLLocationCoordinate2D) {
+        centerMapOnLocation(location: coordinate)
     }
 }

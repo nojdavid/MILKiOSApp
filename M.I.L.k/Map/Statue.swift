@@ -10,17 +10,20 @@ import Foundation
 import MapKit
 import Contacts
 
+
 class Statue: NSObject, MKAnnotation {
     let title: String?
     let locationName: String
     let discipline: String
     let coordinate: CLLocationCoordinate2D
+    //let placeMark: MKPlacemark
     
     init(title: String, locationName: String, discipline: String, coordinate: CLLocationCoordinate2D) {
         self.title = title
         self.locationName = locationName
         self.discipline = discipline
         self.coordinate = coordinate
+        //self.placeMark = placeMark
         
         super.init()
     }
@@ -40,6 +43,28 @@ class Statue: NSObject, MKAnnotation {
         let mapItem = MKMapItem(placemark: placemark)
         mapItem.name = title
         return mapItem
+    }
+    
+    static func getPlacemark(forLocation location: CLLocationCoordinate2D, completionHandler: @escaping (CLPlacemark?, String?) -> ()) {
+        let newLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
+        let geocoder = CLGeocoder()
+        
+        geocoder.reverseGeocodeLocation(newLocation, completionHandler: {
+            placemarks, error in
+            
+            if let err = error {
+                completionHandler(nil, err.localizedDescription)
+            } else if let placemarkArray = placemarks {
+                if let placemark = placemarkArray.first {
+                    completionHandler(placemark, nil)
+                } else {
+                    completionHandler(nil, "Placemark was nil")
+                }
+            } else {
+                completionHandler(nil, "Unknown error")
+            }
+        })
+        
     }
     
     static func getStatues() -> [Statue]{
