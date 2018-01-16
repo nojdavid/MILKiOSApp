@@ -15,8 +15,7 @@ class StatueSelectionCell: UICollectionViewCell {
             statueLabel.text = statue?.title
         }
     }
-    
-    
+
     let statueLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
