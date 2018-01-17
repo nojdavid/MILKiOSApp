@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 protocol HandleCloseSheetDelegate {
     func handleClose(statue: Statue)
@@ -22,7 +23,9 @@ class StatueDetailSheetController : UIViewController {
             
             attributedText.append(NSAttributedString(string: "\n\n",attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 4)]))
             
-            attributedText.append(NSAttributedString(string: "statue made by: Person", attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
+            attributedText.append(NSAttributedString(string: "statue made by: ", attributes:[NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)]))
+            
+            attributedText.append(NSAttributedString(string: "Person", attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
             
             titleLabel.attributedText = attributedText
         }
@@ -36,7 +39,6 @@ class StatueDetailSheetController : UIViewController {
     
     let containerView : UIView = {
         let view = UIView()
-        view.backgroundColor = .white
         return view
     }()
     
@@ -58,15 +60,30 @@ class StatueDetailSheetController : UIViewController {
         delegate?.handleClose(statue: statue!)
     }
     
+    let directionsButton : UIButton = {
+        let button = UIButton(type: UIButtonType.system)
+        //button.setTitle("Directions", for: .normal)
+        let attributedText = NSMutableAttributedString(string: "Directions", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.white])
+        button.setAttributedTitle(attributedText, for: .normal)
+        button.addTarget(self, action: #selector(handleDirections), for: .touchUpInside)
+        button.backgroundColor = UIColor.mainBlue()
+        return button
+    }()
+    
+    @objc func handleDirections(){
+        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+        statue?.mapItem().openInMaps(launchOptions: launchOptions)
+    }
+    
     let fullView: CGFloat = 100
     var partialView: CGFloat {
-        return UIScreen.main.bounds.height - (60 + UIApplication.shared.statusBarFrame.height + (tabBarController?.tabBar.bounds.height)!)
+        return UIScreen.main.bounds.height - (directionsButton.frame.maxY + UIApplication.shared.statusBarFrame.height + (tabBarController?.tabBar.bounds.height)!)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.white
+        //view.backgroundColor = UIColor.white
         
         view.addSubview(holdView)
         holdView.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 30, height: 5)
@@ -91,12 +108,15 @@ class StatueDetailSheetController : UIViewController {
         containerView.addSubview(titleLabel)
         titleLabel.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, bottom: nil, right: closeButton.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         
+        containerView.addSubview(directionsButton)
+        directionsButton.anchor(top: titleLabel.bottomAnchor, left: containerView.leftAnchor, bottom: nil, right: containerView.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 5, width: 0, height: 50)
+        
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //prepareBackgroundView()
+        prepareBackgroundView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -136,13 +156,15 @@ class StatueDetailSheetController : UIViewController {
     }
     
     func roundViews() {
+        view.layer.cornerRadius = 20
         holdView.layer.cornerRadius = 3
         closeButton.layer.cornerRadius = 20/2
+        directionsButton.layer.cornerRadius = 10
         view.clipsToBounds = true
     }
     
     func prepareBackgroundView(){
-        let blurEffect = UIBlurEffect.init(style: .dark)
+        let blurEffect = UIBlurEffect.init(style: .extraLight)
         let visualEffect = UIVisualEffectView.init(effect: blurEffect)
         let bluredView = UIVisualEffectView.init(effect: blurEffect)
         bluredView.contentView.addSubview(visualEffect)

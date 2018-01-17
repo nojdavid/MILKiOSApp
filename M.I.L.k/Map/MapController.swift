@@ -16,7 +16,7 @@ protocol HandleMapSearch {
 class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
 
     //
-    // MARK :- BUTTON
+    // MARK :- BUTTONS
     //
     let userLocationButton : UIButton = {
         let button = UIButton(type: UIButtonType.system)
@@ -34,11 +34,11 @@ class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
     var mapView: MKMapView?
     var statues: [Statue] = []
     var resultSearchController : UISearchController? = nil
+    var bottomSheetVC: StatueDetailSheetController? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //navigationItem.title = "Map"
+
         view.backgroundColor = .white
         
         initializeMapView()
@@ -59,20 +59,7 @@ class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
         super.viewDidAppear(animated)
     }
     
-    func centerMapOnLocation(location: CLLocationCoordinate2D) {
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        let region = MKCoordinateRegion(center: location, span: span)
-        mapView?.setRegion(region, animated: true)
-    }
- 
-    
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
-                 calloutAccessoryControlTapped control: UIControl) {
-        let location = view.annotation as! Statue
-        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-        location.mapItem().openInMaps(launchOptions: launchOptions)
-    }
-    
+    //MARK :- INITIAIZE MAP
     fileprivate func loadInitialMapData(){
         mapView?.register(StatueMarkerView.self,
                           forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
@@ -108,27 +95,6 @@ class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
         definesPresentationContext = true
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        if bottomSheetVC != nil {
-            if mapView?.selectedAnnotations.isEmpty == false {
-                mapView?.deselectAnnotation(mapView?.selectedAnnotations[0], animated: true)
-            }
-            removeBottomSheet()
-        }
-    }
-    
-    func removeBottomSheet(){
-        resultSearchController!.searchBar.text = ""
-        UIView.animate(withDuration: 0.6, animations: {
-            let frame = self.view.frame
-            self.bottomSheetVC?.view.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: frame.width, height: frame.height)
-        }) { (_) in
-            self.bottomSheetVC?.view.removeFromSuperview()
-            self.bottomSheetVC?.removeFromParentViewController()
-            self.bottomSheetVC = nil
-        }
-    }
-    
     fileprivate func initializeMapView(){
         
         mapView = MKMapView()
@@ -145,25 +111,55 @@ class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
         mapView?.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
+    //MARK :- SEARCH FUNCTIONS
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        if bottomSheetVC != nil {
+            print("Cancel Pressed:: True")
+            if mapView?.selectedAnnotations.isEmpty == false {
+                mapView?.deselectAnnotation(mapView?.selectedAnnotations[0], animated: true)
+            }
+            removeBottomSheet()
+            return
+        }
+        print("Cancel Pressed:: False")
+    }
+    
+    //MARK :- MAP FUNCTIONS
+    func centerMapOnLocation(location: CLLocationCoordinate2D) {
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let region = MKCoordinateRegion(center: location, span: span)
+        mapView?.setRegion(region, animated: true)
+    }
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation
         {
             return
         }
         
-        if bottomSheetVC != nil {
-            removeBottomSheet()
-        }
-
         let statue = view.annotation as! Statue
-        centerMapOnLocation(location: statue.coordinate)
-        
         resultSearchController!.searchBar.text = statue.title
-        addBottomSheetView(statue: statue)
+        //centerMapOnLocation(location: statue.coordinate)
+        
+        if bottomSheetVC != nil {
+            updateBottomSheet(statue: statue)
+        }else{
+            addBottomSheetView(statue: statue)
+        }
     }
     
-    var bottomSheetVC: StatueDetailSheetController? = nil
+    /*
+     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
+     calloutAccessoryControlTapped control: UIControl) {
+     let location = view.annotation as! Statue
+     let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+     location.mapItem().openInMaps(launchOptions: launchOptions)
+     }
+     */
+    
+    //MARK :- SHEET FUNCTIONS
     func addBottomSheetView(statue: Statue) {
+
         // 1- Init bottomSheetVC
         bottomSheetVC = StatueDetailSheetController()
         bottomSheetVC?.delegate = self
@@ -179,8 +175,26 @@ class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
         let width  = view.frame.width
         bottomSheetVC?.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
     }
+    
+    func updateBottomSheet(statue: Statue){
+        bottomSheetVC?.statue = statue
+    }
+    
+    func removeBottomSheet(){
+        print("REMOVE BOTTOM SHEET")
+        resultSearchController!.searchBar.text = ""
+        UIView.animate(withDuration: 0.6, animations: {
+            let frame = self.view.frame
+            self.bottomSheetVC?.view.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: frame.width, height: frame.height)
+        }) { (_) in
+            self.bottomSheetVC?.view.removeFromSuperview()
+            self.bottomSheetVC?.removeFromParentViewController()
+            self.bottomSheetVC = nil
+        }
+    }
 }
 
+//MARK :- CLLocationManager
 extension MapController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
@@ -200,6 +214,7 @@ extension MapController : CLLocationManagerDelegate {
     }
 }
 
+//MARK :- SHEET CLOSE BUTTON DELEGATE
 extension MapController : HandleCloseSheetDelegate {
     func handleClose(statue: Statue) {
         removeBottomSheet()
@@ -207,18 +222,14 @@ extension MapController : HandleCloseSheetDelegate {
     }
 }
 
+//MARK :- SEARCH TABLE CELL SELECT
 extension MapController : HandleMapSearch {
     func DisplayLocation(statue: Statue) {
-        
-        if bottomSheetVC != nil {
-            removeBottomSheet()
+        for s in (mapView?.annotations)! {
+            if (statue.coordinate.latitude == s.coordinate.latitude) && (statue.coordinate.longitude == s.coordinate.longitude) {
+                centerMapOnLocation(location: s.coordinate)
+                mapView?.selectAnnotation( s, animated: true)
+            }
         }
-
-        resultSearchController!.searchBar.text = statue.title
-        addBottomSheetView(statue: statue)
- 
-        centerMapOnLocation(location: statue.coordinate)
- 
-        mapView?.selectAnnotation(statue, animated: false)
     }
 }
