@@ -28,7 +28,7 @@ class StatueSelectionController : UITableViewController  {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let statue = filteredStatues[indexPath.item]
-        handleMapSearchDelegate?.ZoomToLocation(coordinate: statue.coordinate)
+        handleMapSearchDelegate?.DisplayLocation(statue: statue)
         dismiss(animated: true, completion: nil)
     }
     
@@ -46,7 +46,7 @@ class StatueSelectionController : UITableViewController  {
         cell.statue = filteredStatues[indexPath.item]
         let selectedItem = filteredStatues[indexPath.item].mapItem()
         cell.textLabel?.text = selectedItem.name
-        print("SELECTED ITEM::  ", selectedItem)
+        //print("SELECTED ITEM::  ", selectedItem)
         
         //TODO:: GET STATUE WITH PLACEMARK TO SHOW REAL STREET LOCATIONS
         //cell.detailTextLabel?.text = self.parseAddress(selectedItem: mkPlacemark)
@@ -80,6 +80,7 @@ class StatueSelectionController : UITableViewController  {
 }
 
 extension StatueSelectionController : UISearchResultsUpdating {
+    
     func updateSearchResults(for searchController: UISearchController) {
         
         guard let searchBarText = searchController.searchBar.text else {return}

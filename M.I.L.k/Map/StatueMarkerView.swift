@@ -10,10 +10,14 @@ import Foundation
 import MapKit
 
 class StatueMarkerView: MKMarkerAnnotationView {
+    
+    var statue: Statue?
+    
     override var annotation: MKAnnotation? {
         willSet {
             guard let statue = newValue as? Statue else { return }
-            canShowCallout = true
+            self.statue = statue
+            canShowCallout = false
             calloutOffset = CGPoint(x: -5, y: 5)
             let mapsButton = UIButton(frame: CGRect(origin: CGPoint.zero,
                                                     size: CGSize(width: 30, height: 30)))

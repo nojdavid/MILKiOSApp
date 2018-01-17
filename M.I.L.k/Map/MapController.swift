@@ -10,10 +10,10 @@ import UIKit
 import MapKit
 
 protocol HandleMapSearch {
-    func ZoomToLocation(coordinate: CLLocationCoordinate2D)
+    func DisplayLocation(statue: Statue)
 }
 
-class MapController : UIViewController, MKMapViewDelegate {
+class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
 
     //
     // MARK :- BUTTON
@@ -29,32 +29,6 @@ class MapController : UIViewController, MKMapViewDelegate {
         guard let location = locationManager.location?.coordinate else {return}
         centerMapOnLocation(location: location)
     }
-    
-    /*
-    func animateIn(){
-        containerView.alpha = 0
-        containerView.transform = CGAffineTransform.init(scaleX: 1.3, y:1.3)
-        UIView.animate(withDuration: 0.5) {
-            self.containerView.alpha = 1
-            self.containerView.transform = CGAffineTransform.identity
-            
-            //self.mapView?.alpha = 0.6
-            //self.mapView?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        }
-    }
-    
-    func animateOut(){
-        UIView.animate(withDuration: 0.3, animations: {
-            self.containerView.transform = CGAffineTransform.init(scaleX: 1.3, y:1.3)
-            self.containerView.alpha = 0
-            
-            //self.mapView?.alpha = 1
-            //self.mapView?.backgroundColor = UIColor.black.withAlphaComponent(0)
-        }) { (success:Bool) in
-            self.statueSelection?.removeFromParentViewController()
-        }
-    }
-    */
 
     let locationManager = CLLocationManager()
     var mapView: MKMapView?
@@ -79,6 +53,10 @@ class MapController : UIViewController, MKMapViewDelegate {
         
         //MARK :- Add pin info
         loadInitialMapData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     func centerMapOnLocation(location: CLLocationCoordinate2D) {
@@ -123,9 +101,32 @@ class MapController : UIViewController, MKMapViewDelegate {
         searchBar.placeholder = "Search for Statues"
         navigationItem.titleView = resultSearchController?.searchBar
         
+        searchBar.delegate = self
+        
         resultSearchController?.hidesNavigationBarDuringPresentation = false
         resultSearchController?.dimsBackgroundDuringPresentation = true
         definesPresentationContext = true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        if bottomSheetVC != nil {
+            if mapView?.selectedAnnotations.isEmpty == false {
+                mapView?.deselectAnnotation(mapView?.selectedAnnotations[0], animated: true)
+            }
+            removeBottomSheet()
+        }
+    }
+    
+    func removeBottomSheet(){
+        resultSearchController!.searchBar.text = ""
+        UIView.animate(withDuration: 0.6, animations: {
+            let frame = self.view.frame
+            self.bottomSheetVC?.view.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: frame.width, height: frame.height)
+        }) { (_) in
+            self.bottomSheetVC?.view.removeFromSuperview()
+            self.bottomSheetVC?.removeFromParentViewController()
+            self.bottomSheetVC = nil
+        }
     }
     
     fileprivate func initializeMapView(){
@@ -142,6 +143,41 @@ class MapController : UIViewController, MKMapViewDelegate {
         view.addSubview(mapView!)
         
         mapView?.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.annotation is MKUserLocation
+        {
+            return
+        }
+        
+        if bottomSheetVC != nil {
+            removeBottomSheet()
+        }
+
+        let statue = view.annotation as! Statue
+        centerMapOnLocation(location: statue.coordinate)
+        
+        resultSearchController!.searchBar.text = statue.title
+        addBottomSheetView(statue: statue)
+    }
+    
+    var bottomSheetVC: StatueDetailSheetController? = nil
+    func addBottomSheetView(statue: Statue) {
+        // 1- Init bottomSheetVC
+        bottomSheetVC = StatueDetailSheetController()
+        bottomSheetVC?.delegate = self
+        bottomSheetVC?.statue = statue
+        
+        // 2- Add bottomSheetVC as a child view
+        self.addChildViewController(bottomSheetVC!)
+        self.view.addSubview(bottomSheetVC!.view)
+        bottomSheetVC?.didMove(toParentViewController: self)
+        
+        // 3- Adjust bottomSheet frame and initial position.
+        let height = view.frame.height
+        let width  = view.frame.width
+        bottomSheetVC?.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
     }
 }
 
@@ -164,8 +200,25 @@ extension MapController : CLLocationManagerDelegate {
     }
 }
 
+extension MapController : HandleCloseSheetDelegate {
+    func handleClose(statue: Statue) {
+        removeBottomSheet()
+        mapView?.deselectAnnotation(statue, animated: true)
+    }
+}
+
 extension MapController : HandleMapSearch {
-    func ZoomToLocation(coordinate: CLLocationCoordinate2D) {
-        centerMapOnLocation(location: coordinate)
+    func DisplayLocation(statue: Statue) {
+        
+        if bottomSheetVC != nil {
+            removeBottomSheet()
+        }
+
+        resultSearchController!.searchBar.text = statue.title
+        addBottomSheetView(statue: statue)
+ 
+        centerMapOnLocation(location: statue.coordinate)
+ 
+        mapView?.selectAnnotation(statue, animated: false)
     }
 }

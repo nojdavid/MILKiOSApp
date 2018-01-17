@@ -43,6 +43,7 @@
 		858E90891FE2267800E0D8A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 858E90881FE2267800E0D8A7 /* Assets.xcassets */; };
 		858E908C1FE2267800E0D8A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 858E908A1FE2267800E0D8A7 /* LaunchScreen.storyboard */; };
 		85C25882200D06AB00419976 /* ShareStatue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C25881200D06AB00419976 /* ShareStatue.swift */; };
+		85CF3A54200F27150035F778 /* StatueDetailSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CF3A53200F27150035F778 /* StatueDetailSheetController.swift */; };
 		85D006271FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D006261FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift */; };
 		85D006291FE9B7E100D5463A /* PhotoSelectorCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D006281FE9B7E100D5463A /* PhotoSelectorCameraController.swift */; };
 		85D0062D1FE9C48300D5463A /* PhotoSelectorPreviewPhotoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0062C1FE9C48300D5463A /* PhotoSelectorPreviewPhotoContainerView.swift */; };
@@ -112,6 +113,7 @@
 		858E908B1FE2267800E0D8A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		858E908D1FE2267800E0D8A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85C25881200D06AB00419976 /* ShareStatue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareStatue.swift; sourceTree = "<group>"; };
+		85CF3A53200F27150035F778 /* StatueDetailSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatueDetailSheetController.swift; sourceTree = "<group>"; };
 		85D006261FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorTabBarController.swift; sourceTree = "<group>"; };
 		85D006281FE9B7E100D5463A /* PhotoSelectorCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCameraController.swift; sourceTree = "<group>"; };
 		85D0062C1FE9C48300D5463A /* PhotoSelectorPreviewPhotoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorPreviewPhotoContainerView.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				85EAD43F1FEB5091004EDE5E /* MapController.swift */,
 				85EAD4411FEB5769004EDE5E /* Statue.swift */,
 				85EAD4431FEB6A5C004EDE5E /* StatueMarkerView.swift */,
+				85CF3A53200F27150035F778 /* StatueDetailSheetController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 				85EAD4511FEC8D27004EDE5E /* GetUser.swift in Sources */,
 				85EAD45E1FF0365F004EDE5E /* CustomUserError.swift in Sources */,
 				85E8DF171FE372A600E6FBD6 /* UserProfileController.swift in Sources */,
+				85CF3A54200F27150035F778 /* StatueDetailSheetController.swift in Sources */,
 				85EAD44D1FEB9679004EDE5E /* StatueSelectionCell.swift in Sources */,
 				852800151FF5FB9F00FD908F /* FusumaViewController.swift in Sources */,
 				85D967A91FE8844300AF82A6 /* Comment.swift in Sources */,
