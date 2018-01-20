@@ -28,15 +28,7 @@ class UserProfileFactHeader : UICollectionViewCell{
             setCollapsed(collapsed: item.isCollapsed)
         }
     }
-    
-    
-    let arrowLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = UIColor(patternImage: UIImage(named: "drop_down_arrow")!)
-        return label
-    }()
- 
-    
+
     let arrowImage: UIImageView = {
         let image = UIImageView(image: UIImage(named: "drop_down_arrow")!)
         return image
@@ -62,12 +54,10 @@ class UserProfileFactHeader : UICollectionViewCell{
     }
     
     func setCollapsed(collapsed: Bool){
-        //print("ROTATING IMAGE", collapsed, section)
         arrowImage.rotate(collapsed ? 0.0 : .pi)
     }
     
     @objc private func didTapHeader(){
-        //print("DIDTAP::", section)
         delegate?.toggleSection(header: self, section: section)
     }
     

@@ -8,34 +8,9 @@
 
 import UIKit
 
-class UserProfileController : UICollectionViewController/*, UICollectionViewDelegateFlowLayout, UserProfileHeaderDelegate*/{
+class UserProfileController : UICollectionViewController{
     
-    /*
-    public enum ProfileMode: Int {
-        case postView
-        case likeView
-        case factView
-    }
-    
-    fileprivate var mode: ProfileMode = .postView
-    */
     var userId: Int?
-
-    /*
-    func didChangeToGridView() {
-        mode = .postView
-        collectionView?.reloadData()
-    }
-    
-    func didChangeToLikeListView() {
-        mode = .likeView
-        collectionView?.reloadData()
-    }
-    
-    func didChangeToFactsView() {
-        mode = .factView
-    }
-    */
 
     var userProfileViewModel : UserProfileViewModel?
     override func viewDidLoad() {
@@ -66,7 +41,6 @@ class UserProfileController : UICollectionViewController/*, UICollectionViewDele
                 self?.collectionView?.reloadItems(at: (0..<(self?.collectionView?.numberOfItems(inSection: section))!).map {
                     IndexPath(item: $0, section: section)
                 })
- 
             })
  
         }
@@ -74,10 +48,7 @@ class UserProfileController : UICollectionViewController/*, UICollectionViewDele
         userProfileViewModel?.reloadAllSections = { [weak self] () in
             self?.collectionView?.reloadData()
         }
-        
-        //userProfileViewModel.user = user
-        //userProfileViewModel?.profileDelegate = self
-        
+
         collectionView?.dataSource = userProfileViewModel
         collectionView?.delegate = userProfileViewModel
         
@@ -185,64 +156,4 @@ class UserProfileController : UICollectionViewController/*, UICollectionViewDele
         }
         */
     }
-    
-    /*
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if mode == .postView || mode == .likeView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfilePhotoCell.identifier, for: indexPath) as! UserProfilePhotoCell
-            cell.post = posts[indexPath.item]
-            return cell
-        }else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileFactCell.identifier, for: indexPath) as! UserProfileFactCell
-            
-            cell.fact = posts[indexPath.item].fact
-            
-            return cell
-                
-        }
-    }
-    */
-    
-    /*
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        if mode == .postView || mode == .likeView {
-            let width = (view.frame.width - 2) / 3
-            return CGSize(width: width, height:width)
-        } else {
-            let height: CGFloat = 50
-            let width = (view.frame.width - 2)
-            return CGSize(width: width, height: height)
-        }
-    }
- */
-    
-    /*
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: UserProfileHeader.identifier, for: indexPath) as! UserProfileHeader
-        
-        header.user = self.user
-        header.delegate = self
-        
-        return header
-    }
- 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        print("HEADER SIZE 1::", CGSize(width: view.frame.width, height: 200))
-        return CGSize(width: view.frame.width, height: 200)
-    }
- */
 }
