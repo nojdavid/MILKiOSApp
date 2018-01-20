@@ -8,50 +8,89 @@
 
 import UIKit
 
-class UserProfileController : UICollectionViewController, UICollectionViewDelegateFlowLayout, UserProfileHeaderDelegate{
+class UserProfileController : UICollectionViewController/*, UICollectionViewDelegateFlowLayout, UserProfileHeaderDelegate*/{
     
-    let cellId = "cellId"
-    let headerId = "headerId"
-    let homePostCellId = "homePostCellId"
-    
+    /*
     public enum ProfileMode: Int {
-        
-        case gridView
-        case LikeListView
+        case postView
+        case likeView
         case factView
     }
     
-    fileprivate var mode: ProfileMode = .gridView
-    
+    fileprivate var mode: ProfileMode = .postView
+    */
     var userId: Int?
 
+    /*
     func didChangeToGridView() {
-        mode = .gridView
+        mode = .postView
         collectionView?.reloadData()
     }
     
     func didChangeToLikeListView() {
-        mode = .LikeListView
+        mode = .likeView
         collectionView?.reloadData()
     }
     
     func didChangeToFactsView() {
         mode = .factView
     }
-    
+    */
+
+    var userProfileViewModel : UserProfileViewModel?
     override func viewDidLoad() {
         super.viewDidLoad()
+        //NEED TO UPDATE: fetch User tree from DB and store user info in user struct
+        
+        fetchUser()
+        
+        guard let user = self.user else {return}
+        
+        print("Successful User")
+        userProfileViewModel = UserProfileViewModel(user: user)
+        
+        userProfileViewModel?.reloadSections = { [weak self] (section: Int,numberOfItems: Int ,collapsed: Bool) in
+
+            self?.collectionView?.performBatchUpdates({
+                if !collapsed {
+                    self?.collectionView?.insertItems(at: (0..<numberOfItems).map {
+                        IndexPath(item: $0, section: section)
+                    })
+                }else{
+                    self?.collectionView?.deleteItems(at:(0..<numberOfItems).map {
+                        IndexPath(item: $0, section: section)
+                        })
+                }
+                
+            }, completion: { (success) in
+                self?.collectionView?.reloadItems(at: (0..<(self?.collectionView?.numberOfItems(inSection: section))!).map {
+                    IndexPath(item: $0, section: section)
+                })
+ 
+            })
+ 
+        }
+        
+        userProfileViewModel?.reloadAllSections = { [weak self] () in
+            self?.collectionView?.reloadData()
+        }
+        
+        //userProfileViewModel.user = user
+        //userProfileViewModel?.profileDelegate = self
+        
+        collectionView?.dataSource = userProfileViewModel
+        collectionView?.delegate = userProfileViewModel
         
         collectionView?.backgroundColor = .white
 
-        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-        collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView?.register(DetailPostCell.self, forCellWithReuseIdentifier: homePostCellId)
+        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: UserProfileHeader.identifier)
+        collectionView?.register(UserProfileFactHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: UserProfileFactHeader.identifier)
+        
+        collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: UserProfilePhotoCell.identifier)
+        collectionView?.register(UserProfileFactCell.self, forCellWithReuseIdentifier: UserProfileFactCell.identifier)
         
         setupLogoutButton()
         print("View did load")
-        //NEED TO UPDATE: fetch User tree from DB and store user info in user struct
-        fetchUser()
     }
 
     var posts = [Post]()
@@ -123,7 +162,7 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         
         self.collectionView?.reloadData()
         
-        self.fetchOrderedPosts()
+        //self.fetchOrderedPosts()
         
         //IS IT NEEDED TO CHECK USER IN DATABASE HERE??
         /*
@@ -147,25 +186,29 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
         */
     }
     
+    /*
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if mode == .gridView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserProfilePhotoCell
+        if mode == .postView || mode == .likeView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfilePhotoCell.identifier, for: indexPath) as! UserProfilePhotoCell
             cell.post = posts[indexPath.item]
             return cell
-        }else {//else if mode == .gridView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: homePostCellId, for: indexPath) as! DetailPostCell
-            cell.post = posts[indexPath.item]
-            return cell
-        }/*else if mode == .factView {
+        }else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileFactCell.identifier, for: indexPath) as! UserProfileFactCell
             
-        }*/
+            cell.fact = posts[indexPath.item].fact
+            
+            return cell
+                
+        }
     }
+    */
     
+    /*
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
@@ -176,31 +219,30 @@ class UserProfileController : UICollectionViewController, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if mode == .gridView {
+        if mode == .postView || mode == .likeView {
             let width = (view.frame.width - 2) / 3
             return CGSize(width: width, height:width)
-        } else {//else if mode == .gridView {
-            var height: CGFloat = 40 + 8 + 8 //username and userprofileImageview
-            height += view.frame.width
-            height += 50
-            height += 60
-            
-            return CGSize(width: view.frame.width, height: height)
-        } /*else if mode == .factView {
-            
-        }*/
+        } else {
+            let height: CGFloat = 50
+            let width = (view.frame.width - 2)
+            return CGSize(width: width, height: height)
+        }
     }
+ */
     
+    /*
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! UserProfileHeader
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: UserProfileHeader.identifier, for: indexPath) as! UserProfileHeader
         
         header.user = self.user
         header.delegate = self
         
         return header
     }
-    
+ 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        print("HEADER SIZE 1::", CGSize(width: view.frame.width, height: 200))
         return CGSize(width: view.frame.width, height: 200)
     }
+ */
 }

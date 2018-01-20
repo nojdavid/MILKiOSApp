@@ -16,6 +16,8 @@ protocol UserProfileHeaderDelegate {
 
 class UserProfileHeader: UICollectionViewCell{
     
+    static let identifier = "UserProfileHeader"
+    
     var delegate: UserProfileHeaderDelegate?
     
     var user: User? {

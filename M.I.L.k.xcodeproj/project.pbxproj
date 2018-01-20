@@ -25,6 +25,11 @@
 		8544270E1FF4345700D81665 /* LogoutUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544270D1FF4345700D81665 /* LogoutUser.swift */; };
 		854427101FF43CB100D81665 /* SendComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8544270F1FF43CB100D81665 /* SendComment.swift */; };
 		854827711FE34E7A007031E7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854827701FE34E7A007031E7 /* Extensions.swift */; };
+		856CD008201259AD00C47D5A /* UserProfileFactHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856CD006201259AC00C47D5A /* UserProfileFactHeader.swift */; };
+		856CD009201259AD00C47D5A /* UserProfileFactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856CD007201259AD00C47D5A /* UserProfileFactCell.swift */; };
+		856CD00C2012622A00C47D5A /* FactsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856CD00B2012622A00C47D5A /* FactsModel.swift */; };
+		856CD00E2012624600C47D5A /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856CD00D2012624600C47D5A /* UserProfileViewModel.swift */; };
+		856CD0102012687400C47D5A /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856CD00F2012687400C47D5A /* ProfileModel.swift */; };
 		85707AB81FE769AD00BD978F /* UserSignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85707AB71FE769AD00BD978F /* UserSignUp.swift */; };
 		85707ABB1FE7B62700BD978F /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85707ABA1FE7B62700BD978F /* CameraController.swift */; };
 		85752E071FE486D30002EC3D /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85752E061FE486D30002EC3D /* LoginController.swift */; };
@@ -93,6 +98,11 @@
 		8544270D1FF4345700D81665 /* LogoutUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutUser.swift; sourceTree = "<group>"; };
 		8544270F1FF43CB100D81665 /* SendComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendComment.swift; sourceTree = "<group>"; };
 		854827701FE34E7A007031E7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		856CD006201259AC00C47D5A /* UserProfileFactHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileFactHeader.swift; sourceTree = "<group>"; };
+		856CD007201259AD00C47D5A /* UserProfileFactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileFactCell.swift; sourceTree = "<group>"; };
+		856CD00B2012622A00C47D5A /* FactsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsModel.swift; sourceTree = "<group>"; };
+		856CD00D2012624600C47D5A /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		856CD00F2012687400C47D5A /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		85707AB71FE769AD00BD978F /* UserSignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignUp.swift; sourceTree = "<group>"; };
 		85707ABA1FE7B62700BD978F /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		85752E061FE486D30002EC3D /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -206,6 +216,16 @@
 				853E18A2200D6C0C004AE42C /* TitlesAndFonts.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		856CD0052012598900C47D5A /* Facts */ = {
+			isa = PBXGroup;
+			children = (
+				856CD007201259AD00C47D5A /* UserProfileFactCell.swift */,
+				856CD006201259AC00C47D5A /* UserProfileFactHeader.swift */,
+				856CD00B2012622A00C47D5A /* FactsModel.swift */,
+			);
+			path = Facts;
 			sourceTree = "<group>";
 		};
 		85707AB61FE7692200BD978F /* DatabaseUtils */ = {
@@ -368,9 +388,12 @@
 		85E8DF1A1FE45E2C00E6FBD6 /* UserProfile */ = {
 			isa = PBXGroup;
 			children = (
+				856CD0052012598900C47D5A /* Facts */,
 				85E8DF161FE372A600E6FBD6 /* UserProfileController.swift */,
 				85E8DF1B1FE45E3B00E6FBD6 /* UserProfileHeader.swift */,
 				85752E141FE61ECC0002EC3D /* UserProfilePhotoCell.swift */,
+				856CD00D2012624600C47D5A /* UserProfileViewModel.swift */,
+				856CD00F2012687400C47D5A /* ProfileModel.swift */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
@@ -491,17 +514,21 @@
 				8528000F1FF5FB9F00FD908F /* FSImageCropView.swift in Sources */,
 				85752E0A1FE4AB8D0002EC3D /* PhotoSelectorController.swift in Sources */,
 				85752E171FE623D60002EC3D /* CustomImageView.swift in Sources */,
+				856CD008201259AD00C47D5A /* UserProfileFactHeader.swift in Sources */,
 				85752E131FE61C2E0002EC3D /* Post.swift in Sources */,
 				858E90821FE2267800E0D8A7 /* AppDelegate.swift in Sources */,
+				856CD009201259AD00C47D5A /* UserProfileFactCell.swift in Sources */,
 				85EAD4511FEC8D27004EDE5E /* GetUser.swift in Sources */,
 				85EAD45E1FF0365F004EDE5E /* CustomUserError.swift in Sources */,
 				85E8DF171FE372A600E6FBD6 /* UserProfileController.swift in Sources */,
 				85CF3A54200F27150035F778 /* StatueDetailSheetController.swift in Sources */,
+				856CD00E2012624600C47D5A /* UserProfileViewModel.swift in Sources */,
 				85EAD44D1FEB9679004EDE5E /* StatueSelectionCell.swift in Sources */,
 				852800151FF5FB9F00FD908F /* FusumaViewController.swift in Sources */,
 				85D967A91FE8844300AF82A6 /* Comment.swift in Sources */,
 				85EAD45A1FEF4639004EDE5E /* DecodeUtilities.swift in Sources */,
 				85EAD4421FEB5769004EDE5E /* Statue.swift in Sources */,
+				856CD00C2012622A00C47D5A /* FactsModel.swift in Sources */,
 				85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */,
 				85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */,
 				85752E231FE70FAD0002EC3D /* UserSearchController.swift in Sources */,
@@ -537,6 +564,7 @@
 				85D006271FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift in Sources */,
 				85D98F4B1FF87DB5000C8F2D /* ShareController.swift in Sources */,
 				852800121FF5FB9F00FD908F /* FSConstants.swift in Sources */,
+				856CD0102012687400C47D5A /* ProfileModel.swift in Sources */,
 				854427101FF43CB100D81665 /* SendComment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

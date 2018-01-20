@@ -10,6 +10,8 @@ import UIKit
 
 class UserProfilePhotoCell : UICollectionViewCell{
     
+    static let identifier = "UserProfilePhotoCell"
+    
     var post: Post? {
         didSet {
             guard let imageUrl = post?.imageUrl else {return}
