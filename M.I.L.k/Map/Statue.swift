@@ -16,7 +16,7 @@ class Statue: NSObject, MKAnnotation {
     let locationName: String
     let discipline: String
     let coordinate: CLLocationCoordinate2D
-    //let placeMark: MKPlacemark
+    var placeMark: MKPlacemark?
     
     init(title: String, locationName: String, discipline: String, coordinate: CLLocationCoordinate2D) {
         self.title = title
@@ -71,8 +71,15 @@ class Statue: NSObject, MKAnnotation {
         var statues = [Statue]()
         for index in 0...(Statue.StatueNames.count-1){
             let statue = Statue(title: Statue.StatueNames[index], locationName: "", discipline: "Statue", coordinate: Statue.StatueLocation[index])
+            
+            getPlacemark(forLocation: statue.coordinate, completionHandler: { (placemark, nil) in
+                if let addressDict = placemark?.postalAddress, let coordinate = placemark?.location?.coordinate {
+                    statue.placeMark = MKPlacemark(coordinate: coordinate, postalAddress: addressDict)
+                }
+            })
             statues.append(statue)
         }
+        
         return statues
     }
     

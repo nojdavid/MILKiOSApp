@@ -77,7 +77,7 @@ class StatueDetailSheetController : UIViewController {
     
     let fullView: CGFloat = 100
     var partialView: CGFloat {
-        return UIScreen.main.bounds.height - (directionsButton.frame.maxY + UIApplication.shared.statusBarFrame.height + (tabBarController?.tabBar.bounds.height)!)
+        return UIScreen.main.bounds.height - (/*directionsButton.frame.maxY*/105 + UIApplication.shared.statusBarFrame.height + (tabBarController?.tabBar.bounds.height)!)
     }
     
     override func viewDidLoad() {

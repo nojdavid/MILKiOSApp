@@ -20,6 +20,7 @@ class StatueSelectionController : UITableViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView?.keyboardDismissMode = .onDrag
         tableView?.backgroundColor = .white
         tableView?.layer.cornerRadius = 10
         tableView.register(StatueSelectionCell.self, forCellReuseIdentifier: StatueSelectionCell.identifier )
@@ -45,12 +46,12 @@ class StatueSelectionController : UITableViewController  {
         let cell = tableView.dequeueReusableCell(withIdentifier: StatueSelectionCell.identifier, for: indexPath) as! StatueSelectionCell
         cell.statue = filteredStatues[indexPath.item]
         let selectedItem = filteredStatues[indexPath.item].mapItem()
-        cell.textLabel?.text = selectedItem.name
-        //print("SELECTED ITEM::  ", selectedItem)
+
+        cell.statueLabel.text = selectedItem.name
         
-        //TODO:: GET STATUE WITH PLACEMARK TO SHOW REAL STREET LOCATIONS
-        //cell.detailTextLabel?.text = self.parseAddress(selectedItem: mkPlacemark)
-        
+        guard let placeMark = (cell.statue?.placeMark) else {return cell}
+        cell.locationLabel.text = self.parseAddress(selectedItem: placeMark)
+
         return cell
     }
     

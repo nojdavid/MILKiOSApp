@@ -40,7 +40,7 @@ class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        
+
         initializeMapView()
         initializeLocationManager()
         
@@ -114,14 +114,12 @@ class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
     //MARK :- SEARCH FUNCTIONS
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         if bottomSheetVC != nil {
-            print("Cancel Pressed:: True")
             if mapView?.selectedAnnotations.isEmpty == false {
                 mapView?.deselectAnnotation(mapView?.selectedAnnotations[0], animated: true)
             }
             removeBottomSheet()
             return
         }
-        print("Cancel Pressed:: False")
     }
     
     //MARK :- MAP FUNCTIONS
@@ -181,7 +179,6 @@ class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
     }
     
     func removeBottomSheet(){
-        print("REMOVE BOTTOM SHEET")
         resultSearchController!.searchBar.text = ""
         UIView.animate(withDuration: 0.6, animations: {
             let frame = self.view.frame
@@ -225,6 +222,9 @@ extension MapController : HandleCloseSheetDelegate {
 //MARK :- SEARCH TABLE CELL SELECT
 extension MapController : HandleMapSearch {
     func DisplayLocation(statue: Statue) {
+        if mapView?.selectedAnnotations.isEmpty == false {
+            mapView?.deselectAnnotation(mapView?.selectedAnnotations[0], animated: true)
+        }
         for s in (mapView?.annotations)! {
             if (statue.coordinate.latitude == s.coordinate.latitude) && (statue.coordinate.longitude == s.coordinate.longitude) {
                 centerMapOnLocation(location: s.coordinate)
