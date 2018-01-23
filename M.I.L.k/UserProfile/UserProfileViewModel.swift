@@ -64,7 +64,15 @@ private func getUserLikes(user: User) -> [Post] {
     return [post]
 }
 
+//MARK :- USER PROFILE VIEWMODEL
+protocol UserProfileViewModelDelegate {
+    func selectPost(viewController: UIViewController)
+}
+
 class UserProfileViewModel: NSObject {
+    
+    var delegate: UserProfileViewModelDelegate?
+    
     var items = [UserProfileViewModelItem]()
     
     var reloadSections: ((_ section: Int,_ numberOfItems: Int,_ collapsed: Bool) -> Void)?
@@ -90,6 +98,7 @@ class UserProfileViewModel: NSObject {
     }
 }
 
+//MARK:- USER PROFILE HEADER
 extension UserProfileViewModel : UserProfileHeaderDelegate {
     func didChangeToGridView() {
         if mode == .postView{
@@ -147,6 +156,7 @@ extension UserProfileViewModel : UserProfileHeaderDelegate {
     }
 }
 
+//MARK :- USER PROFILE FACT HEADER
 extension UserProfileViewModel : UserProfileFactHeaderDelegate {
     func toggleSection(header: UserProfileFactHeader, section: Int) {
         guard var item = items[section] as? FactViewModelItem else {return}
@@ -161,6 +171,7 @@ extension UserProfileViewModel : UserProfileFactHeaderDelegate {
     }
 }
 
+//MARK :- FLOW LAYOUT
 extension UserProfileViewModel : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         if mode == .postView || mode == .likeView{
@@ -201,7 +212,18 @@ extension UserProfileViewModel : UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK :- DATA SOURCE
 extension UserProfileViewModel : UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if mode != .factView {
+            let post = userHeader.photos[indexPath.item]
+            let detailHomeController = DetailPostController(collectionViewLayout: UICollectionViewFlowLayout())
+            detailHomeController.post = post
+            self.delegate?.selectPost(viewController: detailHomeController)
+        }
+    }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return items.count
     }

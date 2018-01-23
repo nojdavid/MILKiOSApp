@@ -28,32 +28,10 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         collectionView?.backgroundColor = .white
         
         collectionView?.register(DetailPostCell.self, forCellWithReuseIdentifier: cellId)
-        
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-        collectionView?.refreshControl = refreshControl
-        
+
         navigationItem.title = "Photo"
         
         navigationItem.leftBarButtonItem = backButton
- 
-        renderPost()
-    }
-
-    @objc func handleRefresh(){
-        print("handle refresh...")
-        posts.removeAll()
-        renderPost()
-    }
-    
-    var posts = [Post]()
-    fileprivate func renderPost(){
-
-        self.collectionView?.refreshControl?.endRefreshing()
-
-        self.posts.append(post!)
-
-        self.collectionView?.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -67,13 +45,13 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DetailPostCell
         
-        cell.post = posts[indexPath.item]
+        cell.post = post
         
         cell.delegate = self
         
@@ -84,17 +62,17 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         hidesBottomBarWhenPushed = true
         let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
         commentsController.post = post
+        
         navigationController?.pushViewController(commentsController, animated: true)
         hidesBottomBarWhenPushed = false
     }
     
     func didLike(for cell: DetailPostCell) {
         
+        guard let post = post else {return}
         guard let indexPath = collectionView?.indexPath(for: cell) else {return}
-        
-        var post = self.posts[indexPath.item]
-        
-        guard let postId = post.id else {return}
+
+        //guard let postId = post.id else {return}
         
         //NEED TO DO: GET CURRENT USER ID
         //guard let uid = "1" else {return}
@@ -102,11 +80,8 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         //let values = [uid:post.hasLiked == true ? 0 : 1]
         
         //NEED TO DO: UPDATE LIKES FOR USER OF UID
-        
-        post.hasLiked = !post.hasLiked
-        
-        self.posts[indexPath.item] = post
-        
+        self.post?.hasLiked = !post.hasLiked
+
         self.collectionView?.reloadItems(at: [indexPath])
     }
 }

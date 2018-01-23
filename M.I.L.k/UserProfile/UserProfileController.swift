@@ -8,11 +8,16 @@
 
 import UIKit
 
-class UserProfileController : UICollectionViewController{
+class UserProfileController : UICollectionViewController, UserProfileViewModelDelegate{
+    func selectPost(viewController: UIViewController) {
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     
     var userId: Int?
 
     var userProfileViewModel : UserProfileViewModel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //NEED TO UPDATE: fetch User tree from DB and store user info in user struct
@@ -23,7 +28,7 @@ class UserProfileController : UICollectionViewController{
         
         print("Successful User")
         userProfileViewModel = UserProfileViewModel(user: user)
-        
+        userProfileViewModel?.delegate = self
         userProfileViewModel?.reloadSections = { [weak self] (section: Int,numberOfItems: Int ,collapsed: Bool) in
 
             self?.collectionView?.performBatchUpdates({
@@ -63,6 +68,7 @@ class UserProfileController : UICollectionViewController{
         setupLogoutButton()
         print("View did load")
     }
+
 
     var posts = [Post]()
     fileprivate func fetchOrderedPosts(){

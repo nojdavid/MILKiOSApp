@@ -29,7 +29,7 @@ class ShareStatue : UITableViewController {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    var items = [String]()
+    var items = [Statue]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,11 +37,10 @@ class ShareStatue : UITableViewController {
         navigationItem.title = "Statues"
         //navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: navigationTitleFont ?? UIFont.systemFont(ofSize: 20)]
 
-        items = Statue.StatueNames
-        
+        items = AppDelegate.Statues
         navigationItem.rightBarButtonItem = cancelButton
         
-        tableView.register(StatueCell.self, forCellReuseIdentifier: StatueCell.identifier)
+        tableView.register(StatueSelectionCell.self, forCellReuseIdentifier: StatueSelectionCell.identifier)
     }
     
     override var prefersStatusBarHidden: Bool{
@@ -57,20 +56,27 @@ class ShareStatue : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: StatueCell.identifier) as! StatueCell
-        cell.textLabel?.text = items[indexPath.item]
+        let cell = tableView.dequeueReusableCell(withIdentifier: StatueSelectionCell.identifier, for: indexPath) as! StatueSelectionCell
+        
+        cell.statue = items[indexPath.item]
+
+        cell.statueLabel.text = items[indexPath.item].title
+        
+        guard let placeMark = (cell.statue?.placeMark) else {return cell}
+        cell.locationLabel.text = Statue.parseAddress(selectedItem: placeMark)
+        
         cell.selectionStyle = .none
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let statueName = tableView.cellForRow(at: indexPath)?.textLabel?.text else {return}
+        guard let statueName = (tableView.cellForRow(at: indexPath) as! StatueSelectionCell).statueLabel.text else {return}
         delegate?.selectStatueCell(StatueName: statueName)
         navigationController?.dismiss(animated: true, completion: nil)
     }
 }
 
-
+/*
 class StatueCell : UITableViewCell {
 
     static var identifier = "StatueCell"
@@ -83,3 +89,4 @@ class StatueCell : UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+*/

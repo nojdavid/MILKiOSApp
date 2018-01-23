@@ -47,10 +47,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
     func setupViewController(){
         //home
         let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeCollectionController(collectionViewLayout: UICollectionViewFlowLayout()))
-        
-        //search
-        //let searchNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "search_unselected"), selectedImage: #imageLiteral(resourceName: "search_selected"), rootViewController: UserSearchController(collectionViewLayout: UICollectionViewFlowLayout()))
-        
+
         //map
         let mapController = templateNavController(unselectedImage: #imageLiteral(resourceName: "map_unselected"), selectedImage: #imageLiteral(resourceName: "map_selected"), rootViewController: MapController())
         
@@ -60,9 +57,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         //user Profile
         let layout = UICollectionViewFlowLayout()
         let userProfileController = UserProfileController(collectionViewLayout: layout)
-        
         let userProfileNavController = UINavigationController(rootViewController: userProfileController)
-        
         userProfileNavController.tabBarItem.image = #imageLiteral(resourceName: "profile_unselected")
         userProfileNavController.tabBarItem.selectedImage = #imageLiteral(resourceName: "profile_selected")
         

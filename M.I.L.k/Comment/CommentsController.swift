@@ -35,7 +35,7 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
 
         collectionView?.register(CommentCell.self, forCellWithReuseIdentifier: cellId)
 
-        //REMOVE THIS ONCE YOU GET USER THE RIGHT WAY
+        //TODO::REMOVE THIS ONCE YOU GET USER THE RIGHT WAY
         user = getUserFromDisk()
         
         fetchComments()
@@ -53,7 +53,7 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     
     var comments = [Comment]()
     fileprivate func fetchComments(){
-        //NEED TO DO: FETCH ALL COMMENTS FOR THIS POST
+        //TODO: FETCH ALL COMMENTS FOR THIS POST
         
         //REMOVE THIS DUMMY DICT WHEN REAL VALUES ARE AVAILABLE
         
@@ -158,8 +158,6 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         let postId = self.post?.id ?? ""
         let values = ["text": commentTextField.text ?? "", "creationDate": Date().timeIntervalSince1970, "uid": uid] as [String:Any]
 
-        print("sending text", commentTextField.text ?? "")
-        
         emptyContainerView()
         
         //REMOVE THIS GET USER AND PROPEGATE USERS THROUGH NAV CONTROLLER

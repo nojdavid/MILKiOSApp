@@ -95,7 +95,6 @@ class DetailPostCell : UICollectionViewCell{
     }()
     
     @objc func handleLike(){
-        print("handling like")
         delegate?.didLike(for: self)
     }
     
@@ -107,7 +106,6 @@ class DetailPostCell : UICollectionViewCell{
     }()
     
     @objc func handleComment(){
-        print("Show comment")
         guard let post = post else {return}
         
         delegate?.didTabComment(post: post)
@@ -116,12 +114,6 @@ class DetailPostCell : UICollectionViewCell{
     let sendMessageButton: UIButton = {
         let button = UIButton(type: UIButtonType.system)
         button.setImage(#imageLiteral(resourceName: "send2").withRenderingMode(.alwaysOriginal), for: .normal)
-        return button
-    }()
-    
-    let bookmarkButton: UIButton = {
-        let button = UIButton(type: UIButtonType.system)
-        button.setImage(#imageLiteral(resourceName: "ribbon").withRenderingMode(.alwaysOriginal), for: .normal)
         return button
     }()
     
@@ -162,9 +154,6 @@ class DetailPostCell : UICollectionViewCell{
         
         addSubview(stackView)
         stackView.anchor(top: photoImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 120, height: 50)
-        
-        addSubview(bookmarkButton)
-        bookmarkButton.anchor(top: photoImageView.bottomAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 40, height: 50)
     }
     
     required init?(coder aDecoder: NSCoder) {
