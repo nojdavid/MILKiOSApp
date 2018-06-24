@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AWSMobileClient
+import AWSCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,7 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         AppDelegate.Statues = Statue.getStatues()
         
-        return true
+        AWSDDLog.add(AWSDDTTYLogger.sharedInstance)
+        AWSDDLog.sharedInstance.logLevel = .info
+        
+        // Create AWSMobileClient to connect with AWS
+        //return true
+        return AWSMobileClient.sharedInstance().interceptApplication(
+            application,
+            didFinishLaunchingWithOptions: launchOptions)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

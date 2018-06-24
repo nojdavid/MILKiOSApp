@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import AWSCore
+import AWSS3
+
 //
 // MARK :- TableViewController
 //
@@ -122,7 +125,7 @@ class ShareController: UITableViewController {
         let imageSize = CGSize(width: image.size.width, height: image.size.height)
         //image to upload
         let creationDate = Date().timeIntervalSince1970 as Any
-        guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
+        guard let uploadData = UIImagePNGRepresentation(image) else {return}
         
         //this is randomly generated filename for image
         let filename = NSUUID().uuidString
@@ -135,12 +138,53 @@ class ShareController: UITableViewController {
         //NEED TO DO: RENABLE THIS IF ERROR OCCURS IN UPLOAD
         navigationItem.rightBarButtonItem?.isEnabled = false
         
+        uploadImage(data: uploadData, filename: filename)
         //NEED TO DO: UPLOAD IMAGE DATA TO DATA BASE
         //UPLOAD IMAGE, COMMENT STRING, Date Posted, & UPLOAD USER ID WITH IMAGE
         
         self.dismiss(animated: true, completion: nil)
         
         NotificationCenter.default.post(name: ShareController.updateFeedNotificationName, object: nil)
+    }
+    
+    func uploadImage(data: Data, filename: String) {
+        let expression = AWSS3TransferUtilityUploadExpression()
+        expression.progressBlock = {(task, progress) in
+            DispatchQueue.main.async(execute: {
+                // Do something e.g. Update a progress bar.
+                print("progress: \(progress)")
+            })
+        }
+        
+        var completionHandler: AWSS3TransferUtilityUploadCompletionHandlerBlock?
+        completionHandler = { (task, error) -> Void in
+            DispatchQueue.main.async(execute: {
+                // Do something e.g. Alert a user for transfer completion.
+                // On failed uploads, `error` contains the error object.
+                //print("Error: \(String(describing: error))")
+            })
+        }
+        
+        let transferUtility = AWSS3TransferUtility.default()
+        
+        transferUtility.uploadData(data,
+                                   bucket: S3BucketName,
+                                   key: "uploads/"+filename+".png",
+                                   contentType: "image/png",
+                                   expression: expression,
+                                   completionHandler: completionHandler).continueWith {
+                                    (task) -> AnyObject! in
+                                    if let error = task.error {
+                                        print("Error: \(error.localizedDescription)")
+                                    }
+                                    
+                                    if let _ = task.result {
+                                        print("Upload Started!")
+                                    }
+                                    
+                                    print("TASK: ", task)
+                                    return nil;
+        }
     }
     
     override var prefersStatusBarHidden: Bool{

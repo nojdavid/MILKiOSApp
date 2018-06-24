@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F1C70F520DC78B300BAB483 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F1C70F420DC78B300BAB483 /* awsconfiguration.json */; };
+		4F1C70F920DD6C3000BAB483 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1C70F820DD6C3000BAB483 /* Constants.swift */; };
 		852800091FF5FB9F00FD908F /* FSAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528FFFC1FF5FB9D00FD908F /* FSAlbumViewCell.swift */; };
 		8528000A1FF5FB9F00FD908F /* FSAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8528FFFD1FF5FB9E00FD908F /* FSAlbumViewCell.xib */; };
 		8528000B1FF5FB9F00FD908F /* FSAlbumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8528FFFE1FF5FB9E00FD908F /* FSAlbumView.xib */; };
@@ -77,9 +79,13 @@
 		85EAD4581FEF3FA3004EDE5E /* ResponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */; };
 		85EAD45A1FEF4639004EDE5E /* DecodeUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */; };
 		85EAD45E1FF0365F004EDE5E /* CustomUserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD45D1FF0365F004EDE5E /* CustomUserError.swift */; };
+		F2253E8B2C0AD0B761FE8511 /* Pods_M_I_L_k.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D48CB045CE0BC5627620DDC7 /* Pods_M_I_L_k.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		23655FF85493B5172957D3DB /* Pods-M.I.L.k.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.I.L.k.release.xcconfig"; path = "Pods/Target Support Files/Pods-M.I.L.k/Pods-M.I.L.k.release.xcconfig"; sourceTree = "<group>"; };
+		4F1C70F420DC78B300BAB483 /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = awsconfiguration.json; path = ../../../../../Downloads/awsconfiguration.json; sourceTree = "<group>"; };
+		4F1C70F820DD6C3000BAB483 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		852800001FF5FB9E00FD908F /* FSCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSCameraView.swift; sourceTree = "<group>"; };
 		852800011FF5FB9E00FD908F /* FSCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSCameraView.xib; sourceTree = "<group>"; };
 		852800021FF5FB9E00FD908F /* FSImageCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
@@ -152,6 +158,8 @@
 		85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseObject.swift; sourceTree = "<group>"; };
 		85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeUtilities.swift; sourceTree = "<group>"; };
 		85EAD45D1FF0365F004EDE5E /* CustomUserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUserError.swift; sourceTree = "<group>"; };
+		C4E70E6CCF18EE6FB5CCCA3F /* Pods-M.I.L.k.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.I.L.k.debug.xcconfig"; path = "Pods/Target Support Files/Pods-M.I.L.k/Pods-M.I.L.k.debug.xcconfig"; sourceTree = "<group>"; };
+		D48CB045CE0BC5627620DDC7 /* Pods_M_I_L_k.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_M_I_L_k.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,12 +167,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2253E8B2C0AD0B761FE8511 /* Pods_M_I_L_k.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4FA149DE20DC6ED2003F9563 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4F1C70F420DC78B300BAB483 /* awsconfiguration.json */,
+				858E908D1FE2267800E0D8A7 /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		8528FFE11FF5DA6B00FD908F /* FusumaCamera */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +322,8 @@
 			children = (
 				858E90801FE2267800E0D8A7 /* M.I.L.k */,
 				858E907F1FE2267800E0D8A7 /* Products */,
+				E4A77AD98EA0FD7A3E83B345 /* Pods */,
+				E08501F618A544AB08BBC53A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -328,12 +348,13 @@
 				85752E051FE486A20002EC3D /* Login */,
 				85E8DF1A1FE45E2C00E6FBD6 /* UserProfile */,
 				8548276F1FE34E6A007031E7 /* Utils */,
+				4FA149DE20DC6ED2003F9563 /* Supporting Files */,
 				858E90811FE2267800E0D8A7 /* AppDelegate.swift */,
 				85E8DF141FE371AB00E6FBD6 /* MainTabBarController.swift */,
-				858E908D1FE2267800E0D8A7 /* Info.plist */,
 				858E908A1FE2267800E0D8A7 /* LaunchScreen.storyboard */,
 				858E90881FE2267800E0D8A7 /* Assets.xcassets */,
 				85E8DF1D1FE466BF00E6FBD6 /* Main.storyboard */,
+				4F1C70F820DD6C3000BAB483 /* Constants.swift */,
 			);
 			path = M.I.L.k;
 			sourceTree = "<group>";
@@ -427,6 +448,23 @@
 			path = FileManagerUtils;
 			sourceTree = "<group>";
 		};
+		E08501F618A544AB08BBC53A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D48CB045CE0BC5627620DDC7 /* Pods_M_I_L_k.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E4A77AD98EA0FD7A3E83B345 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C4E70E6CCF18EE6FB5CCCA3F /* Pods-M.I.L.k.debug.xcconfig */,
+				23655FF85493B5172957D3DB /* Pods-M.I.L.k.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -434,9 +472,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 858E90901FE2267800E0D8A7 /* Build configuration list for PBXNativeTarget "M.I.L.k" */;
 			buildPhases = (
+				200169DB7A56BF3CDF02FA5F /* [CP] Check Pods Manifest.lock */,
 				858E907A1FE2267800E0D8A7 /* Sources */,
 				858E907B1FE2267800E0D8A7 /* Frameworks */,
 				858E907C1FE2267800E0D8A7 /* Resources */,
+				3AFB09F773DDF56E28BD26B6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -486,6 +526,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F1C70F520DC78B300BAB483 /* awsconfiguration.json in Resources */,
 				8528000C1FF5FB9F00FD908F /* FSVideoCameraView.xib in Resources */,
 				852800101FF5FB9F00FD908F /* FusumaViewController.swift.orig in Resources */,
 				8528000B1FF5FB9F00FD908F /* FSAlbumView.xib in Resources */,
@@ -499,6 +540,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		200169DB7A56BF3CDF02FA5F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-M.I.L.k-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3AFB09F773DDF56E28BD26B6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-M.I.L.k/Pods-M.I.L.k-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AWSAuthCore/AWSAuthCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCognito/AWSCognito.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSMobileClient/AWSMobileClient.framework",
+				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSAuthCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCognito.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSMobileClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-M.I.L.k/Pods-M.I.L.k-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		858E907A1FE2267800E0D8A7 /* Sources */ = {
@@ -514,6 +602,7 @@
 				8528000F1FF5FB9F00FD908F /* FSImageCropView.swift in Sources */,
 				85752E0A1FE4AB8D0002EC3D /* PhotoSelectorController.swift in Sources */,
 				85752E171FE623D60002EC3D /* CustomImageView.swift in Sources */,
+				4F1C70F920DD6C3000BAB483 /* Constants.swift in Sources */,
 				856CD008201259AD00C47D5A /* UserProfileFactHeader.swift in Sources */,
 				85752E131FE61C2E0002EC3D /* Post.swift in Sources */,
 				858E90821FE2267800E0D8A7 /* AppDelegate.swift in Sources */,
@@ -692,11 +781,12 @@
 		};
 		858E90911FE2267800E0D8A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C4E70E6CCF18EE6FB5CCCA3F /* Pods-M.I.L.k.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4EW6C8RDQG;
-				INFOPLIST_FILE = M.I.L.k/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/M.I.L.k/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xamarin.M-I-L-k";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -707,11 +797,12 @@
 		};
 		858E90921FE2267800E0D8A7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 23655FF85493B5172957D3DB /* Pods-M.I.L.k.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4EW6C8RDQG;
-				INFOPLIST_FILE = M.I.L.k/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/M.I.L.k/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xamarin.M-I-L-k";
 				PRODUCT_NAME = "$(TARGET_NAME)";
