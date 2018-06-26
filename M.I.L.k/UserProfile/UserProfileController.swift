@@ -13,6 +13,11 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         navigationController?.pushViewController(viewController, animated: true)
     }
     
+    func handleGoToSettings(settingsViewController: SettingsController) {
+        settingsViewController.user = user
+        let navController = UINavigationController(rootViewController: settingsViewController)
+        present(navController, animated: true, completion: nil)
+    }
     
     var userId: Int?
 
@@ -95,6 +100,8 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         
         self.collectionView?.reloadData()
     }
+    
+
     
     fileprivate func setupLogoutButton(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogout))

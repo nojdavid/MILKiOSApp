@@ -25,7 +25,6 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage{
             plusPhotoButton.setImage( editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
         } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage{
@@ -163,7 +162,6 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
     }
     
     func validateEmail(enteredEmail: String) -> Bool {
-        
         let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
         return emailPredicate.evaluate(with:enteredEmail)

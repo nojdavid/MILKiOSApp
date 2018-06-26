@@ -12,6 +12,7 @@ protocol UserProfileHeaderDelegate {
     func didChangeToLikeListView()
     func didChangeToGridView()
     func didChangeToFactsView()
+    func didChangeToSettingsView()
 }
 
 class UserProfileHeader: UICollectionViewCell{
@@ -42,7 +43,7 @@ class UserProfileHeader: UICollectionViewCell{
             editProfileButton.backgroundColor = .white
         }else {
             //hide edit profile
-            editProfileButton.isEnabled = false
+            editProfileButton.isEnabled = true
             editProfileButton.setTitleColor(.white, for: .normal)
             editProfileButton.layer.borderColor = UIColor.white.cgColor
         }
@@ -172,6 +173,7 @@ class UserProfileHeader: UICollectionViewCell{
     
     @objc func handleEditProfile(){
         print("Handle Edit Profile")
+        delegate?.didChangeToSettingsView()
     }
     
     override init(frame: CGRect) {

@@ -67,6 +67,7 @@ private func getUserLikes(user: User) -> [Post] {
 //MARK :- USER PROFILE VIEWMODEL
 protocol UserProfileViewModelDelegate {
     func selectPost(viewController: UIViewController)
+    func handleGoToSettings(settingsViewController: SettingsController)
 }
 
 class UserProfileViewModel: NSObject {
@@ -153,6 +154,10 @@ extension UserProfileViewModel : UserProfileHeaderDelegate {
         items.append(factsSection4)
         
         reloadAllSections?()
+    }
+    
+    func didChangeToSettingsView() {
+        delegate?.handleGoToSettings(settingsViewController: SettingsController())
     }
 }
 
