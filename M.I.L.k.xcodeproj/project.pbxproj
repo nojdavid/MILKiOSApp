@@ -12,6 +12,12 @@
 		4F0A40B620E18A1C004D2CA1 /* SettingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0A40B520E18A1C004D2CA1 /* SettingHeader.swift */; };
 		4F1C70F920DD6C3000BAB483 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1C70F820DD6C3000BAB483 /* Constants.swift */; };
 		4FBA78E520E01140002D503C /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FBA78E420E01140002D503C /* awsconfiguration.json */; };
+		4FC6815C20EC08DF0045B8AB /* GetPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC6815B20EC08DF0045B8AB /* GetPost.swift */; };
+		4FC6815E20EC09500045B8AB /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC6815D20EC09500045B8AB /* constants.swift */; };
+		4FC6816020EC0AD80045B8AB /* GetStatue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC6815F20EC0AD80045B8AB /* GetStatue.swift */; };
+		4FC6816220EC0C980045B8AB /* SendLike.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC6816120EC0C980045B8AB /* SendLike.swift */; };
+		4FC6816420EC0DA00045B8AB /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC6816320EC0DA00045B8AB /* Like.swift */; };
+		4FC6816620EC10690045B8AB /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC6816520EC10690045B8AB /* Image.swift */; };
 		852800091FF5FB9F00FD908F /* FSAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528FFFC1FF5FB9D00FD908F /* FSAlbumViewCell.swift */; };
 		8528000A1FF5FB9F00FD908F /* FSAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8528FFFD1FF5FB9E00FD908F /* FSAlbumViewCell.xib */; };
 		8528000B1FF5FB9F00FD908F /* FSAlbumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8528FFFE1FF5FB9E00FD908F /* FSAlbumView.xib */; };
@@ -92,6 +98,12 @@
 		4F0A40B520E18A1C004D2CA1 /* SettingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingHeader.swift; sourceTree = "<group>"; };
 		4F1C70F820DD6C3000BAB483 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4FBA78E420E01140002D503C /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		4FC6815B20EC08DF0045B8AB /* GetPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPost.swift; sourceTree = "<group>"; };
+		4FC6815D20EC09500045B8AB /* constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
+		4FC6815F20EC0AD80045B8AB /* GetStatue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStatue.swift; sourceTree = "<group>"; };
+		4FC6816120EC0C980045B8AB /* SendLike.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendLike.swift; sourceTree = "<group>"; };
+		4FC6816320EC0DA00045B8AB /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
+		4FC6816520EC10690045B8AB /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		852800001FF5FB9E00FD908F /* FSCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSCameraView.swift; sourceTree = "<group>"; };
 		852800011FF5FB9E00FD908F /* FSCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSCameraView.xib; sourceTree = "<group>"; };
 		852800021FF5FB9E00FD908F /* FSImageCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
@@ -224,9 +236,10 @@
 			children = (
 				85EAD4551FEEEC95004EDE5E /* LogInUser.swift */,
 				85707AB71FE769AD00BD978F /* UserSignUp.swift */,
-				8544270B1FF4340800D81665 /* SendPost.swift */,
 				8544270D1FF4345700D81665 /* LogoutUser.swift */,
+				8544270B1FF4340800D81665 /* SendPost.swift */,
 				8544270F1FF43CB100D81665 /* SendComment.swift */,
+				4FC6816120EC0C980045B8AB /* SendLike.swift */,
 			);
 			path = POST;
 			sourceTree = "<group>";
@@ -235,6 +248,8 @@
 			isa = PBXGroup;
 			children = (
 				85EAD4501FEC8D27004EDE5E /* GetUser.swift */,
+				4FC6815B20EC08DF0045B8AB /* GetPost.swift */,
+				4FC6815F20EC0AD80045B8AB /* GetStatue.swift */,
 			);
 			path = GET;
 			sourceTree = "<group>";
@@ -268,6 +283,7 @@
 				8544270A1FF433C700D81665 /* GET */,
 				854427091FF433B400D81665 /* POST */,
 				85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */,
+				4FC6815D20EC09500045B8AB /* constants.swift */,
 			);
 			path = DatabaseUtils;
 			sourceTree = "<group>";
@@ -308,7 +324,9 @@
 				85752E121FE61C2E0002EC3D /* Post.swift */,
 				85752E1D1FE65E3D0002EC3D /* User.swift */,
 				85D967A81FE8844300AF82A6 /* Comment.swift */,
+				4FC6816320EC0DA00045B8AB /* Like.swift */,
 				85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */,
+				4FC6816520EC10690045B8AB /* Image.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -630,15 +648,19 @@
 				85E8DF171FE372A600E6FBD6 /* UserProfileController.swift in Sources */,
 				85CF3A54200F27150035F778 /* StatueDetailSheetController.swift in Sources */,
 				856CD00E2012624600C47D5A /* UserProfileViewModel.swift in Sources */,
+				4FC6816620EC10690045B8AB /* Image.swift in Sources */,
+				4FC6815C20EC08DF0045B8AB /* GetPost.swift in Sources */,
 				85EAD44D1FEB9679004EDE5E /* StatueSelectionCell.swift in Sources */,
 				852800151FF5FB9F00FD908F /* FusumaViewController.swift in Sources */,
 				85D967A91FE8844300AF82A6 /* Comment.swift in Sources */,
+				4FC6816020EC0AD80045B8AB /* GetStatue.swift in Sources */,
 				85EAD45A1FEF4639004EDE5E /* DecodeUtilities.swift in Sources */,
 				85EAD4421FEB5769004EDE5E /* Statue.swift in Sources */,
 				856CD00C2012622A00C47D5A /* FactsModel.swift in Sources */,
 				85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */,
 				85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */,
 				85752E231FE70FAD0002EC3D /* UserSearchController.swift in Sources */,
+				4FC6816220EC0C980045B8AB /* SendLike.swift in Sources */,
 				85EAD4561FEEEC95004EDE5E /* LogInUser.swift in Sources */,
 				85EAD4401FEB5091004EDE5E /* MapController.swift in Sources */,
 				85D967A01FE86D3100AF82A6 /* CustomAnimationPresentor.swift in Sources */,
@@ -647,6 +669,7 @@
 				8528000D1FF5FB9F00FD908F /* FSCameraView.swift in Sources */,
 				85752E071FE486D30002EC3D /* LoginController.swift in Sources */,
 				853E18A3200D6C0C004AE42C /* TitlesAndFonts.swift in Sources */,
+				4FC6815E20EC09500045B8AB /* constants.swift in Sources */,
 				854827711FE34E7A007031E7 /* Extensions.swift in Sources */,
 				852800091FF5FB9F00FD908F /* FSAlbumViewCell.swift in Sources */,
 				85EAD43B1FEB2576004EDE5E /* HomeCollectionController.swift in Sources */,
@@ -670,6 +693,7 @@
 				85D0062D1FE9C48300D5463A /* PhotoSelectorPreviewPhotoContainerView.swift in Sources */,
 				85D967A71FE881D200AF82A6 /* CommentCell.swift in Sources */,
 				85D006271FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift in Sources */,
+				4FC6816420EC0DA00045B8AB /* Like.swift in Sources */,
 				85D98F4B1FF87DB5000C8F2D /* ShareController.swift in Sources */,
 				852800121FF5FB9F00FD908F /* FSConstants.swift in Sources */,
 				4F0A40B120E14A48004D2CA1 /* Settings.swift in Sources */,

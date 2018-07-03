@@ -133,6 +133,8 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
             switch result {
                 case .success(let user):
                     //save user to disk
+                    print("SIGN UP SUCCESS")
+                    print("USER: \(user)")
                     saveUserToDisk(user: user)
 
                     //get reference to maintab bar
@@ -142,16 +144,16 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
                     
                     self.dismiss(animated: true, completion: nil)
                 
-                case .user_message(let message):
-                    /*
-                    //remove error message if already there
-                    if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
-                        self.stackView?.removeFromSuperview()
-                    }
-                    */
-                    //add error message
-                    self.present(customUserError(title: "Signup Failed", message: message), animated: true, completion: nil)
-                    return
+//                case .user_message(let message):
+//                    /*
+//                    //remove error message if already there
+//                    if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
+//                        self.stackView?.removeFromSuperview()
+//                    }
+//                    */
+//                    //add error message
+//                    self.present(customUserError(title: "Signup Failed", message: message), animated: true, completion: nil)
+//                    return
                 
                 case .failure(let error):
                     print("SIGN UP FAILURE")

@@ -11,9 +11,11 @@ import Foundation
 func signUpUserToDB(user: CreateUser, completion:((Result<User>) -> Void)?){
     
     var urlComponents = URLComponents()
-    urlComponents.scheme = "https"
-    urlComponents.host = "milk-backend.herokuapp.com"
-    urlComponents.path = "/users/add-new-user"
+    urlComponents.scheme = scheme
+    urlComponents.host = host
+    urlComponents.path = "/users/signup"
+    
+    print("url:", urlComponents.url)
     guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
     
     // Specify this request as being a POST method
@@ -65,9 +67,9 @@ func signUpUserToDB(user: CreateUser, completion:((Result<User>) -> Void)?){
                 //print("RESPONSE MESSAGE: ", responseObject.message)
                 //print("SIGNUP USER DATA: ",responseObject.data)
                 
-                if responseObject.data == nil && responseObject.message != nil {
-                    completion!(Result.user_message(responseObject.message!))
-                }
+                //if responseObject.data == nil && responseObject.message != nil {
+                //    completion!(.failure(error))
+                //}
                 
                 if responseObject.data != nil {
                     completion!(Result.success(responseObject.data!))

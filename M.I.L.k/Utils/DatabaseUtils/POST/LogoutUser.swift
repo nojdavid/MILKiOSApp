@@ -11,8 +11,8 @@ import Foundation
 func logoutUserFromDB(user: User, completion:((Error?) -> Void)?) {
     
     var urlComponents = URLComponents()
-    urlComponents.scheme = "https"
-    urlComponents.host = "milk-backend.herokuapp.com"
+    urlComponents.scheme = scheme
+    urlComponents.host = host
     urlComponents.path = "/users/logout"
     guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
     

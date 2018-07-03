@@ -7,17 +7,24 @@
 //
 
 import Foundation
-func sendCommentToDB(comment: Comment, completion:((Error?) -> Void)?){
+func sendCommentToDB(config: [String: Any], comment: Comment, completion:((Error?) -> Void)?){
     
     var urlComponents = URLComponents()
-    urlComponents.scheme = "https"
-    urlComponents.host = "milk-backend.herokuapp.com"
-    urlComponents.path = "/posts/post" //CHANGET THIS
+    urlComponents.scheme = scheme
+    urlComponents.host = host
+    
+    if (config["post"] != nil) {
+        urlComponents.path = "/posts/\(config["id"])/comment"
+    } else {
+        urlComponents.path = "/statues/\(config["id"])/comment"
+    }
+    
     guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
     
     // Specify this request as being a POST method
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
+    
     // Make sure that we include headers specifying that our request's HTTP body
     // will be JSON encoded
     var headers = request.allHTTPHeaderFields ?? [:]

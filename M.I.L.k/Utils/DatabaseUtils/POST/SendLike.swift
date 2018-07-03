@@ -1,5 +1,5 @@
 //
-//  SendPost.swift
+//  SendComment.swift
 //  M.I.L.k
 //
 //  Created by noah davidson on 12/27/17.
@@ -7,18 +7,24 @@
 //
 
 import Foundation
-
-func sendPostToDB(post: Post, completion:((Error?) -> Void)?){
+func sendCommentToDB(config: [String: Any], like: Like, completion:((Error?) -> Void)?){
     
     var urlComponents = URLComponents()
     urlComponents.scheme = scheme
     urlComponents.host = host
-    urlComponents.path = "/posts" 
+    
+    if (config["post"] != nil) {
+        urlComponents.path = "/posts/\(config["id"])/like"
+    } else {
+        urlComponents.path = "/statues/\(config["id"])/like"
+    }
+    
     guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
     
     // Specify this request as being a POST method
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
+    
     // Make sure that we include headers specifying that our request's HTTP body
     // will be JSON encoded
     var headers = request.allHTTPHeaderFields ?? [:]
@@ -28,7 +34,7 @@ func sendPostToDB(post: Post, completion:((Error?) -> Void)?){
     // Now let's encode out Post struct into JSON data...
     let encoder = JSONEncoder()
     do {
-        let jsonData = try encoder.encode(post)
+        let jsonData = try encoder.encode(like)
         // ... and set our request's HTTP body
         request.httpBody = jsonData
         print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")

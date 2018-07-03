@@ -11,9 +11,9 @@ import Foundation
 func loginUserToDB(user: LoginUser, completion:((Result<User>) -> Void)?){
     
     var urlComponents = URLComponents()
-    urlComponents.scheme = "https"
-    urlComponents.host = "milk-backend.herokuapp.com"
-    urlComponents.path = "/users/login"
+    urlComponents.scheme = scheme
+    urlComponents.host = host
+    urlComponents.path = "/users/signin"
     guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
     
     // Specify this request as being a POST method
