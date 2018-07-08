@@ -107,23 +107,21 @@ class LoginController : UIViewController, UITextFieldDelegate{
                     
                     self.dismiss(animated: true, completion: nil)
                 
-                case .user_message(let message):
-                    /*
-                    //remove error message if already there
+                case .failure(let error):
+                    print("LOG IN FAILURE", error)
+                    print("error: \(error.localizedDescription)")
+                    
+                    let message = error.localizedDescription
+                    
                     if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
                         self.stackView?.removeFromSuperview()
                     }
-                    //add error message
+
                     let attributedTitle = NSMutableAttributedString(string: message, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.red])
                     self.userErrorLabel.attributedText = attributedTitle
-                    */
-                    
+
                     self.present(customUserError(title: "Login Failed", message: message), animated: true, completion: nil)
-                return
-                
-                case .failure(let error):
-                    print("LOG IN FAILURE")
-                    print("error: \(error.localizedDescription)")
+                    
                     return
             }
         }

@@ -142,20 +142,18 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
                     
                     self.dismiss(animated: true, completion: nil)
                 
-                case .user_message(let message):
-                    /*
-                    //remove error message if already there
-                    if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
-                        self.stackView?.removeFromSuperview()
-                    }
-                    */
-                    //add error message
-                    self.present(customUserError(title: "Signup Failed", message: message), animated: true, completion: nil)
-                    return
-                
                 case .failure(let error):
                     print("SIGN UP FAILURE")
                     print("error: \(error.localizedDescription)")
+                    
+                    let message = error.localizedDescription
+                     //remove error message if already there
+                     if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
+                     self.stackView?.removeFromSuperview()
+                     }
+ 
+                    //add error message
+                    self.present(customUserError(title: "Signup Failed", message: message), animated: true, completion: nil)
                     return
             }
         }

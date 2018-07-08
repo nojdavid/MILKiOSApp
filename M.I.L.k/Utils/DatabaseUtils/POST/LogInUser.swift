@@ -66,8 +66,11 @@ func loginUserToDB(user: LoginUser, completion:((Result<User>) -> Void)?){
                 //print("GET USER DATA: ",responseObject.data)
 
                 if responseObject.id != nil {
-                    completion!(Result.success(responseObject))
+                   return completion!(Result.success(responseObject))
                 }
+                
+                let errorResponse = try createDecoder().decode(ErrorResponse.self, from: jsonData)
+                return completion!(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorResponse.error]) as Error))
             } catch let error as NSError {
                 print("failure to decode user from JSON")
                 completion!(.failure(error))

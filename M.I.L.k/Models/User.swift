@@ -50,3 +50,8 @@ struct User : Codable{
     }
     
 }
+
+struct ErrorResponse : Codable {
+    let error: String?
+}
+
