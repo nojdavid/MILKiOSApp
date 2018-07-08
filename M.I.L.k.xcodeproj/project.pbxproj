@@ -10,6 +10,8 @@
 		4F0A40B120E14A48004D2CA1 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0A40B020E14A48004D2CA1 /* Settings.swift */; };
 		4F0A40B420E18A0C004D2CA1 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0A40B320E18A0C004D2CA1 /* SettingCell.swift */; };
 		4F0A40B620E18A1C004D2CA1 /* SettingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0A40B520E18A1C004D2CA1 /* SettingHeader.swift */; };
+		4F1ADB7920F1E2C000EA96B6 /* api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1ADB7820F1E2C000EA96B6 /* api.swift */; };
+		4F1ADB7B20F1E37300EA96B6 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1ADB7A20F1E37300EA96B6 /* constants.swift */; };
 		4F1C70F920DD6C3000BAB483 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1C70F820DD6C3000BAB483 /* Constants.swift */; };
 		4FBA78E520E01140002D503C /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FBA78E420E01140002D503C /* awsconfiguration.json */; };
 		852800091FF5FB9F00FD908F /* FSAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528FFFC1FF5FB9D00FD908F /* FSAlbumViewCell.swift */; };
@@ -89,6 +91,8 @@
 		4F0A40B020E14A48004D2CA1 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		4F0A40B320E18A0C004D2CA1 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		4F0A40B520E18A1C004D2CA1 /* SettingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingHeader.swift; sourceTree = "<group>"; };
+		4F1ADB7820F1E2C000EA96B6 /* api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = api.swift; sourceTree = "<group>"; };
+		4F1ADB7A20F1E37300EA96B6 /* constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 		4F1C70F820DD6C3000BAB483 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4FBA78E420E01140002D503C /* awsconfiguration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		852800001FF5FB9E00FD908F /* FSCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSCameraView.swift; sourceTree = "<group>"; };
@@ -266,6 +270,8 @@
 				8544270A1FF433C700D81665 /* GET */,
 				854427091FF433B400D81665 /* POST */,
 				85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */,
+				4F1ADB7820F1E2C000EA96B6 /* api.swift */,
+				4F1ADB7A20F1E37300EA96B6 /* constants.swift */,
 			);
 			path = DatabaseUtils;
 			sourceTree = "<group>";
@@ -632,6 +638,7 @@
 				85D967A91FE8844300AF82A6 /* Comment.swift in Sources */,
 				85EAD45A1FEF4639004EDE5E /* DecodeUtilities.swift in Sources */,
 				85EAD4421FEB5769004EDE5E /* Statue.swift in Sources */,
+				4F1ADB7920F1E2C000EA96B6 /* api.swift in Sources */,
 				856CD00C2012622A00C47D5A /* FactsModel.swift in Sources */,
 				85D967A51FE8743F00AF82A6 /* CommentsController.swift in Sources */,
 				85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */,
@@ -665,6 +672,7 @@
 				852800111FF5FB9F00FD908F /* FSAlbumView.swift in Sources */,
 				85D0062D1FE9C48300D5463A /* PhotoSelectorPreviewPhotoContainerView.swift in Sources */,
 				85D967A71FE881D200AF82A6 /* CommentCell.swift in Sources */,
+				4F1ADB7B20F1E37300EA96B6 /* constants.swift in Sources */,
 				85D006271FE9B6FF00D5463A /* PhotoSelectorTabBarController.swift in Sources */,
 				85D98F4B1FF87DB5000C8F2D /* ShareController.swift in Sources */,
 				852800121FF5FB9F00FD908F /* FSConstants.swift in Sources */,

@@ -9,25 +9,14 @@
 import Foundation
 
 func loginUserToDB(user: LoginUser, completion:((Result<User>) -> Void)?){
-    
-    var urlComponents = URLComponents()
-    urlComponents.scheme = "https"
-    urlComponents.host = "milk-backend.herokuapp.com"
-    urlComponents.path = "/users/signin"
-    guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
-    
-    // Specify this request as being a POST method
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    // Make sure that we include headers specifying that our request's HTTP body
-    // will be JSON encoded
-    var headers = request.allHTTPHeaderFields ?? [:]
-    headers["Content-Type"] = "application/json"
-    request.allHTTPHeaderFields = headers
-    
+
+    let body = ["path": "/users/signin", "http": "POST"]
+
     // Now let's encode out Post struct into JSON data...
+    var request : URLRequest
     let encoder = JSONEncoder()
     do {
+        request = try! createRequest(body: body)
         let jsonData = try encoder.encode(user)
         // ... and set our request's HTTP body
         request.httpBody = jsonData
@@ -41,39 +30,25 @@ func loginUserToDB(user: LoginUser, completion:((Result<User>) -> Void)?){
     let session = URLSession(configuration: config)
     let task = session.dataTask(with: request) { (responseData, response, responseError) in
         DispatchQueue.main.async {
-            guard responseError == nil else {
-                print("ResponseError")
-                completion?(.failure(responseError!))
-                return
-            }
             
-            guard let jsonData = responseData else {
-                let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Data was not retrieved from request"]) as Error
-                completion?(.failure(error))
-                print("No Data retrieved from request")
-                return
-            }
-            
-            if let utf8Representation = String(data: jsonData, encoding: .utf8) {
-                print("response: ", utf8Representation)
-            } else {
-                print("no readable data received in response")
-            }
-            
+            let jsonData : Data?
             do {
-                let responseObject = try createDecoder().decode(User.self, from: jsonData)
-                //print("RESPONSE MESSAGE: ", responseObject.message)
-                //print("GET USER DATA: ",responseObject.data)
-
+                //get response data from session or catch reponse
+                jsonData = try checkResponse(responseData: responseData, responseError: responseError)
+                
+                //decode response object
+                let responseObject = try createDecoder().decode(User.self, from: jsonData!)
+                
+                //if user.id == nil then no user id
                 if responseObject.id != nil {
-                   return completion!(Result.success(responseObject))
+                    return completion!(Result.success(responseObject))
                 }
                 
-                let errorResponse = try createDecoder().decode(ErrorResponse.self, from: jsonData)
-                return completion!(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorResponse.error]) as Error))
-            } catch let error as NSError {
-                print("failure to decode user from JSON")
-                completion!(.failure(error))
+                //throw error from response insteda
+                let errorResponse = try createDecoder().decode(ErrorResponse.self, from: jsonData!)
+                throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorResponse.error ?? "Error"])
+            } catch {
+                completion?(.failure(error))
             }
         }
     }
