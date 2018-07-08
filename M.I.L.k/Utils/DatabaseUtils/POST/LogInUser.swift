@@ -13,7 +13,7 @@ func loginUserToDB(user: LoginUser, completion:((Result<User>) -> Void)?){
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
     urlComponents.host = "milk-backend.herokuapp.com"
-    urlComponents.path = "/users/login"
+    urlComponents.path = "/users/signin"
     guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
     
     // Specify this request as being a POST method
@@ -61,16 +61,12 @@ func loginUserToDB(user: LoginUser, completion:((Result<User>) -> Void)?){
             }
             
             do {
-                let responseObject = try createDecoder().decode(UserResponseObject.self, from: jsonData)
+                let responseObject = try createDecoder().decode(User.self, from: jsonData)
                 //print("RESPONSE MESSAGE: ", responseObject.message)
                 //print("GET USER DATA: ",responseObject.data)
-                
-                if responseObject.data == nil && responseObject.message != nil {
-                    completion!(Result.user_message(responseObject.message!))
-                }
-                
-                if responseObject.data != nil {
-                    completion!(Result.success(responseObject.data!))
+
+                if responseObject.id != nil {
+                    completion!(Result.success(responseObject))
                 }
             } catch let error as NSError {
                 print("failure to decode user from JSON")

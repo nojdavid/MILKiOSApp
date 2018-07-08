@@ -51,12 +51,12 @@ func getUserFromDB(for userName: String, completion: ((Result<User>) -> Void)? )
             }
             
             do {
-                let responseObject = try createDecoder().decode(UserResponseObject.self, from: jsonData)
+                let responseObject = try createDecoder().decode(User.self,from: jsonData)
                 //print("RESPONSE MESSAGE: ", responseObject.message)
                 //print("GET USER DATA: ",responseObject.data)
 
-                if responseObject.data != nil {
-                    completion!(Result.success(responseObject.data!))
+                if responseObject.id != nil {
+                    completion!(Result.success(responseObject))
                 }
             } catch let error as NSError {
                 print("failure to decode user from JSON")

@@ -44,7 +44,7 @@ class DetailPostCell : UICollectionViewCell{
         
         guard let post = self.post else {return}
         
-        let attributedText = NSMutableAttributedString(string: post.user.username, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
+        let attributedText = NSMutableAttributedString(string: post.user.username!, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
         
         attributedText.append(NSAttributedString(string: "\(post.caption)", attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
         

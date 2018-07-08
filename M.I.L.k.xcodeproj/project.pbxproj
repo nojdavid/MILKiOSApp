@@ -79,7 +79,6 @@
 		85EAD4511FEC8D27004EDE5E /* GetUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4501FEC8D27004EDE5E /* GetUser.swift */; };
 		85EAD4531FEC997E004EDE5E /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4521FEC997E004EDE5E /* Disk.swift */; };
 		85EAD4561FEEEC95004EDE5E /* LogInUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4551FEEEC95004EDE5E /* LogInUser.swift */; };
-		85EAD4581FEF3FA3004EDE5E /* ResponseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */; };
 		85EAD45A1FEF4639004EDE5E /* DecodeUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */; };
 		85EAD45E1FF0365F004EDE5E /* CustomUserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EAD45D1FF0365F004EDE5E /* CustomUserError.swift */; };
 		F2253E8B2C0AD0B761FE8511 /* Pods_M_I_L_k.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D48CB045CE0BC5627620DDC7 /* Pods_M_I_L_k.framework */; };
@@ -161,7 +160,6 @@
 		85EAD4501FEC8D27004EDE5E /* GetUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUser.swift; sourceTree = "<group>"; };
 		85EAD4521FEC997E004EDE5E /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
 		85EAD4551FEEEC95004EDE5E /* LogInUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInUser.swift; sourceTree = "<group>"; };
-		85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseObject.swift; sourceTree = "<group>"; };
 		85EAD4591FEF4639004EDE5E /* DecodeUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeUtilities.swift; sourceTree = "<group>"; };
 		85EAD45D1FF0365F004EDE5E /* CustomUserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUserError.swift; sourceTree = "<group>"; };
 		C4E70E6CCF18EE6FB5CCCA3F /* Pods-M.I.L.k.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-M.I.L.k.debug.xcconfig"; path = "Pods/Target Support Files/Pods-M.I.L.k/Pods-M.I.L.k.debug.xcconfig"; sourceTree = "<group>"; };
@@ -308,7 +306,6 @@
 				85752E121FE61C2E0002EC3D /* Post.swift */,
 				85752E1D1FE65E3D0002EC3D /* User.swift */,
 				85D967A81FE8844300AF82A6 /* Comment.swift */,
-				85EAD4571FEF3FA3004EDE5E /* ResponseObject.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -661,7 +658,6 @@
 				85752E151FE61ECC0002EC3D /* UserProfilePhotoCell.swift in Sources */,
 				85D9679E1FE863F100AF82A6 /* PreviewPhotoContainerView.swift in Sources */,
 				4F0A40B620E18A1C004D2CA1 /* SettingHeader.swift in Sources */,
-				85EAD4581FEF3FA3004EDE5E /* ResponseObject.swift in Sources */,
 				85752E0C1FE4B4DE0002EC3D /* PhotoSelectorCell.swift in Sources */,
 				85D967A21FE86FE000AF82A6 /* CustomAnimationDismisser.swift in Sources */,
 				85EAD4461FEB8379004EDE5E /* StatueSelectionController.swift in Sources */,

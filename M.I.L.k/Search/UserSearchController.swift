@@ -27,7 +27,7 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
             filteredUsers = users
         }else {
             filteredUsers = self.users.filter { (user) -> Bool in
-                return user.username.lowercased().contains(searchText.lowercased())
+                return (user.username?.lowercased().contains(searchText.lowercased()))!
             }
         }
 
@@ -98,7 +98,7 @@ class UserSearchController : UICollectionViewController, UICollectionViewDelegat
         
         //sort list alphabetically
         self.users.sort { (u1, u2) -> Bool in
-            return u1.username.compare(u2.username) == .orderedAscending
+            return u1.username?.compare(u2.username!) == .orderedAscending
         }
         
         //gives filtered users master list of users until filtered

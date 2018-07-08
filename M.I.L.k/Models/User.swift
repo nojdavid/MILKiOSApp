@@ -31,22 +31,22 @@ struct LoginUser : Codable{
 }
 
 struct User : Codable{
-    var id: Int
-    var username: String
-    var password: String
-    var email: String
-    //var profileImageUrl: String?
-    var createdAt: Date
-    var updatedAt: Date
+    let id: Int?
+    let username: String?
+    let password: String?
+    let email: String?
+    let image_id: Int?
+    let created_at: Date?
+    let updated_at: Date?
     
     init(dictionary: [String: Any]){
         self.id = dictionary["id"] as? Int ?? -1
         self.username = dictionary["username"] as? String ?? ""
-        //self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
+        self.image_id = dictionary["image_id"] as? Int ?? -1
         self.password = dictionary["password"] as? String ?? ""
         self.email = dictionary["email"] as? String ?? ""
-        self.createdAt = dictionary["createdAt"] as? Date ?? Date()
-        self.updatedAt = dictionary["updatedAt"] as? Date ?? Date()
+        self.created_at = dictionary["created_at"] as? Date ?? Date()
+        self.updated_at = dictionary["updated_at"] as? Date ?? Date()
     }
- 
+    
 }
