@@ -10,24 +10,13 @@ import Foundation
 
 func logoutUserFromDB(user: User, completion:((Error?) -> Void)?) {
     
-    var urlComponents = URLComponents()
-    urlComponents.scheme = "https"
-    urlComponents.host = "milk-backend.herokuapp.com"
-    urlComponents.path = "/users/logout"
-    guard let url = urlComponents.url else { fatalError("Could not create URL from components") }
-    
-    // Specify this request as being a POST method
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    // Make sure that we include headers specifying that our request's HTTP body
-    // will be JSON encoded
-    var headers = request.allHTTPHeaderFields ?? [:]
-    headers["Content-Type"] = "application/json"
-    request.allHTTPHeaderFields = headers
+    let body = ["path": "/users/signout", "http": "POST"]
     
     // Now let's encode out Post struct into JSON data...
+    var request : URLRequest
     let encoder = JSONEncoder()
     do {
+        request = try! createRequest(body: body)
         let jsonData = try encoder.encode(user)
         // ... and set our request's HTTP body
         request.httpBody = jsonData
@@ -52,5 +41,6 @@ func logoutUserFromDB(user: User, completion:((Error?) -> Void)?) {
             print("no readable data received in response")
         }
     }
+    print("resuming task")
     task.resume()
 }
