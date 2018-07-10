@@ -19,6 +19,7 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         present(navController, animated: true, completion: nil)
     }
     
+    var user: User?
     var userId: Int?
 
     var userProfileViewModel : UserProfileViewModel?
@@ -92,11 +93,18 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
 
         //SAVE IMAGE INFO IN POST OBJ
         guard let user = self.user else {return}
-        
-        let post = Post(user: user, dictionary: dictionary)
 
-        //self.posts.insert(post, at: 0)
-        self.posts.append(post)
+        FetchPosts(dict: nil) { (result) in
+            switch result {
+            case .success(let posts):
+                print("SUCCESS POSTS: ", posts)
+                self.posts = posts
+                return
+            case .failure(let error):
+                print("FAILURE POSTS:", error)
+                return
+            }
+        }
         
         self.collectionView?.reloadData()
     }
@@ -135,7 +143,6 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         present(alertController, animated: true, completion: nil)
     }
     
-    var user: User?
     fileprivate func fetchUser(){
         
         var currentUser: User?
@@ -147,26 +154,5 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         self.collectionView?.reloadData()
         
         //self.fetchOrderedPosts()
-        
-        //IS IT NEEDED TO CHECK USER IN DATABASE HERE??
-        /*
-        let username = user?.username ?? (currentUser?.username ?? "")
-        getUserFromDB(for: username) { (result) in
-            switch result {
-            case .success(let user):
-                self.user = user
-                self.navigationItem.title = self.user?.username
-                
-                self.collectionView?.reloadData()
-                
-                self.fetchOrderedPosts()
-                
-            case .failure(let error):
-                print("USER PROFILE GET USER ERROR")
-                print("error: \(error.localizedDescription)")
-                return
-            }
-        }
-        */
     }
 }

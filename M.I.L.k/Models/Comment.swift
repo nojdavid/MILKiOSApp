@@ -10,13 +10,38 @@ import Foundation
 
 struct Comment : Codable {
     
-    let user: User
-    let text: String
-    let uid: String
+    var text: String
+    var user_id: Int?
+    var id: Int?
     
-    init(user: User, dictionary: [String:Any]) {
-        self.user = user
+    init(dictionary: [String:Any]) {
         self.text = dictionary["text"] as? String ?? ""
-        self.uid = dictionary["uid"] as? String ?? ""
     }
+    
+//    enum CodingKeys: String, CodingKey
+//    {
+//        case text
+//        case user_id
+//        case id
+//    }
 }
+
+//extension Comment: Encodable
+//{
+//    func encode(to encoder: Encoder) throws
+//    {
+//        var container = encoder.container(keyedBy: CodingKeys.self)
+//        try container.encode(text, forKey: .text)
+//    }
+//}
+//
+//extension Comment: Decodable
+//{
+//    init(from decoder: Decoder) throws
+//    {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        text = try values.decode(String.self, forKey: .text)
+//        user_id = try values.decode(Int.self, forKey: .user_id)
+//        id = try values.decode(Int.self, forKey: .id)
+//    }
+//}

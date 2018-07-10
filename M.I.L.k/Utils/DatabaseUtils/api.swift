@@ -8,11 +8,19 @@
 
 import Foundation
 
-func createRequest (body : [String: String]) throws -> URLRequest {
+func createRequest (body : [String: Any]) throws -> URLRequest {
     var urlComponents = URLComponents()
     urlComponents.scheme = scheme
     urlComponents.host = host
-    urlComponents.path = body["path"]!
+    urlComponents.path = body["path"] as! String
+    
+    if ((body["queries"]) != nil) {
+        let queries = body["queries"] as! [String: String]
+        queries.forEach({ (name, value) in
+            let query = URLQueryItem(name: name, value: value)
+            urlComponents.queryItems?.append(query)
+        })
+    }
     
     guard let url = urlComponents.url else {
         throw NSError(
@@ -26,7 +34,7 @@ func createRequest (body : [String: String]) throws -> URLRequest {
     
     // Specify this request as being a POST method
     var request = URLRequest(url: url)
-    request.httpMethod = body["http"]
+    request.httpMethod = body["http"] as? String
     // Make sure that we include headers specifying that our request's HTTP body
     // will be JSON encoded
     var headers = request.allHTTPHeaderFields ?? [:]

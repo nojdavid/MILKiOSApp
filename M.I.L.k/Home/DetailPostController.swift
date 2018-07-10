@@ -12,6 +12,7 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     let cellId = "cellId"
     var post: Post?
+    var user: User?
     
     lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
@@ -51,8 +52,10 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DetailPostCell
         
+        let isLiked = self.post?.images.first(where: {$0.id == user?.id})
+
         cell.post = post
-        
+        cell.isLiked = (isLiked != nil) ? true : false
         cell.delegate = self
         
         return cell
@@ -80,7 +83,7 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         //let values = [uid:post.hasLiked == true ? 0 : 1]
         
         //NEED TO DO: UPDATE LIKES FOR USER OF UID
-        self.post?.hasLiked = !post.hasLiked
+        cell.isLiked = !cell.isLiked!
 
         self.collectionView?.reloadItems(at: [indexPath])
     }

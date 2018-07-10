@@ -10,7 +10,14 @@ import UIKit
 
 class CommentsController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    var post: Post?
+    var comments = [Comment]()
+    var post: Post? {
+        didSet {
+            //Todo change this once GET comments is patched in !!!!!!!!
+            comments = (post?.comments)!
+        }
+    }
+    
     let cellId = "cellId"
     var user: User?
     
@@ -51,20 +58,9 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         navigationController?.popViewController(animated: true)
     }
     
-    var comments = [Comment]()
+    
     fileprivate func fetchComments(){
         //TODO: FETCH ALL COMMENTS FOR THIS POST
-        
-        //REMOVE THIS DUMMY DICT WHEN REAL VALUES ARE AVAILABLE
-        
-        let dictionary = ["text": "THIS IS DUMMY TEXt", "id": "THIS IS DUMMY UID","username": "Noah Davidson"]
-        let dummyUser = User(dictionary: dictionary)
-        //THIS IS TO GET USER PHOTO FOR COMMENT CELL
-        guard let uid = dictionary["id"] as? Int else {return}
-        
-        let comment = Comment(user: dummyUser, dictionary: dictionary)
-        //NEED TO DO: GET USER AND STORE IN COMMENT
-        comments.append(comment)
         
         self.collectionView?.reloadData()
     }
@@ -153,30 +149,39 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         submitButton.setTitleColor(UIColor.unselectedGrey(), for: .normal)
     }
     
-    @objc func handleSend(){
-        let uid = "this persons uid"
-        let postId = self.post?.id ?? ""
-        let values = ["text": commentTextField.text ?? "", "creationDate": Date().timeIntervalSince1970, "uid": uid] as [String:Any]
+    @objc func handleSend() {
+        
+        guard let post_id = self.post?.id else {
+            print("--failed to fetch user name in comments")
+            return
+        }
+        
+        let values = ["text": commentTextField.text] as [String:Any]
 
         emptyContainerView()
         
         //REMOVE THIS GET USER AND PROPEGATE USERS THROUGH NAV CONTROLLER
-        let comment = Comment(user: user!, dictionary: values)
-
-        /*
-        sendCommentToDB(comment: comment, completion: { (error) in
-            if let error = error {
-                print(error.localizedDescription)
+        let comment = Comment(dictionary: values)
+        print("MY COMMENT", comment)
+        sendCommentToDB(post_id: post_id,comment: comment) { (result) in
+            switch result {
+            case .success(let comment):
+                print("SUCCESS COMMENT: ", comment)
+                //reload comments when comment is returned
+                //can take out optionally
+                //self.collectionView?.reloadData()
+                
+                return
+            case .failure(let error):
+                print("FAILURE POSTS:", error)
                 return
             }
-            print("Successfuly inserted Comment")
-        })
-        */
+        }
         
-        //REMOVE THESE COMMENTS AND ONLY US METHODS TO DB FOR POSTING COMMENT
+        //Add comment in real time
         comments.append(comment)
-        collectionView?.reloadData()
-
+        self.collectionView?.reloadData()
+        
         scrollToBottomAnimated(animated: true)
     }
     

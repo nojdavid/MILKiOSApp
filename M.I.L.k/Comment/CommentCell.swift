@@ -13,8 +13,9 @@ class CommentCell: UICollectionViewCell {
     var comment: Comment?{
         didSet{
             guard let comment = comment else {return}
-
-            let attributedText = NSMutableAttributedString(string: comment.user.username!, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
+            
+            //TODO get user username for comment
+            let attributedText = NSMutableAttributedString(string: "GET AUTHOR NAME HERE", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
             
             attributedText.append(NSAttributedString(string: " " + comment.text, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
             

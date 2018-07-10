@@ -47,21 +47,46 @@ private func getUser(user: User) -> UserProfileViewModelHeader{
 
 //TODO:: IMPLEMENT REAL FETCH USERPOST
 private func getUserPosts(user: User) -> [Post] {
+    var userPosts: [Post]?
+    FetchPosts(dict: nil) { (result) in
+        switch result {
+        case .success(let posts):
+            print("SUCCESS GET USER POSTS: ", posts)
+            userPosts = posts
+            return
+        case .failure(let error):
+            print("FAILURE POSTS:", error)
+            return
+        }
+    }
     
-    let value = [String: Any]()
-    let dictionary = value
-
-    let post = Post(user: user, dictionary: dictionary)
-    return [post]
+    guard let value = userPosts else {
+        return []
+    }
+    
+    return value
 }
 
 //TODO:: IMPLEMENT REAL FETCH USER LIKES
 private func getUserLikes(user: User) -> [Post] {
-    let value = [String: Any]()
-    let dictionary = value
+    var userPosts: [Post]?
+    FetchPosts(dict: nil) { (result) in
+        switch result {
+        case .success(let posts):
+            print("SUCCESS GET LIKED POSTS: ", posts)
+            userPosts = posts
+            return
+        case .failure(let error):
+            print("FAILURE POSTS:", error)
+            return
+        }
+    }
     
-    let post = Post(user: user, dictionary: dictionary)
-    return [post]
+    guard let value = userPosts else {
+        return []
+    }
+    
+    return value
 }
 
 //MARK :- USER PROFILE VIEWMODEL

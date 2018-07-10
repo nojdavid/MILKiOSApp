@@ -24,8 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         AppDelegate.Statues = Statue.getStatues()
         
-        AWSDDLog.add(AWSDDTTYLogger.sharedInstance)
-        AWSDDLog.sharedInstance.logLevel = .info
+//        AWSDDLog.add(AWSDDTTYLogger.sharedInstance)
+//        AWSDDLog.sharedInstance.logLevel = .info
         
         // Create AWSMobileClient to connect with AWS
         //return true

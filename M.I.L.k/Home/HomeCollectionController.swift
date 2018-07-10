@@ -11,9 +11,12 @@ import UIKit
 class HomeCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     let cellId = "cellId"
+    var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        initPage()
         
         //UPDATE FEED WHEN SOMEONE SHARES A NEW PHOTO
         NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: ShareController.updateFeedNotificationName, object: nil)
@@ -29,6 +32,12 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
         
         collectionView?.register(HomeCollectionPostCell.self, forCellWithReuseIdentifier: cellId)
         
+        
+    }
+    
+    fileprivate func initPage(){
+        self.user = getUserFromDisk()
+        print("INIT")
         fetchAllPosts()
     }
     
@@ -47,6 +56,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
     
     var posts = [Post]()
     fileprivate func fetchAllPosts(){
+        print("FETCH POSTS")
         //NEED TO DO: GET ALL POSTS FOR APP LOAD PROPERLY!!!!!
         
         //THIS VALUE NEED TO BE IMAGE POST INFO. REMOVE WHEN HAVE DB INFO
@@ -55,27 +65,41 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
         self.collectionView?.refreshControl?.endRefreshing()
         
         //NEED TO DO: GET IMAGE POST VALUES AND SAVE IT TO THIS VARIABLE
-        guard let dictionary = value as? [String : Any] else {return}
+        //guard let dictionary = value as? [String : Any] else {return}
         
         
-        for index in 1...20{
-            //THIS DUMMY USER NEEDS TO BE UPDATED TO REAL USER
-            let dummyUser = User(dictionary: ["id": String(index), "username": "Noah Davidson "+String(index)])
-            
-            //SAVE IMAGE INFO IN POST OBJ
-            var post = Post(user: dummyUser, dictionary: dictionary)
-            post.id = "SOMEDUMMYKEY"
-            
-            //NEED TO DO:FOR EACH POST CHECK IF USER HAS LIKED THEM AND SET EACH POST ACCORDINGLY
-            self.posts.append(post)
+//        for index in 1...20{
+//            //THIS DUMMY USER NEEDS TO BE UPDATED TO REAL USER
+//            let dummyUser = User(dictionary: ["id": String(index), "username": "Noah Davidson "+String(index)])
+//
+//            //SAVE IMAGE INFO IN POST OBJ
+//            var post = Post(user: dummyUser, dictionary: dictionary)
+//            post.id = "SOMEDUMMYKEY"
+//
+//            //NEED TO DO:FOR EACH POST CHECK IF USER HAS LIKED THEM AND SET EACH POST ACCORDINGLY
+//            self.posts.append(post)
+//        }
+        
+        FetchPosts(dict: nil) { (result) in
+            switch result {
+            case .success(let posts):
+                print("SUCCESS POSTS: ", posts)
+                self.posts = posts
+                
+                self.posts.sort { (p1, p2) -> Bool in
+                    return p1.created_at.compare(p2.created_at) == .orderedDescending
+                }
+                
+                print("--GET THE POSTS BACK HERE: ", self.posts)
+                
+                self.collectionView?.reloadData()
+                
+                return
+            case .failure(let error):
+                print("FAILURE POSTS:", error)
+                return
+            }
         }
-        
-        
-        self.posts.sort { (p1, p2) -> Bool in
-            return p1.creationDate.compare(p2.creationDate) == .orderedDescending
-        }
-        
-        self.collectionView?.reloadData()
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -83,6 +107,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
         let post = posts[indexPath.item]
         let detailHomeController = DetailPostController(collectionViewLayout: UICollectionViewFlowLayout())
         detailHomeController.post = post
+        detailHomeController.user = self.user
         navigationController?.pushViewController(detailHomeController, animated: true)
     }
     

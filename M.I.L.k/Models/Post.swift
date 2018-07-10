@@ -9,24 +9,28 @@
 import Foundation
 
 struct Post : Codable{
+
+//    let imageUrl: String
+//    let creationDate: Date
+//    var hasLiked = false
     
-    var id: String?
+    let id: Int?
+    let user_id: Int?
+    let location: String?
+    let caption: String?
+    let comments: [Comment]
+    let images: [Image]
+    let likes: [Like]
+    let created_at: Date
+    let updated_at: Date
     
-    let user: User
-    let imageUrl: String
-    let caption:String
-    let creationDate: Date
-    
-    var hasLiked = false
-    
-    init(user: User, dictionary: [String: Any]) {
-        self.user = user
-        self.imageUrl = dictionary["imageUrl"] as? String ?? ""
-        self.caption = dictionary["caption"] as? String ?? ""
-        
-        let secondsFrom1970 = dictionary["creationDate"] as? Double ?? 0
-        self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
-    }
+//    init(user: User, dictionary: [String: Any]) {
+//        self.imageUrl = dictionary["imageUrl"] as? String ?? ""
+//        self.caption = dictionary["caption"] as? String ?? ""
+//
+//        let secondsFrom1970 = dictionary["creationDate"] as? Double ?? 0
+//        self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
+//    }
 }
 
 struct PostTest: Codable {

@@ -19,18 +19,13 @@ class DetailPostCell : UICollectionViewCell{
     
     var post: Post?{
         didSet{
+            guard let post = post else {return}
+            guard let postImageUrl = post.images[0].url else {return}
             
-            if post?.hasLiked == true {
-                likeButton.setImage(#imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysTemplate), for: .normal)
-                likeButton.tintColor = UIColor.red
-            } else {
-                likeButton.setImage( #imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
-            }
-            
-            guard let postImageUrl = post?.imageUrl else {return}
             photoImageView.loadImage(urlString: postImageUrl)
             
-            usernameLabel.text = post?.user.username
+            //TODO MAKE THIS THE POST AUTHOR USERNAME
+            usernameLabel.text = post.user_id as? String
             
             //guard let profileImageUrl = post?.user.profileImageUrl else {return}
             //userProfileImageView.loadImage(urlString: profileImageUrl)
@@ -40,17 +35,30 @@ class DetailPostCell : UICollectionViewCell{
         }
     }
     
+    var isLiked : Bool? {
+        didSet {
+            if isLiked == true {
+                likeButton.setImage(#imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysTemplate), for: .normal)
+                likeButton.tintColor = UIColor.red
+            } else {
+                likeButton.setImage( #imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
+            }
+        }
+    }
+    
     fileprivate func setupAttributedCaption(){
         
         guard let post = self.post else {return}
         
-        let attributedText = NSMutableAttributedString(string: post.user.username!, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
+        //TODO put post.username insteda of post.user_id
+        let attributedText = NSMutableAttributedString(string: "USERNAME HERE", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
         
-        attributedText.append(NSAttributedString(string: "\(post.caption)", attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
+        
+        attributedText.append(NSAttributedString(string: post.caption != nil ? post.caption! : "", attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
         
         attributedText.append(NSAttributedString(string: "\n\n",attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 4)]))
-        
-        let timeAgoDisplay = post.creationDate.timeAgoDisplay()
+
+        let timeAgoDisplay = post.created_at.timeAgoDisplay()
         attributedText.append(NSAttributedString(string: timeAgoDisplay, attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
         
         self.captionLabel.attributedText = attributedText
