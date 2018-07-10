@@ -162,7 +162,7 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         
         //REMOVE THIS GET USER AND PROPEGATE USERS THROUGH NAV CONTROLLER
         let comment = Comment(dictionary: values)
-        print("MY COMMENT", comment)
+
         sendCommentToDB(post_id: post_id,comment: comment) { (result) in
             switch result {
             case .success(let comment):

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KeychainSwift
 
 class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
@@ -132,13 +133,15 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
         signUpUserToDB(user: user) { (result) in
             switch result {
                 case .success(let user):
+                    
                     //save user to disk
                     saveUserToDisk(user: user)
 
                     //get reference to maintab bar
                     guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
+                    
                     //reset all views
-                    mainTabBarController.setupViewController()
+                    mainTabBarController.setupViewController(user: user)
                     
                     self.dismiss(animated: true, completion: nil)
                 
@@ -149,7 +152,7 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
                     let message = error.localizedDescription
                      //remove error message if already there
                      if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
-                     self.stackView?.removeFromSuperview()
+                        self.stackView?.removeFromSuperview()
                      }
  
                     //add error message

@@ -54,11 +54,11 @@ func checkResponse(responseData : Data?, responseError: Error?) throws -> Data {
         throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Data was not retrieved from request"]) as Error
     }
     
-    if let utf8Representation = String(data: jsonData, encoding: .utf8) {
-        print("response: ", utf8Representation)
-    } else {
-        print("no readable data received in response")
-    }
+//    if let utf8Representation = String(data: jsonData, encoding: .utf8) {
+//        print("response: ", utf8Representation)
+//    } else {
+//        print("no readable data received in response")
+//    }
     
     return jsonData
 }

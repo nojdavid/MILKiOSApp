@@ -20,7 +20,6 @@ func logoutUserFromDB(user: User, completion:((Error?) -> Void)?) {
         let jsonData = try encoder.encode(user)
         // ... and set our request's HTTP body
         request.httpBody = jsonData
-        print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
     } catch {
         completion?(error)
     }
@@ -35,12 +34,12 @@ func logoutUserFromDB(user: User, completion:((Error?) -> Void)?) {
         }
         
         // APIs usually respond with the data you just sent in your POST request
-        if let data = responseData, let utf8Representation = String(data: data, encoding: .utf8) {
-            print("response: ", utf8Representation)
-        } else {
-            print("no readable data received in response")
-        }
+//        if let data = responseData, let utf8Representation = String(data: data, encoding: .utf8) {
+//            print("response: ", utf8Representation)
+//        } else {
+//            print("no readable data received in response")
+//        }
     }
-    print("resuming task")
+
     task.resume()
 }

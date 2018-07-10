@@ -16,9 +16,10 @@ protocol HomePostCellDelegate {
 class DetailPostCell : UICollectionViewCell{
     
     var delegate: HomePostCellDelegate?
-    
+
     var post: Post?{
         didSet{
+            let user = Store.shared().user
             guard let post = post else {return}
             guard let postImageUrl = post.images[0].url else {return}
             
@@ -30,7 +31,12 @@ class DetailPostCell : UICollectionViewCell{
             //guard let profileImageUrl = post?.user.profileImageUrl else {return}
             //userProfileImageView.loadImage(urlString: profileImageUrl)
             
-            //captionLabel.text = post?.caption
+            print("POST LIKES:", post.likes)
+            let isLiked = post.likes.first(where: {$0.user_id == user?.id})
+            self.isLiked = (isLiked != nil) ? true : false
+            
+            
+            captionLabel.text = post.caption
             setupAttributedCaption()
         }
     }
@@ -58,8 +64,8 @@ class DetailPostCell : UICollectionViewCell{
         
         attributedText.append(NSAttributedString(string: "\n\n",attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 4)]))
 
-        let timeAgoDisplay = post.created_at.timeAgoDisplay()
-        attributedText.append(NSAttributedString(string: timeAgoDisplay, attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
+        let timeAgoDisplay = post.created_at?.timeAgoDisplay()
+        attributedText.append(NSAttributedString(string: timeAgoDisplay!, attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
         
         self.captionLabel.attributedText = attributedText
     }

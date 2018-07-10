@@ -7,19 +7,19 @@
 //
 
 import Foundation
-func sendCommentToDB(post_id: Int, comment: Comment, completion:((Result<Comment>) -> Void)?){
-    print("sendCommentToDB", "path: ", "/posts/\(post_id)/comment", "comment:", comment)
-    let body = ["path": "/posts/\(post_id)/comment", "http": "POST"]
+func createLikePost(post_id: Int, like: LikeConfig, completion:((Result<Like>) -> Void)?){
+    
+    let body = ["path": "/posts/\(post_id)/like", "http": "POST"]
     
     // Now let's encode out Post struct into JSON data...
     var request : URLRequest
     let encoder = JSONEncoder()
     do {
         request = try! createRequest(body: body)
-        let jsonData = try encoder.encode(comment)
+        let jsonData = try encoder.encode(like)
         // ... and set our request's HTTP body
         request.httpBody = jsonData
-        print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
+//        print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
     } catch {
         completion?(.failure(error))
     }
@@ -34,24 +34,21 @@ func sendCommentToDB(post_id: Int, comment: Comment, completion:((Result<Comment
             do {
                 //get response data from session or catch reponse
                 jsonData = try checkResponse(responseData: responseData, responseError: responseError)
-                print("JSON COMMENT DATA:", jsonData!)
-                //decode response object
-                let responseObject = try createDecoder().decode(Comment.self, from: jsonData!)
                 
-                return completion!(Result.success(responseObject))
-                //if user.id == nil then no user id
-//                if responseObject.id   {
-//
-//                } else {
-//                    //throw error from response insteda
-//                    let errorResponse = try createDecoder().decode(ErrorResponse.self, from: jsonData!)
-//                    throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorResponse.error ?? "Error"])
-//                }
+                //decode response object
+                let responseObject = try? createDecoder().decode(Like.self, from: jsonData!)
+                
+                //TODO not sure if this works
+                if let responseObject = responseObject {
+                    return completion!(Result.success(responseObject))
+                } else {
+                    let errorResponse = try createDecoder().decode(ErrorResponse.self, from: jsonData!)
+                    throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorResponse.error ?? "Error"])
+                }
             } catch {
                 completion?(.failure(error))
             }
         }
     }
-    print("resuming task")
     task.resume()
 }

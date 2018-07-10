@@ -12,4 +12,3 @@ import UIKit
 var navigationTitleFont = UIFont(name: "AppleSDGothicNeo-Medium", size: 20)
 
 var navigationButtonFont = UIFont.systemFont(ofSize: 17)
-

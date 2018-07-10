@@ -35,7 +35,7 @@ func saveUserToDisk(user: User){
         }
         // 4. Now create posts.json with the data encoded from our array of Posts
         fileManager.createFile(atPath: url.path, contents: data, attributes: nil)
-        print("saved user to disk")
+        //print("saved user to disk")
     } catch {
         print("failed to save user to disk: ", error.localizedDescription)
     }
@@ -58,7 +58,7 @@ func getUserFromDisk() -> User? {
         do {
             // 4. Decode an array of Posts from this Data
             let user = try decoder.decode(User.self, from: data)
-            print("returning user from disk")
+            //print("returning user from disk")
             return user
         } catch {
             print("failed to get user from disk: ", error.localizedDescription)
@@ -76,7 +76,7 @@ func deleteUserFromDisk() {
     do {
         if fileManager.fileExists(atPath: url.path) {
             try fileManager.removeItem(at: url)
-            print("SUCCESSFULLY REMOVED USER FROM DISK")
+            //print("SUCCESSFULLY REMOVED USER FROM DISK")
         }
     }catch {
         print("FAILED TO DELETE USER TO DISK", error.localizedDescription)

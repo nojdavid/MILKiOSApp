@@ -14,15 +14,15 @@ struct Post : Codable{
 //    let creationDate: Date
 //    var hasLiked = false
     
-    let id: Int?
-    let user_id: Int?
-    let location: String?
-    let caption: String?
-    let comments: [Comment]
-    let images: [Image]
-    let likes: [Like]
-    let created_at: Date
-    let updated_at: Date
+    var id: Int?
+    var user_id: Int?
+    var location: String?
+    var caption: String?
+    var comments: [Comment]
+    var images: [Image]
+    var likes: [Like]
+    var created_at: Date?
+    var updated_at: Date?
     
 //    init(user: User, dictionary: [String: Any]) {
 //        self.imageUrl = dictionary["imageUrl"] as? String ?? ""

@@ -51,11 +51,11 @@ private func getUserPosts(user: User) -> [Post] {
     FetchPosts(dict: nil) { (result) in
         switch result {
         case .success(let posts):
-            print("SUCCESS GET USER POSTS: ", posts)
+            //print("SUCCESS GET USER POSTS: ", posts)
             userPosts = posts
             return
         case .failure(let error):
-            print("FAILURE POSTS:", error)
+            //print("FAILURE POSTS:", error)
             return
         }
     }

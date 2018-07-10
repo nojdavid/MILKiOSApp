@@ -8,8 +8,10 @@
 
 import Foundation
 
+struct LikeConfig : Codable {
+    var is_liked: Bool?
+}
+
 struct Like : Codable{
-    let id: Int?
     let user_id: Int?
-    let username: String?
 }

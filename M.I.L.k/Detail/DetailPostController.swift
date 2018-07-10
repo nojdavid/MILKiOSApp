@@ -12,7 +12,6 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     let cellId = "cellId"
     var post: Post?
-    var user: User?
     
     lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
@@ -51,11 +50,8 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DetailPostCell
-        
-        let isLiked = self.post?.images.first(where: {$0.id == user?.id})
-
+ 
         cell.post = post
-        cell.isLiked = (isLiked != nil) ? true : false
         cell.delegate = self
         
         return cell
@@ -70,21 +66,37 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         hidesBottomBarWhenPushed = false
     }
     
+    //Like User Post
     func didLike(for cell: DetailPostCell) {
+        let user = Store.shared().user
+        let post_like = !cell.isLiked!
+        guard let post_id = self.post?.id else {return}
         
-        guard let post = post else {return}
         guard let indexPath = collectionView?.indexPath(for: cell) else {return}
-
-        //guard let postId = post.id else {return}
         
-        //NEED TO DO: GET CURRENT USER ID
-        //guard let uid = "1" else {return}
+        let like = LikeConfig(is_liked: post_like)
         
-        //let values = [uid:post.hasLiked == true ? 0 : 1]
+        createLikePost(post_id: post_id, like: like)  { (result) in
+            switch result {
+            case .success(let like):
+                print("SUCCESS LIKE:", like)
+                break
+            case .failure(let error):
+                print("FAILURE POSTS:", error)
+                break
+            }
+        }
         
-        //NEED TO DO: UPDATE LIKES FOR USER OF UID
-        cell.isLiked = !cell.isLiked!
-
+        //remove or append Like to post list
+        if (post_like) {
+            post?.likes.append(Like(user_id: user?.id))
+        } else {
+            let likes = post?.likes.filter { $0.user_id != user?.id }
+            post?.likes = likes!
+        }
+        
+        cell.post = post
+        
         self.collectionView?.reloadItems(at: [indexPath])
     }
 }

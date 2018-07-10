@@ -1,5 +1,5 @@
 //
-//  SendPost.swift
+//  SendComment.swift
 //  M.I.L.k
 //
 //  Created by noah davidson on 12/27/17.
@@ -7,15 +7,19 @@
 //
 
 import Foundation
-
-func FetchPosts(dict: [String: Any]?, completion: ((Result<[Post]>) -> Void)? ){
+func sendCommentToDB(post_id: Int, comment: Comment, completion:((Result<Comment>) -> Void)?){
     
-    let body = ["path": "/posts", "http": "GET"]
+    let body = ["path": "/posts/\(post_id)/comment", "http": "POST"]
     
+    // Now let's encode out Post struct into JSON data...
     var request : URLRequest
     let encoder = JSONEncoder()
     do {
         request = try! createRequest(body: body)
+        let jsonData = try encoder.encode(comment)
+        // ... and set our request's HTTP body
+        request.httpBody = jsonData
+//        print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body data")
     } catch {
         completion?(.failure(error))
     }
@@ -23,7 +27,6 @@ func FetchPosts(dict: [String: Any]?, completion: ((Result<[Post]>) -> Void)? ){
     // Create and run a URLSession data task with our JSON encoded POST request
     let config = URLSessionConfiguration.default
     let session = URLSession(configuration: config)
-    
     let task = session.dataTask(with: request) { (responseData, response, responseError) in
         DispatchQueue.main.async {
             
@@ -31,31 +34,21 @@ func FetchPosts(dict: [String: Any]?, completion: ((Result<[Post]>) -> Void)? ){
             do {
                 //get response data from session or catch reponse
                 jsonData = try checkResponse(responseData: responseData, responseError: responseError)
-                print("POST jsonData", jsonData)
+
                 //decode response object
-                let responseObject = try createDecoder().decode([Post].self, from: jsonData!)
-                print("POST responseObject", responseObject)
-//                let results = try jsonDecoder.decode(Drinks.self, from:drinks.data(using: .utf8)!)
-//                for result in results.drinks {
-//                    print(result.description)
-//                    if let beer = result as? Beer {
-//                        print(beer.alcohol_content)
-//                    }
-//                }
+                let responseObject = try? createDecoder().decode(Comment.self, from: jsonData!)
                 
-                //if user.id == nil then no user id
-                if responseObject != nil {
+                //TODO not sure if this works
+                if let responseObject = responseObject {
                     return completion!(Result.success(responseObject))
+                } else {
+                    let errorResponse = try createDecoder().decode(ErrorResponse.self, from: jsonData!)
+                    throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorResponse.error ?? "Error"])
                 }
-                
-                //throw error from response insteda
-                let errorResponse = try createDecoder().decode(ErrorResponse.self, from: jsonData!)
-                throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorResponse.error ?? "Error"])
             } catch {
                 completion?(.failure(error))
             }
         }
     }
-    print("resuming task")
     task.resume()
 }

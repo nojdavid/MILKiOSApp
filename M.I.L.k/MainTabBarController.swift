@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KeychainSwift
 
 class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
     
@@ -28,9 +29,8 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         super.viewDidLoad()
         
         self.delegate = self
-
-        if getUserFromDisk() == nil {
-            //if not logged in
+        
+        guard let user = getUserFromDisk() else {
             DispatchQueue.main.async {
                 let loginController = LoginController()
                 let navController = UINavigationController(rootViewController: loginController)
@@ -40,11 +40,13 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
             return
         }
         
-        //User is logged in
-        setupViewController()
+        setupViewController(user: user)
     }
     
-    func setupViewController(){
+    func setupViewController(user: User){
+        //create user singleton
+        Store.shared().user = user
+        
         //home
         let homeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: HomeCollectionController(collectionViewLayout: UICollectionViewFlowLayout()))
 

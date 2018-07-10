@@ -97,13 +97,14 @@ class LoginController : UIViewController, UITextFieldDelegate{
         loginUserToDB(user: LoginUser(email: email, password: password)) { (result) in
             switch result {
                 case .success(let user):
+                    
                     //save user to disk
                     saveUserToDisk(user: user)
-                    
+
                     //get reference to maintab bar
                     guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
                     //reset all views
-                    mainTabBarController.setupViewController()
+                    mainTabBarController.setupViewController(user: user)
                     
                     self.dismiss(animated: true, completion: nil)
                 

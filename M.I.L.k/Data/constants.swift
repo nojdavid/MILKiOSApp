@@ -10,3 +10,4 @@ import Foundation
 
 let scheme : String = "https"
 let host : String = "milk-backend.herokuapp.com"
+//let routes : [String:String] = ["post": "post", ]

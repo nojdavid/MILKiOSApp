@@ -32,7 +32,6 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         
         guard let user = self.user else {return}
         
-        print("Successful User")
         userProfileViewModel = UserProfileViewModel(user: user)
         userProfileViewModel?.delegate = self
         userProfileViewModel?.reloadSections = { [weak self] (section: Int,numberOfItems: Int ,collapsed: Bool) in
@@ -72,7 +71,6 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         collectionView?.register(UserProfileFactCell.self, forCellWithReuseIdentifier: UserProfileFactCell.identifier)
         
         setupLogoutButton()
-        print("View did load")
     }
 
 
