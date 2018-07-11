@@ -118,20 +118,17 @@ class ShareController: UITableViewController {
     static let updateFeedNotificationName = NSNotification.Name(rawValue: "UpdateFeed")
     
     @objc func handleShare(){
-        
-        //GET USER ID AUTHENTICATION ID
-        
         guard let image = selectedImage else {return}
 
-        //TODO: GET CAPTION
-        //UNCOMMENTING THIS BREAKS SHARE FUNCTION AND CRASHES APP
-        //GET TEXT ANOTHER WAY
-        //guard let caption = (self.tableView.tableHeaderView as! CustomTableViewHeader).textView.text else {return}
-        
-        createPost(image: image) { (result) in
+        guard let header = tableView.headerView(forSection: 0) as! CustomTableViewHeader? else {return}
+        guard let caption = header.textView.text else {return }
+
+        createPost(image: image, caption: caption) { (result) in
             switch result {
             case .success(let post):
                 print("SUCCESS POST: ", post)
+                //Todo check if this goes here or not in async call
+                NotificationCenter.default.post(name: ShareController.updateFeedNotificationName, object: nil)
                 break
             case .failure(let error):
                 print("FAILURE POST:", error)
@@ -144,7 +141,7 @@ class ShareController: UITableViewController {
         
         self.dismiss(animated: true, completion: nil)
         
-        NotificationCenter.default.post(name: ShareController.updateFeedNotificationName, object: nil)
+       
     }
     
     override var prefersStatusBarHidden: Bool{

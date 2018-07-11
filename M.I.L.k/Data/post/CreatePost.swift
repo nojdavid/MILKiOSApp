@@ -11,9 +11,9 @@ import UIKit
 
 typealias Parameters = [String:String]
 
-func createPost(image: UIImage, completion: ((Result<Any>) -> Void)? ) {
+func createPost(image: UIImage, caption: String, completion: ((Result<Any>) -> Void)? ) {
     
-    let parameters = ["location": "MY LOCATION"]
+    let parameters = ["location": "MY LOCATION", "caption": caption]
     
     guard let mediaImage = Media(withImage: image, forKey: "file") else {return}
     

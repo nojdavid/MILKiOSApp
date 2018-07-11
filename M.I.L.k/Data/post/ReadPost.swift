@@ -8,9 +8,18 @@
 
 import Foundation
 
-func FetchPosts(dict: [String: Any]?, completion: ((Result<[Post]>) -> Void)? ){
+func FetchPosts(dict: [String: String]?, completion: ((Result<[Post]>) -> Void)? ){
     
-    let body = ["path": "/posts", "http": "GET"]
+    var body : [String: Any] = ["path": "/posts", "http": "GET"]
+    
+    if let dict = dict {
+        var queries = [String:String]()
+        for (key,value) in dict {
+            queries[key] = value
+        }
+        
+        body["queries"] = queries
+    }
     
     var request : URLRequest
     let encoder = JSONEncoder()
@@ -19,6 +28,8 @@ func FetchPosts(dict: [String: Any]?, completion: ((Result<[Post]>) -> Void)? ){
     } catch {
         completion?(.failure(error))
     }
+    
+    print("--request",request)
     
     // Create and run a URLSession data task with our JSON encoded POST request
     let config = URLSessionConfiguration.default

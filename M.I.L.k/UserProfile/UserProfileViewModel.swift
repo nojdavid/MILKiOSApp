@@ -40,54 +40,46 @@ private func getUser(user: User) -> UserProfileViewModelHeader{
     let userHeader = ProfileModel(user: user)
     
     //TODO:: GET USER POSTS HERE DEPENDENT ON STATE OF HEADER:: (LIKES OR USERPOSTS)
-    userHeader.posts = getUserPosts(user: user)
+//    getUserPosts(user: user) { (result) in
+//        switch result {
+//        case .success(let posts):
+//            print("SUCCESS GET LIKED POSTS: ", posts)
+//            userHeader.photos = posts
+//        case .failure(let error):
+//            print("FAILURE POSTS:", error)
+//        }
+//    }
     
     return UserProfileViewModelHeader(user: user, photos: userHeader.posts)
 }
 
 //TODO:: IMPLEMENT REAL FETCH USERPOST
-private func getUserPosts(user: User) -> [Post] {
-    var userPosts: [Post]?
-    FetchPosts(dict: nil) { (result) in
-        switch result {
-        case .success(let posts):
-            //print("SUCCESS GET USER POSTS: ", posts)
-            userPosts = posts
-            return
-        case .failure(let error):
-            //print("FAILURE POSTS:", error)
-            return
-        }
-    }
-    
-    guard let value = userPosts else {
-        return []
-    }
-    
-    return value
-}
+//private func getUserPosts(user: User, completion:((Result<[Post]>) -> [Void])?) {
+//    FetchPosts(dict: ["author":"\(Store.shared().user?.id)"]) { (result) in
+//        switch result {
+//        case .success(let posts):
+//            //print("SUCCESS GET USER POSTS: ", posts)
+//            completion?(.success(posts))
+//        case .failure(let error):
+//            //print("FAILURE POSTS:", error)
+//            completion?(.failure(error))
+//        }
+//    }
+//}
 
 //TODO:: IMPLEMENT REAL FETCH USER LIKES
-private func getUserLikes(user: User) -> [Post] {
-    var userPosts: [Post]?
-    FetchPosts(dict: nil) { (result) in
-        switch result {
-        case .success(let posts):
-            print("SUCCESS GET LIKED POSTS: ", posts)
-            userPosts = posts
-            return
-        case .failure(let error):
-            print("FAILURE POSTS:", error)
-            return
-        }
-    }
-    
-    guard let value = userPosts else {
-        return []
-    }
-    
-    return value
-}
+//private func getUserLikes(user: User, completion:((Result<[Post]>) -> [Void])?) {
+//    FetchPosts(dict: ["likes":"\(true)"]) { (result) in
+//        switch result {
+//        case .success(let posts):
+//            print("SUCCESS GET LIKED POSTS: ", posts)
+//            completion?(.success(posts))
+//        case .failure(let error):
+//            print("FAILURE POSTS:", error)
+//            completion?(.failure(error))
+//        }
+//    }
+//}
 
 //MARK :- USER PROFILE VIEWMODEL
 protocol UserProfileViewModelDelegate {
@@ -137,8 +129,32 @@ extension UserProfileViewModel : UserProfileHeaderDelegate {
                 items.remove(at: 1)
             }
         }
-        userHeader.photos = getUserPosts(user: user)
+        
+        guard let user_id = Store.shared().user?.id else {return}
+        
+        FetchPosts(dict: ["author":"\(user_id)"]) { (result) in
+            switch result {
+            case .success(let posts):
+                print("SUCCESS GET USER POSTS: ", posts.count)
+                self.userHeader.photos = posts
+            case .failure(let error):
+                print("FAILURE POSTS:", error)
+            }
+        }
+        
+//        getUserPosts(user: user) { (result) in
+//            switch result {
+//            case .success(let posts):
+//                print("SUCCESS GET LIKED POSTS: ", posts)
+//
+//            case .failure(let error):
+//                print("FAILURE POSTS:", error)
+//            }
+//        }
+        
         reloadAllSections?()
+        
+        return
     }
     
     func didChangeToLikeListView() {
@@ -152,7 +168,21 @@ extension UserProfileViewModel : UserProfileHeaderDelegate {
                 items.remove(at: 1)
             }
         }
-        userHeader.photos = getUserLikes(user: user)
+        
+        //FETCH LIKED POSTS
+        FetchPosts(dict: ["likes":"\(true)"]) { (result) in
+            switch result {
+            case .success(let posts):
+                print("SUCCESS GET LIKED POSTS: ", posts.count)
+                self.userHeader.photos = posts
+            case .failure(let error):
+                print("FAILURE POSTS:", error)
+                
+            }
+        }
+        
+        //getUserLikes(user: user)
+        
         reloadAllSections?()
     }
     

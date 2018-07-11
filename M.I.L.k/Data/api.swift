@@ -14,12 +14,13 @@ func createRequest (body : [String: Any]) throws -> URLRequest {
     urlComponents.host = host
     urlComponents.path = body["path"] as! String
     
-    if ((body["queries"]) != nil) {
-        let queries = body["queries"] as! [String: String]
+    if let queries = body["queries"] as? [String:String] {
+        var queryItems = [URLQueryItem]()
         queries.forEach({ (name, value) in
             let query = URLQueryItem(name: name, value: value)
-            urlComponents.queryItems?.append(query)
+            queryItems.append(query)
         })
+        urlComponents.queryItems = queryItems
     }
     
     guard let url = urlComponents.url else {
@@ -33,6 +34,7 @@ func createRequest (body : [String: Any]) throws -> URLRequest {
     }
     
     // Specify this request as being a POST method
+    print("URL", url)
     var request = URLRequest(url: url)
     request.httpMethod = body["http"] as? String
     // Make sure that we include headers specifying that our request's HTTP body
