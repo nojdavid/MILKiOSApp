@@ -13,6 +13,7 @@ protocol UserProfileHeaderDelegate {
     func didChangeToGridView()
     func didChangeToFactsView()
     func didChangeToSettingsView()
+    func getFacts()
 }
 
 class UserProfileHeader: UICollectionViewCell{
@@ -63,7 +64,7 @@ class UserProfileHeader: UICollectionViewCell{
     }()
     
     @objc func handleChangeToGridView(){
-        print("change to grid view")
+        print("--change to grid view")
         
         gridButton.tintColor = .mainBlue()
         likeListButton.tintColor = UIColor(white:0, alpha:0.2)
@@ -99,7 +100,7 @@ class UserProfileHeader: UICollectionViewCell{
     }()
     
     @objc func handleChangeToFactsView(){
-        print("change to Facts view")
+        print("--change to Facts view")
         
         factsButton.tintColor = .mainBlue()
         likeListButton.tintColor = UIColor(white:0, alpha:0.2)
@@ -200,6 +201,7 @@ class UserProfileHeader: UICollectionViewCell{
         editProfileButton.anchor(top: postsLabel.bottomAnchor, left: postsLabel.leftAnchor, bottom: nil, right: followingLabel.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 34)
     }
     
+    //TODO update theis
     fileprivate func setupUserStats(){
         let stackView = UIStackView(arrangedSubviews: [postsLabel, followersLabel, followingLabel])
         stackView.distribution = .fillEqually

@@ -8,78 +8,11 @@
 
 import UIKit
 
+//section header types in profile collection view
 enum UserProfileViewModelItemType {
     case profileHeader
-    case section1
-    case section2
-    case section3
-    case section4
+    case fact_section
 }
-
-private func getFacts() -> [FactViewModelItem]{
-    var items = [FactViewModelItem]()
-    let facts = FactsModel()
-    
-    let factsSection1 = FactViewModelSection1(facts: facts.section1)
-    items.append(factsSection1)
-    
-    let factsSection2 = FactViewModelSection2(facts: facts.section2)
-    items.append(factsSection2)
-    
-    let factsSection3 = FactViewModelSection3(facts: facts.section3)
-    items.append(factsSection3)
-    
-    let factsSection4 = FactViewModelSection4(facts: facts.section4)
-    items.append(factsSection4)
-    
-    return items
-}
-
-private func getUser(user: User) -> UserProfileViewModelHeader{
-    
-    let userHeader = ProfileModel(user: user)
-    
-    //TODO:: GET USER POSTS HERE DEPENDENT ON STATE OF HEADER:: (LIKES OR USERPOSTS)
-//    getUserPosts(user: user) { (result) in
-//        switch result {
-//        case .success(let posts):
-//            print("SUCCESS GET LIKED POSTS: ", posts)
-//            userHeader.photos = posts
-//        case .failure(let error):
-//            print("FAILURE POSTS:", error)
-//        }
-//    }
-    
-    return UserProfileViewModelHeader(user: user, photos: userHeader.posts)
-}
-
-//TODO:: IMPLEMENT REAL FETCH USERPOST
-//private func getUserPosts(user: User, completion:((Result<[Post]>) -> [Void])?) {
-//    FetchPosts(dict: ["author":"\(Store.shared().user?.id)"]) { (result) in
-//        switch result {
-//        case .success(let posts):
-//            //print("SUCCESS GET USER POSTS: ", posts)
-//            completion?(.success(posts))
-//        case .failure(let error):
-//            //print("FAILURE POSTS:", error)
-//            completion?(.failure(error))
-//        }
-//    }
-//}
-
-//TODO:: IMPLEMENT REAL FETCH USER LIKES
-//private func getUserLikes(user: User, completion:((Result<[Post]>) -> [Void])?) {
-//    FetchPosts(dict: ["likes":"\(true)"]) { (result) in
-//        switch result {
-//        case .success(let posts):
-//            print("SUCCESS GET LIKED POSTS: ", posts)
-//            completion?(.success(posts))
-//        case .failure(let error):
-//            print("FAILURE POSTS:", error)
-//            completion?(.failure(error))
-//        }
-//    }
-//}
 
 //MARK :- USER PROFILE VIEWMODEL
 protocol UserProfileViewModelDelegate {
@@ -103,32 +36,55 @@ class UserProfileViewModel: NSObject {
         case postView
         case likeView
         case factView
+        case none
     }
     
-    fileprivate var mode: ProfileMode = .postView
+    fileprivate var mode: ProfileMode = .none
 
     init(user: User) {
         self.user = user
         
-        userHeader = getUser(user: user)
-        
+        //create user header
+        userHeader = UserProfileViewModelHeader(user: user, photos: [Post]())
         items.append(userHeader)
     }
-}
-
-//MARK:- USER PROFILE HEADER
-extension UserProfileViewModel : UserProfileHeaderDelegate {
-    func didChangeToGridView() {
-        if mode == .postView{
-            return
+    
+    func generateFacts(facts: [Fact]?) {
+        var items = [FactViewModelSection]()
+        guard let facts = facts else {return}
+        
+        var appFacts = [String]()
+        for fact in facts {
+            appFacts.append(fact.desc!)
         }
         
-        mode = .postView
+        let factsSection = FactViewModelSection(facts: appFacts)
+        items.append(factsSection)
+        
+        self.userHeader.facts = items
+    }
+    
+    func removeItems () {
+        //remove other items in the list
         if items.count > 1 {
             for _ in 1 ... items.count-1{
                 items.remove(at: 1)
             }
         }
+    }
+}
+
+//MARK:- USER PROFILE HEADER
+extension UserProfileViewModel : UserProfileHeaderDelegate {
+    //clicked posts view
+    func didChangeToGridView() {
+        if mode == .postView{
+            return
+        }
+        
+        removeItems()
+        
+        mode = .postView
         
         guard let user_id = Store.shared().user?.id else {return}
         
@@ -137,82 +93,82 @@ extension UserProfileViewModel : UserProfileHeaderDelegate {
             case .success(let posts):
                 print("SUCCESS GET USER POSTS: ", posts.count)
                 self.userHeader.photos = posts
+                self.reloadAllSections?()
             case .failure(let error):
                 print("FAILURE POSTS:", error)
             }
         }
         
-//        getUserPosts(user: user) { (result) in
-//            switch result {
-//            case .success(let posts):
-//                print("SUCCESS GET LIKED POSTS: ", posts)
-//
-//            case .failure(let error):
-//                print("FAILURE POSTS:", error)
-//            }
-//        }
-        
-        reloadAllSections?()
-        
-        return
+        self.reloadAllSections?()
     }
     
+    //clicked liked view
     func didChangeToLikeListView() {
+        
         if mode == .likeView {
             return
         }
         
-        mode = .likeView
-        if items.count > 1 {
-            for _ in 1 ... items.count-1{
-                items.remove(at: 1)
-            }
-        }
+        removeItems()
         
+        mode = .likeView
+
         //FETCH LIKED POSTS
         FetchPosts(dict: ["likes":"\(true)"]) { (result) in
             switch result {
             case .success(let posts):
-                print("SUCCESS GET LIKED POSTS: ", posts.count)
+                print("--SUCCESS GET LIKED POSTS: ", posts.count)
                 self.userHeader.photos = posts
+                self.reloadAllSections?()
             case .failure(let error):
-                print("FAILURE POSTS:", error)
+                print("--FAILURE POSTS:", error)
                 
             }
         }
         
-        //getUserLikes(user: user)
-        
-        reloadAllSections?()
+        self.reloadAllSections?()
     }
     
+    //clicked facts view
     func didChangeToFactsView() {
         if mode == .factView {
             return
         }
         
         mode = .factView
-        userHeader.photos = []
         
-        let facts = FactsModel()
+        //remove other items from list
+        self.userHeader.photos = []
         
-        let factsSection1 = FactViewModelSection1(facts: facts.section1)
-        items.append(factsSection1)
+        self.getFacts()
         
-        let factsSection2 = FactViewModelSection2(facts: facts.section2)
-        items.append(factsSection2)
-        
-        let factsSection3 = FactViewModelSection3(facts: facts.section3)
-        items.append(factsSection3)
-        
-        let factsSection4 = FactViewModelSection4(facts: facts.section4)
-        items.append(factsSection4)
-        
-        reloadAllSections?()
+        self.reloadAllSections?()
     }
     
     func didChangeToSettingsView() {
         delegate?.handleGoToSettings(settingsViewController: SettingsController())
+    }
+    
+    func getFacts() {
+        FetchFacts(dict: nil) { (result) in
+            switch result {
+            case .success(let facts):
+                print("SUCCESS GET FACTS: ", facts)
+                self.generateFacts(facts: facts)
+                
+                //get generated facts
+                guard let facts = self.userHeader.facts else {return}
+                
+                //append sections to list
+                for fact in facts {
+                    self.items.append(fact)
+                }
+                
+                self.reloadAllSections?()
+            case .failure(let error):
+                print("FAILURE POSTS:", error)
+            }
+        }
     }
 }
 
@@ -234,41 +190,50 @@ extension UserProfileViewModel : UserProfileFactHeaderDelegate {
 //MARK :- FLOW LAYOUT
 extension UserProfileViewModel : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        if mode == .postView || mode == .likeView{
-            return 1
-        }else {
-            return 0
+        switch mode {
+            case .postView,.likeView:
+                return 1
+            case .factView:
+                return 0
+            default:
+                return 0
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if mode == .postView || mode == .likeView{
+        switch mode {
+        case .postView,.likeView:
             return 1
-        }else {
+        case .factView:
+            return 0
+        default:
             return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if mode == .postView || mode == .likeView {
+        switch mode {
+        case .postView,.likeView:
             let width = (collectionView.frame.width - 2) / 3
             return CGSize(width: width, height:width)
-        } else {
+        case .factView:
             let height: CGFloat = 50
             let width = collectionView.frame.width
             return CGSize(width: width, height: height)
+        default:
+            return CGSize()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
         let item = items[section]
-        if item.type == .profileHeader {
-            return CGSize(width: collectionView.frame.width, height: 200)
-        }else{
+        switch item.type {
+        case .profileHeader :
+             return CGSize(width: collectionView.frame.width, height: 200)
+        default:
             return CGSize(width: collectionView.frame.width, height: 50)
         }
-        
     }
 }
 
@@ -276,6 +241,7 @@ extension UserProfileViewModel : UICollectionViewDelegateFlowLayout {
 extension UserProfileViewModel : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //if picture cell
         if mode != .factView {
             let post = userHeader.photos[indexPath.item]
             let detailHomeController = DetailPostController(collectionViewLayout: UICollectionViewFlowLayout())
@@ -307,23 +273,8 @@ extension UserProfileViewModel : UICollectionViewDataSource {
                 cell.post = item.photos[indexPath.item]
                 return cell
             }
-        case .section1:
-            if let item = item as? FactViewModelSection1, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileFactCell.identifier, for: indexPath) as? UserProfileFactCell{
-                cell.fact = item.facts[indexPath.row]
-                return cell
-            }
-        case .section2:
-            if let item = item as? FactViewModelSection2, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileFactCell.identifier, for: indexPath) as? UserProfileFactCell{
-                cell.fact = item.facts[indexPath.row]
-                return cell
-            }
-        case .section3:
-            if let item = item as? FactViewModelSection3, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileFactCell.identifier, for: indexPath) as? UserProfileFactCell{
-                cell.fact = item.facts[indexPath.row]
-                return cell
-            }
-        case .section4:
-            if let item = item as? FactViewModelSection4, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileFactCell.identifier, for: indexPath) as? UserProfileFactCell{
+        case .fact_section:
+            if let item = item as? FactViewModelSection, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileFactCell.identifier, for: indexPath) as? UserProfileFactCell{
                 cell.fact = item.facts[indexPath.row]
                 return cell
             }
@@ -334,7 +285,7 @@ extension UserProfileViewModel : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let item = items[indexPath.section]
         switch item.type {
-        case .section1, .section2, .section3, .section4:
+        case .fact_section:
             if let item = item as? FactViewModelItem{
                 let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: UserProfileFactHeader.identifier, for: indexPath) as! UserProfileFactHeader
                 
@@ -378,6 +329,7 @@ class UserProfileViewModelHeader : UserProfileViewModelItem {
     
     var user: User
     var photos: [Post]
+    var facts: [UserProfileViewModelItem]?
     
     init(user: User, photos: [Post]) {
         self.user = user
@@ -401,16 +353,18 @@ extension FactViewModelItem {
     }
 }
 
-class FactViewModelSection1: FactViewModelItem {
+//TODO make generic fact model array maintained at runtime
+
+class FactViewModelSection: FactViewModelItem {
     
     var isCollapsed = true
     
     var type: UserProfileViewModelItemType{
-        return .section1
+        return .fact_section
     }
     
     var sectionTitle: String {
-        return "Section 1"
+        return "Section"
     }
     
     var rowCount: Int {
@@ -423,81 +377,3 @@ class FactViewModelSection1: FactViewModelItem {
         self.facts = facts
     }
 }
-
-class FactViewModelSection2: FactViewModelItem {
-    
-    var isCollapsed = true
-    
-    var type: UserProfileViewModelItemType{
-        return .section2
-    }
-    
-    var sectionTitle: String {
-        return "Section 2"
-    }
-    
-    var rowCount: Int {
-        return facts.count
-    }
-    
-    var facts: [String]
-    
-    init(facts: [String]) {
-        self.facts = facts
-    }
-}
-
-class FactViewModelSection3: FactViewModelItem {
-    
-    var isCollapsed = true
-    
-    var type: UserProfileViewModelItemType{
-        return .section3
-    }
-    
-    var sectionTitle: String {
-        return "Section 3"
-    }
-    
-    var rowCount: Int {
-        return facts.count
-    }
-    
-    var facts: [String]
-    
-    init(facts: [String]) {
-        self.facts = facts
-    }
-}
-
-class FactViewModelSection4: FactViewModelItem {
-    
-    var isCollapsed = true
-    
-    var type: UserProfileViewModelItemType{
-        return .section4
-    }
-    
-    var sectionTitle: String {
-        return "Section 4"
-    }
-    
-    var rowCount: Int {
-        return facts.count
-    }
-    
-    var facts: [String]
-    
-    init(facts: [String]) {
-        self.facts = facts
-    }
-}
-
-
-
-
-
-
-
-
-

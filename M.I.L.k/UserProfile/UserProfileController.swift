@@ -9,16 +9,8 @@
 import UIKit
 
 class UserProfileController : UICollectionViewController, UserProfileViewModelDelegate{
-    func selectPost(viewController: UIViewController) {
-        navigationController?.pushViewController(viewController, animated: true)
-    }
     
-    func handleGoToSettings(settingsViewController: SettingsController) {
-        settingsViewController.user = user
-        let navController = UINavigationController(rootViewController: settingsViewController)
-        present(navController, animated: true, completion: nil)
-    }
-    
+    var posts = [Post]()
     var user: User?
     var userId: Int?
 
@@ -26,16 +18,19 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //NEED TO UPDATE: fetch User tree from DB and store user info in user struct
+ 
+        if let user = Store.shared().user {
+            self.user = user
+        } else {
+            return
+        }
         
-        fetchUser()
+        self.navigationItem.title = self.user?.username
         
-        guard let user = self.user else {return}
-        
-        userProfileViewModel = UserProfileViewModel(user: user)
+        userProfileViewModel = UserProfileViewModel(user: user!)
         userProfileViewModel?.delegate = self
         userProfileViewModel?.reloadSections = { [weak self] (section: Int,numberOfItems: Int ,collapsed: Bool) in
-
+            print("reloadSections")
             self?.collectionView?.performBatchUpdates({
                 if !collapsed {
                     self?.collectionView?.insertItems(at: (0..<numberOfItems).map {
@@ -56,11 +51,15 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         }
         
         userProfileViewModel?.reloadAllSections = { [weak self] () in
+            print("reloadALLSections")
             self?.collectionView?.reloadData()
         }
 
         collectionView?.dataSource = userProfileViewModel
         collectionView?.delegate = userProfileViewModel
+        
+        //Update user profileModel
+        userProfileViewModel?.didChangeToGridView()
         
         collectionView?.backgroundColor = .white
 
@@ -73,44 +72,36 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         setupLogoutButton()
     }
 
-
-    var posts = [Post]()
+    //Todo refactor fetch likes and user posts
     fileprivate func fetchOrderedPosts(){
+        guard let user_id = Store.shared().user?.id else {return}
         
-        guard let uid = user?.id else {return}
-        
-        //NEED TO DO: GET REFERENCE TO ALL POSTS FROM UID
-        //NEED TO DO: GET ALL POSTS FOR USER IN ORDER OF DATE POSTED
-        //NEED TO DO: PARSE USER POST IMAGE DICT
-        
-        //THIS VALUE NEED TO BE IMAGE POST INFO. REMOVE WHEN HAVE DB INFO
-        let value = [String: Any]()
-        
-        //NEED TO DO: GET IMAGE POST VALUES AND SAVE IT TO THIS VARIABLE
-        guard let dictionary = value as? [String : Any] else {return}
-
-        //SAVE IMAGE INFO IN POST OBJ
-        guard let user = self.user else {return}
-
-        FetchPosts(dict: nil) { (result) in
+        FetchPosts(dict: ["author":"\(user_id)"]) { (result) in
             switch result {
             case .success(let posts):
                 print("SUCCESS POSTS: ", posts)
                 self.posts = posts
+                self.collectionView?.reloadData()
                 return
             case .failure(let error):
                 print("FAILURE POSTS:", error)
                 return
             }
         }
-        
-        self.collectionView?.reloadData()
     }
-    
-
     
     fileprivate func setupLogoutButton(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogout))
+    }
+    
+    func selectPost(viewController: UIViewController) {
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func handleGoToSettings(settingsViewController: SettingsController) {
+        settingsViewController.user = user
+        let navController = UINavigationController(rootViewController: settingsViewController)
+        present(navController, animated: true, completion: nil)
     }
     
     @objc func handleLogout(){
@@ -139,18 +130,5 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(alertController, animated: true, completion: nil)
-    }
-    
-    fileprivate func fetchUser(){
-        
-        var currentUser: User?
-        currentUser = getUserFromDisk()
-
-        self.user = currentUser
-        self.navigationItem.title = self.user?.username
-        
-        self.collectionView?.reloadData()
-        
-        //self.fetchOrderedPosts()
     }
 }

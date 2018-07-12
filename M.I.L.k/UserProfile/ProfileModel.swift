@@ -10,6 +10,7 @@ import Foundation
 
 class ProfileModel {
     var posts = [Post]()
+    var facts = [Fact]()
     var user: User?
     
     init(user: User) {
