@@ -67,10 +67,33 @@ class Statue: NSObject, MKAnnotation {
         
     }
     
-    static func getStatues() -> [Statue]{
+    static func generateStatues(statueModels: [StatueModel]) -> [Statue]{
         var statues = [Statue]()
-        for index in 0...(Statue.StatueNames.count-1){
-            let statue = Statue(title: Statue.StatueNames[index], locationName: "", discipline: "Statue", coordinate: Statue.StatueLocation[index])
+        print("--generateStatues")
+        for model in statueModels {
+            print("MODEL:", model.title)
+            guard let location = model.location else {
+                continue
+            }
+            
+            var locArr = location.components(separatedBy: ":")
+            if locArr.count < 2 {
+                continue
+            }
+            
+//            print("locArr", locArr)
+            
+            guard let lat = Double(locArr[0].replacingOccurrences(of: "\"", with: "", options: NSString.CompareOptions.literal, range: nil)) else {
+                continue
+            }
+            
+            guard let long = Double(locArr[1].replacingOccurrences(of: "\"", with: "", options: NSString.CompareOptions.literal, range: nil)) else {
+                continue
+            }
+ 
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            
+            let statue = Statue(title: model.title!, locationName: "", discipline: "Statue", coordinate: coordinate)
             
             getPlacemark(forLocation: statue.coordinate, completionHandler: { (placemark, nil) in
                 if let addressDict = placemark?.postalAddress, let coordinate = placemark?.location?.coordinate {

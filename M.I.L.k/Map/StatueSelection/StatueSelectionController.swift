@@ -34,8 +34,12 @@ class StatueSelectionController : UITableViewController  {
     }
     
     fileprivate func initializeStatues(){
-        statues = AppDelegate.Statues
-        filteredStatues = statues
+        if let storeStatues = Store.shared().statues {
+//            filteredStatues = storeStatues
+            self.statues = storeStatues
+        } else {
+            return
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

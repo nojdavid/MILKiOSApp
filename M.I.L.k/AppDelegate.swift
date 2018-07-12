@@ -14,7 +14,7 @@ import AWSCore
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    static var Statues = [Statue]()
+//    static var Statues = [Statue]()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -22,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.rootViewController = MainTabBarController()
         
-        AppDelegate.Statues = Statue.getStatues()
-        
+//        AppDelegate.Statues = Statue.getStatues()
+//        print("OLD STATUES", AppDelegate.Statues)
 //        AWSDDLog.add(AWSDDTTYLogger.sharedInstance)
 //        AWSDDLog.sharedInstance.logLevel = .info
         

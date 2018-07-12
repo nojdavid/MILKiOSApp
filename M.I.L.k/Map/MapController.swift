@@ -63,8 +63,13 @@ class MapController : UIViewController, MKMapViewDelegate, UISearchBarDelegate {
     fileprivate func loadInitialMapData(){
         mapView?.register(StatueMarkerView.self,
                           forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-        statues = AppDelegate.Statues
-        mapView?.addAnnotations(statues)
+
+        if let storedStatues = Store.shared().statues {
+             self.statues = storedStatues
+             mapView?.addAnnotations(storedStatues)
+        } else {
+            return
+        }
     }
     
     fileprivate func initializeLocationManager(){

@@ -37,7 +37,12 @@ class ShareStatue : UITableViewController {
         navigationItem.title = "Statues"
         //navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: navigationTitleFont ?? UIFont.systemFont(ofSize: 20)]
 
-        items = AppDelegate.Statues
+        if let storeStatues = Store.shared().statues {
+            self.items = storeStatues
+        } else {
+            return
+        }
+
         navigationItem.rightBarButtonItem = cancelButton
         
         tableView.register(StatueSelectionCell.self, forCellReuseIdentifier: StatueSelectionCell.identifier)

@@ -26,8 +26,22 @@ class Store {
     
     // Initialization
     
+    var statues: [Statue]?
+    
     private init() {
-        
+        FetchStatues(dict: nil) { (result) in
+            switch result {
+            case .success(let statues):
+                //print("--GET STATUES", statues)
+                self.statues = Statue.generateStatues(statueModels: statues)
+                return
+                
+            case .failure(let error):
+                print("--FAILURE STATUES", error)
+                return
+                
+            }
+        }
     }
     
     // MARK: - Accessors
