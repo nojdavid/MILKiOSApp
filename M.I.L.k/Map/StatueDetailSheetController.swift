@@ -19,13 +19,15 @@ class StatueDetailSheetController : UIViewController {
     
     var statue: Statue?{
         didSet{
-            let attributedText = NSMutableAttributedString(string: (statue?.title)!, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20)])
+            guard let statue = statue else {return}
+            
+            let attributedText = NSMutableAttributedString(string: (statue.title)!, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20)])
             
             attributedText.append(NSAttributedString(string: "\n\n",attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 4)]))
             
             attributedText.append(NSAttributedString(string: "statue made by: ", attributes:[NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)]))
             
-            attributedText.append(NSAttributedString(string: "\(statue?.artist_name)", attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
+            attributedText.append(NSAttributedString(string: statue.artist_name!, attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
             
             titleLabel.attributedText = attributedText
         }

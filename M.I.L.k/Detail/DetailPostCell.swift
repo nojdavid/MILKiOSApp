@@ -148,11 +148,11 @@ class DetailPostCell : UICollectionViewCell{
         delegate?.didTabComment(post: post)
     }
     
-    let sendMessageButton: UIButton = {
-        let button = UIButton(type: UIButtonType.system)
-        button.setImage(#imageLiteral(resourceName: "send2").withRenderingMode(.alwaysOriginal), for: .normal)
-        return button
-    }()
+//    let sendMessageButton: UIButton = {
+//        let button = UIButton(type: UIButtonType.system)
+//        button.setImage(#imageLiteral(resourceName: "send2").withRenderingMode(.alwaysOriginal), for: .normal)
+//        return button
+//    }()
     
     let captionLabel : UILabel = {
         let label = UILabel()
@@ -186,12 +186,12 @@ class DetailPostCell : UICollectionViewCell{
     }
     
     fileprivate func setupActionButtons(){
-        let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton])
+        let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton/*, sendMessageButton*/])
         
         stackView.distribution = .fillEqually
         
         addSubview(stackView)
-        stackView.anchor(top: photoImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 120, height: 50)
+        stackView.anchor(top: photoImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 80, height: 50)
     }
     
     required init?(coder aDecoder: NSCoder) {

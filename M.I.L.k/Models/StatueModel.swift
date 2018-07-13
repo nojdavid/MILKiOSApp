@@ -11,7 +11,7 @@ import Foundation
 //file name has ...Model otherwise compiler error with other file in Map/
 
 struct StatueModel : Codable{
-    var id: Int?
+    var id: Int
     var title: String
     var artist_desc: String
     var artist_name: String
