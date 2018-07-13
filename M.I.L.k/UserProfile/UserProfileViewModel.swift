@@ -127,7 +127,7 @@ extension UserProfileViewModel : UserProfileHeaderDelegate {
         mode = .likeView
 
         //FETCH LIKED POSTS
-        FetchPosts(dict: ["likes":"\(true)"]) { (result) in
+        FetchPosts(dict: ["liked":"\(true)"]) { (result) in
             switch result {
             case .success(let posts):
                 print("--SUCCESS GET LIKED POSTS: ", posts.count)
