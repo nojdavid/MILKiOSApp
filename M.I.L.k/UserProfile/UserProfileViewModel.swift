@@ -53,13 +53,26 @@ class UserProfileViewModel: NSObject {
         var items = [FactViewModelSection]()
         guard let facts = facts else {return}
         
-        var appFacts = [String]()
+        var sections = [Int: [String]]()
+        var sectionsTitles = [Int: String]()
+        
         for fact in facts {
-            appFacts.append(fact.desc!)
+            guard let section_id = fact.section_id else {continue}
+            if sections[section_id] == nil {
+                sections[section_id] = []
+                sectionsTitles[section_id] = ""
+            }
+            sections[section_id]!.append(fact.desc!)
+            
+            guard let title = fact.section else {continue}
+            sectionsTitles[section_id]! = title
         }
         
-        let factsSection = FactViewModelSection(facts: appFacts)
-        items.append(factsSection)
+        for (key,value) in sections {
+            let title = sectionsTitles[key] != nil ? sectionsTitles[key] : "Section \(key)"
+            let factsSection = FactViewModelSection(facts: value, sectionTitle: title! )
+            items.append(factsSection)
+        }
         
         self.userHeader.facts = items
     }
@@ -217,12 +230,29 @@ extension UserProfileViewModel : UICollectionViewDelegateFlowLayout {
             let width = (collectionView.frame.width - 2) / 3
             return CGSize(width: width, height:width)
         case .factView:
-            let height: CGFloat = 50
+            //get cell text and make dynamic cell height based on text length
+            guard let myCell = collectionView.cellForItem(at: indexPath) as? UserProfileFactCell else { return CGSize()}
+            var padding : CGFloat = 20
+            var height: CGFloat = 50
+            if let text = myCell.factLabel.text {
+                height = estimateFrameForText(text: text).height + padding
+            }
             let width = collectionView.frame.width
             return CGSize(width: width, height: height)
         default:
             return CGSize()
         }
+    }
+    
+    private func estimateFrameForText(text: String) -> CGRect {
+        //we make the height arbitrarily large so we don't undershoot height in calculation
+        let height: CGFloat = 100
+        
+        let size = CGSize(width: 50, height: height)
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        let attributes = [kCTFontAttributeName: UIFont.systemFont(ofSize: 15, weight: .regular)]
+        
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: attributes as [NSAttributedStringKey : Any], context: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -363,9 +393,7 @@ class FactViewModelSection: FactViewModelItem {
         return .fact_section
     }
     
-    var sectionTitle: String {
-        return "Section"
-    }
+    var sectionTitle: String = "Section"
     
     var rowCount: Int {
         return facts.count
@@ -373,7 +401,8 @@ class FactViewModelSection: FactViewModelItem {
     
     var facts: [String]
     
-    init(facts: [String]) {
+    init(facts: [String], sectionTitle: String) {
         self.facts = facts
+        self.sectionTitle = sectionTitle
     }
 }

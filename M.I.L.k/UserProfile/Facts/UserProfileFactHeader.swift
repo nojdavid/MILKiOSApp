@@ -51,6 +51,11 @@ class UserProfileFactHeader : UICollectionViewCell{
         addSubview(sectionLabel)
         sectionLabel.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: arrowImage.leftAnchor, paddingTop: 0, paddingLeft: 15, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         sectionLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        
+        let bottomSeperator = UIView()
+        bottomSeperator.backgroundColor = UIColor.black
+        addSubview(bottomSeperator)
+        bottomSeperator.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
     }
     
     func setCollapsed(collapsed: Bool){

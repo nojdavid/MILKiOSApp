@@ -18,11 +18,29 @@ class Statue: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
     var placeMark: MKPlacemark?
     
-    init(title: String, locationName: String, discipline: String, coordinate: CLLocationCoordinate2D) {
+    var artist_desc: String?
+    var artist_name: String?
+    var artist_url: String?
+    var statue_desc: String?
+    var location: String?
+    var comments: [Comment]?
+    var images: [Image]?
+    var likes: [Like]?
+    
+    init(title: String, locationName: String, discipline: String, coordinate: CLLocationCoordinate2D, artist_desc: String,
+         artist_name: String, artist_url: String, statue_desc: String, comments: [Comment], images: [Image], likes: [Like] ) {
+        
         self.title = title
         self.locationName = locationName
         self.discipline = discipline
         self.coordinate = coordinate
+        self.artist_desc = artist_desc
+        self.artist_name = artist_name
+        self.artist_url = artist_url
+        self.statue_desc = statue_desc
+        self.comments = comments
+        self.images = images
+        self.likes = likes
         //self.placeMark = placeMark
         
         super.init()
@@ -72,9 +90,7 @@ class Statue: NSObject, MKAnnotation {
         print("--generateStatues")
         for model in statueModels {
             print("MODEL:", model.title)
-            guard let location = model.location else {
-                continue
-            }
+            let location = model.location
             
             var locArr = location.components(separatedBy: ":")
             if locArr.count < 2 {
@@ -93,7 +109,7 @@ class Statue: NSObject, MKAnnotation {
  
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
             
-            let statue = Statue(title: model.title!, locationName: "", discipline: "Statue", coordinate: coordinate)
+            let statue = Statue(title: model.title, locationName: "", discipline: "Statue", coordinate: coordinate, artist_desc: model.artist_desc, artist_name: model.artist_name, artist_url: model.artist_url, statue_desc: model.statue_desc, comments: model.comments, images: model.images, likes: model.likes)
             
             getPlacemark(forLocation: statue.coordinate, completionHandler: { (placemark, nil) in
                 if let addressDict = placemark?.postalAddress, let coordinate = placemark?.location?.coordinate {

@@ -25,7 +25,7 @@ class StatueDetailSheetController : UIViewController {
             
             attributedText.append(NSAttributedString(string: "statue made by: ", attributes:[NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)]))
             
-            attributedText.append(NSAttributedString(string: "Person", attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
+            attributedText.append(NSAttributedString(string: "\(statue?.artist_name)", attributes:[NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
             
             titleLabel.attributedText = attributedText
         }

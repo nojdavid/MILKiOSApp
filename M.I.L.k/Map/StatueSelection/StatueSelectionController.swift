@@ -35,9 +35,11 @@ class StatueSelectionController : UITableViewController  {
     
     fileprivate func initializeStatues(){
         if let storeStatues = Store.shared().statues {
+            print("-- init Statues:", storeStatues )
 //            filteredStatues = storeStatues
             self.statues = storeStatues
         } else {
+            print("-- init Statues error " )
             return
         }
     }

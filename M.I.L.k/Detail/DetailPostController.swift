@@ -12,6 +12,7 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     let cellId = "cellId"
     var post: Post?
+    var user: User?
     
     lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
@@ -24,6 +25,8 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.user = Store.shared().user
         
         collectionView?.backgroundColor = .white
         
@@ -50,11 +53,20 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DetailPostCell
- 
-        cell.post = post
+        
+        cell.user = self.user
+        cell.post = self.post
         cell.delegate = self
         
         return cell
+    }
+    
+    func presentAlert(alert: UIAlertController) {
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func closeAlert() {
+        self.handleDismiss()
     }
     
     func didTabComment(post: Post) {
@@ -68,9 +80,9 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     //Like User Post
     func didLike(for cell: DetailPostCell) {
-        let user = Store.shared().user
-        let post_like = !cell.isLiked!
+        guard let user_id = self.user?.id else {return}
         guard let post_id = self.post?.id else {return}
+        let post_like = !cell.isLiked!
         
         guard let indexPath = collectionView?.indexPath(for: cell) else {return}
         
@@ -89,9 +101,9 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         
         //remove or append Like to post list
         if (post_like) {
-            post?.likes.append(Like(user_id: user?.id))
+            post?.likes.append(Like(user_id: user_id))
         } else {
-            let likes = post?.likes.filter { $0.user_id != user?.id }
+            let likes = post?.likes.filter { $0.user_id != user_id }
             post?.likes = likes!
         }
         
@@ -100,3 +112,7 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         self.collectionView?.reloadItems(at: [indexPath])
     }
 }
+
+//extension DetailPostController  {
+//    
+//}
