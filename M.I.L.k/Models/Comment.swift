@@ -14,8 +14,8 @@ struct Comment : Codable {
     var user_id: Int?
     var id: Int?
     
-    init(dictionary: [String:Any]) {
-        self.text = dictionary["text"] as? String ?? ""
+    init(dictionary: [String:String]) {
+        self.text = dictionary["text"] ?? ""
     }
     
 //    enum CodingKeys: String, CodingKey

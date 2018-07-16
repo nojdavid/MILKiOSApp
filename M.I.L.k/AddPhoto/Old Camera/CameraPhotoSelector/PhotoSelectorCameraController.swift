@@ -242,7 +242,7 @@ class PhotoSelectorCameraController : UIViewController, AVCapturePhotoCaptureDel
             
             actionContainerView.isHidden = false
             
-            var cameraAuthorized = AVCaptureDevice.authorizationStatus(for: .video)
+            let cameraAuthorized = AVCaptureDevice.authorizationStatus(for: .video)
             if cameraAuthorized == AVAuthorizationStatus.authorized {
                 CaptureSession?.startRunning()
             } else if cameraAuthorized == AVAuthorizationStatus.denied || cameraAuthorized == AVAuthorizationStatus.restricted {
@@ -286,7 +286,7 @@ class PhotoSelectorCameraController : UIViewController, AVCapturePhotoCaptureDel
         
         actionContainerView.isHidden = false
         
-        var cameraAuthorized = AVCaptureDevice.authorizationStatus(for: .video)
+        let cameraAuthorized = AVCaptureDevice.authorizationStatus(for: .video)
         if cameraAuthorized == AVAuthorizationStatus.authorized {
             CaptureSession?.startRunning()
         } else if cameraAuthorized == AVAuthorizationStatus.denied || cameraAuthorized == AVAuthorizationStatus.restricted {

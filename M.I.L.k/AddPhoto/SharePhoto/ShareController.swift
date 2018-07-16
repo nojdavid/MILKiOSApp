@@ -92,7 +92,6 @@ class ShareController: UITableViewController {
         
         navigationItem.title = "New Post"
         //navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: navigationTitleFont ?? UIFont.systemFont(ofSize: 20)]
-        print(navigationTitleFont)
         navigationItem.rightBarButtonItem = shareButton
         navigationItem.leftBarButtonItem = backButton
         
@@ -122,26 +121,32 @@ class ShareController: UITableViewController {
 
         guard let header = tableView.headerView(forSection: 0) as! CustomTableViewHeader? else {return}
         guard let caption = header.textView.text else {return }
-
-        createPost(image: image, caption: caption) { (result) in
-            switch result {
-            case .success(let post):
-                print("SUCCESS POST: ", post)
-                //Todo check if this goes here or not in async call
-                NotificationCenter.default.post(name: ShareController.updateFeedNotificationName, object: nil)
-                break
-            case .failure(let error):
-                print("FAILURE POST:", error)
-                break
+        
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        DispatchQueue.main.async {
+            createPost(image: image, caption: caption) { (result) in
+                switch result {
+                case .success(let post):
+                    print("SUCCESS POST: ", post)
+                    //Todo add upload progress bar
+                    
+                    //Notify new post has been created
+                    NotificationCenter.default.post(name: ShareController.updateFeedNotificationName, object: nil)
+                    //cancel to home
+                    self.dismiss(animated: true, completion: nil)
+                    break
+                    
+                case .failure(let error):
+                    print("FAILURE POST:", error)
+                    //Todo, need more advanced error handling
+                    
+                    //renable create if failure occurs
+                    self.navigationItem.rightBarButtonItem?.isEnabled = true
+                    break
+                }
             }
         }
-        
-        //NEED TO DO: RENABLE THIS IF ERROR OCCURS IN UPLOAD
-        navigationItem.rightBarButtonItem?.isEnabled = false
-        
-        self.dismiss(animated: true, completion: nil)
-        
-       
     }
     
     override var prefersStatusBarHidden: Bool{

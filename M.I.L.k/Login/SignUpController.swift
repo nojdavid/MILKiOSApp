@@ -122,11 +122,9 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
         //NEED TO UPDATE: VALIDATE STRENGTH OF PASSWORD
         guard let password = passwordTextField.text, password.count > 0 else {return}
         
+        //TODO add imagein to create user for starting with profile pic
         guard let image = plusPhotoButton.imageView?.image else {return}
-        guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
-        //GET IMAGE URL: IDK IF I NEED THIS 
-        //guard let profileImageUrl = metaData?.downloadURL()?.absoluateString else {return}
-        
+ 
         //let user = User(username: username, password: password, email: email)
         let user = CreateUser(email: email, username: username, password: password)
 

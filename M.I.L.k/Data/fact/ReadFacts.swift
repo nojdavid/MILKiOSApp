@@ -21,15 +21,8 @@ func FetchFacts(dict: [String: String]?, completion: ((Result<[Fact]>) -> Void)?
         body["queries"] = queries
     }
     
-    var request : URLRequest
-    let encoder = JSONEncoder()
-    do {
-        request = try! createRequest(body: body)
-    } catch {
-        completion?(.failure(error))
-    }
-    
-    
+    let request = try! createRequest(body: body)
+
     // Create and run a URLSession data task with our JSON encoded POST request
     let config = URLSessionConfiguration.default
     let session = URLSession(configuration: config)

@@ -232,7 +232,7 @@ extension UserProfileViewModel : UICollectionViewDelegateFlowLayout {
         case .factView:
             //get cell text and make dynamic cell height based on text length
             guard let myCell = collectionView.cellForItem(at: indexPath) as? UserProfileFactCell else { return CGSize()}
-            var padding : CGFloat = 20
+            let padding : CGFloat = 20
             var height: CGFloat = 50
             if let text = myCell.factLabel.text {
                 height = estimateFrameForText(text: text).height + padding

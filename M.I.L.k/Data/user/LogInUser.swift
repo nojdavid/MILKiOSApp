@@ -11,7 +11,7 @@ import Foundation
 func loginUserToDB(user: LoginUser, completion:((Result<User>) -> Void)?){
 
     let body = ["path": "/users/signin", "http": "POST"]
-
+    print("LOGIN USER",user)
     // Now let's encode out Post struct into JSON data...
     var request : URLRequest
     let encoder = JSONEncoder()
@@ -35,12 +35,12 @@ func loginUserToDB(user: LoginUser, completion:((Result<User>) -> Void)?){
             do {
                 //get response data from session or catch reponse
                 jsonData = try checkResponse(responseData: responseData, responseError: responseError)
-                
+                 print("--jsonData",jsonData)
                 //decode response object
-                let responseObject = try? createDecoder().decode(User.self, from: jsonData!)
-                
+                let responseObject = try createDecoder().decode(User.self, from: jsonData!)
+                print("--responseObject",responseObject)
                 //if user.id == nil then no user id
-                if let responseObject = responseObject {
+                if responseObject != nil {
                     return completion!(Result.success(responseObject))
                 } else {
                     //throw error from response insteda

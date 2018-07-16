@@ -14,13 +14,7 @@ func FetchStatues(dict: [String: Any]?, completion: ((Result<[StatueModel]>) -> 
 
     let body = ["path": "/statues", "http": "GET"]
 
-    var request : URLRequest
-    let encoder = JSONEncoder()
-    do {
-        request = try! createRequest(body: body)
-    } catch {
-        completion?(.failure(error))
-    }
+    let request = try! createRequest(body: body)
 
     // Create and run a URLSession data task with our JSON encoded POST request
     let config = URLSessionConfiguration.default
@@ -34,15 +28,15 @@ func FetchStatues(dict: [String: Any]?, completion: ((Result<[StatueModel]>) -> 
                 //get response data from session or catch reponse
                 jsonData = try checkResponse(responseData: responseData, responseError: responseError)
                 //decode response object
-                let responseObject = try createDecoder().decode([StatueModel].self, from: jsonData!)
-
-                if responseObject != nil {
+                let responseObject = try? createDecoder().decode([StatueModel].self, from: jsonData!)
+                
+                if let responseObject = responseObject {
                     return completion!(Result.success(responseObject))
+                } else {
+                    //throw error from response insteda
+                    let errorResponse = try createDecoder().decode(ErrorResponse.self, from: jsonData!)
+                    throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorResponse.error ?? "Error"])
                 }
-
-                //throw error from response insteda
-                let errorResponse = try createDecoder().decode(ErrorResponse.self, from: jsonData!)
-                throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : errorResponse.error ?? "Error"])
             } catch {
                 completion?(.failure(error))
             }

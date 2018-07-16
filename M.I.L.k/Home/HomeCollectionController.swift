@@ -48,18 +48,25 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
     @objc func handleRefresh(){
         print("handle refresh...")
         posts.removeAll()
-        fetchAllPosts()
+        //fetchAllPosts()
     }
     
     var posts = [Post]()
     fileprivate func fetchAllPosts(){
+        // Update UI
         self.collectionView?.refreshControl?.endRefreshing()
-
+        
         FetchPosts(dict: nil) { (result) in
             switch result {
             case .success(let posts):
-//                print("SUCCESS POSTS: ", posts)
-                self.posts = posts
+                //print("SUCCESS POSTS: ", posts)
+                for (_, post) in posts.enumerated() {
+                    if post.images.count > 0 {
+                        self.posts.append(post)
+                    }
+                }
+                
+                //self.posts = posts
                 
                 self.posts.sort { (p1, p2) -> Bool in
                     return p1.created_at?.compare(p2.created_at!) == .orderedDescending

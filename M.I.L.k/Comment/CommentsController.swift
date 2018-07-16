@@ -156,7 +156,9 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
             return
         }
         
-        let values = ["text": commentTextField.text] as [String:Any]
+        guard let text = commentTextField.text else {return}
+        
+        let values = ["text": text]
 
         emptyContainerView()
         
@@ -167,11 +169,8 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
             switch result {
             case .success(let comment):
                 print("SUCCESS COMMENT: ", comment)
-                //reload comments when comment is returned
-                //can take out optionally
-                //self.collectionView?.reloadData()
-                
                 return
+                
             case .failure(let error):
                 print("FAILURE POSTS:", error)
                 return

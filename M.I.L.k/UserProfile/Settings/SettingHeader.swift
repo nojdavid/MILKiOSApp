@@ -18,10 +18,8 @@ class SettingsHeader: UITableViewHeaderFooterView {
     
     var userImage: UIImage? {
         didSet {
-            print("--userImage", userImage)
             if (userImage != nil) {
                 plusPhotoButton.setImage(userImage, for: .normal)
-                
                 plusPhotoButton.layer.cornerRadius = plusPhotoButton.frame.width/2
                 plusPhotoButton.layer.masksToBounds = true
                 plusPhotoButton.layer.borderColor = UIColor.black.cgColor

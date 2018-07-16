@@ -21,15 +21,7 @@ func FetchPosts(dict: [String: String]?, completion: ((Result<[Post]>) -> Void)?
         body["queries"] = queries
     }
     
-    var request : URLRequest
-    let encoder = JSONEncoder()
-    do {
-        request = try! createRequest(body: body)
-    } catch {
-        completion?(.failure(error))
-    }
-    
-    print("--request",request)
+    let request = try! createRequest(body: body)
     
     // Create and run a URLSession data task with our JSON encoded POST request
     let config = URLSessionConfiguration.default

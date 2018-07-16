@@ -91,13 +91,14 @@ class LoginController : UIViewController, UITextFieldDelegate{
     }()
     
     @objc func handleLogin(){
+        print("__HANDLE LOGIN")
         guard let email = emailTextField.text else {return}
         guard let password = passwordTextField.text else {return}
 
         loginUserToDB(user: LoginUser(email: email, password: password)) { (result) in
             switch result {
                 case .success(let user):
-                    
+                    print("USER LOGIN", user)
                     //save user to disk
                     saveUserToDisk(user: user)
 

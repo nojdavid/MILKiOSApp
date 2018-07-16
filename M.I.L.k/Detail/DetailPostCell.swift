@@ -115,7 +115,7 @@ class DetailPostCell : UICollectionViewCell{
     
     @objc func handleOptions() {
         //if user owns the post
-        print("--HANDLE OPTIONS",self.post?.user_id, self.user?.id)
+        print("--HANDLE OPTIONS")//,self.post?.user_id, self.user?.id)
 //        if self.post?.user_id == self.user?.id {
 //
 //            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
