@@ -13,5 +13,5 @@ struct LikeConfig : Codable {
 }
 
 struct Like : Codable{
-    let user_id: Int?
+    let user_id: Int
 }

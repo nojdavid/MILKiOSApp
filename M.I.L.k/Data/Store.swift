@@ -27,7 +27,7 @@ class Store {
     // Initialization
     
     var statues: [Statue]?
-    
+
     private init() {
         FetchStatues(dict: nil) { (result) in
             switch result {

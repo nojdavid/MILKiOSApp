@@ -8,15 +8,14 @@
 
 import UIKit
 
+protocol CommentsDelegate {
+    func setComment(comment: Comment)
+}
+
 class CommentsController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    
+    var delegate: CommentsDelegate?
     var comments = [Comment]()
-    var post: Post? {
-        didSet {
-            //Todo change this once GET comments is patched in !!!!!!!!
-            comments = (post?.comments)!
-        }
-    }
+    var post_id: Int?
     
     let cellId = "cellId"
     var user: User?
@@ -33,6 +32,8 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.user = Store.shared().user
+        
         navigationItem.title = "Comments"
         navigationItem.leftBarButtonItem = backButton
         
@@ -42,9 +43,6 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
 
         collectionView?.register(CommentCell.self, forCellWithReuseIdentifier: cellId)
 
-        //TODO::REMOVE THIS ONCE YOU GET USER THE RIGHT WAY
-        user = getUserFromDisk()
-        
         fetchComments()
     }
     
@@ -60,9 +58,20 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     
     
     fileprivate func fetchComments(){
-        //TODO: FETCH ALL COMMENTS FOR THIS POST
+        guard let id = self.post_id else {return}
         
-        self.collectionView?.reloadData()
+        FetchComments(post_id: id) { (result) in
+            switch result {
+            case .success(let comments):
+                self.comments = comments
+                self.collectionView?.reloadData()
+                return
+                
+            case .failure(let error):
+                print("FAILURE GET COMMENTS:", error)
+                return
+            }
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -150,14 +159,8 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     @objc func handleSend() {
-        
-        guard let post_id = self.post?.id else {
-            print("--failed to fetch user name in comments")
-            return
-        }
-        
         guard let text = commentTextField.text else {return}
-        
+        guard let id = self.post_id else {return}
         let values = ["text": text]
 
         emptyContainerView()
@@ -165,20 +168,22 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         //REMOVE THIS GET USER AND PROPEGATE USERS THROUGH NAV CONTROLLER
         let comment = Comment(dictionary: values)
 
-        sendCommentToDB(post_id: post_id,comment: comment) { (result) in
+        sendCommentToDB(post_id: id, comment: comment) { (result) in
             switch result {
             case .success(let comment):
                 print("SUCCESS COMMENT: ", comment)
                 return
                 
             case .failure(let error):
-                print("FAILURE POSTS:", error)
+                print("FAILURE SEND COMMENT:", error)
                 return
             }
         }
         
         //Add comment in real time
-        comments.append(comment)
+        self.comments.append(comment)
+        delegate?.setComment(comment: comment)
+        
         self.collectionView?.reloadData()
         
         scrollToBottomAnimated(animated: true)

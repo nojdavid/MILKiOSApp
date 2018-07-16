@@ -48,7 +48,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
     @objc func handleRefresh(){
         print("handle refresh...")
         posts.removeAll()
-        //fetchAllPosts()
+        fetchAllPosts()
     }
     
     var posts = [Post]()

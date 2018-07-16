@@ -34,7 +34,7 @@ class DetailPostCell : UICollectionViewCell{
             //guard let profileImageUrl = post?.user.profileImageUrl else {return}
             //userProfileImageView.loadImage(urlString: profileImageUrl)
             
-            //print("POST LIKES:", post.likes)
+            print("POST LIKES:", post.likes, user_id)
             let isLiked = post.likes.first(where: {$0.user_id == user_id})
             self.isLiked = (isLiked != nil) ? true : false
             

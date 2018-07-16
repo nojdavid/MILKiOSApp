@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailPostController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate{
+class DetailPostController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate, CommentsDelegate{
     
     let cellId = "cellId"
     var post: Post?
@@ -25,6 +25,7 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("LOADING DETAIL")
         
         self.user = Store.shared().user
         
@@ -72,11 +73,18 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     func didTabComment(post: Post) {
         hidesBottomBarWhenPushed = true
         let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
-        commentsController.post = post
+        commentsController.delegate = self
+        commentsController.post_id = post.id
+        commentsController.comments = post.comments
         
         navigationController?.pushViewController(commentsController, animated: true)
         hidesBottomBarWhenPushed = false
     }
+    //delegate for comments
+    func setComment(comment: Comment) {
+        self.post?.comments.append(comment)
+    }
+    //------
     
     //Like User Post
     func didLike(for cell: DetailPostCell) {
@@ -87,14 +95,14 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         guard let indexPath = collectionView?.indexPath(for: cell) else {return}
         
         let like = LikeConfig(is_liked: post_like)
-        
+        //print("SEND LINK", post_id,like)
         createLikePost(post_id: post_id, like: like)  { (result) in
             switch result {
             case .success(let like):
                 print("SUCCESS LIKE:", like)
                 break
             case .failure(let error):
-                print("FAILURE POSTS:", error)
+                print("FAILURE LIKE:", error)
                 break
             }
         }
@@ -114,5 +122,5 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
 }
 
 //extension DetailPostController  {
-//    
+//
 //}

@@ -10,7 +10,7 @@ import Foundation
 
 struct Comment : Codable {
     
-    var text: String
+    var text: String?
     var user_id: Int?
     var id: Int?
     
