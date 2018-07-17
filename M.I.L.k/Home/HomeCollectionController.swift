@@ -8,13 +8,13 @@
 
 import UIKit
 
-class HomeCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class HomeCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout, DetailPostDelegate {
     
     let cellId = "cellId"
     var page: Int = 1
     var totalCells: Int? = 0
     var posts = [Post]()
-    
+    var user: User?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,6 +36,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
     }
     
     fileprivate func initPage(){
+        self.user = Store.shared().user
         fetchAllPosts()
     }
     
@@ -100,8 +101,9 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
         let post = posts[indexPath.item]
         
         let detailHomeController = DetailPostController(collectionViewLayout: UICollectionViewFlowLayout())
+        detailHomeController.delegate = self
         detailHomeController.post = post
-        
+        detailHomeController.index = indexPath.item
         navigationController?.pushViewController(detailHomeController, animated: true)
     }
     
@@ -143,5 +145,16 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
         let width = (view.frame.width - 2) / 3
         return CGSize(width: width, height:width)
     }
-    
+}
+
+extension HomeCollectionController {
+    func updateLike(index: Int, like: Like) {
+        //if like is valid
+        if like.user_id != -1 {
+            self.posts[index].likes.append(like)
+        } else {
+            guard let user_id = self.user?.id else {return}
+            self.posts[index].likes = self.posts[index].likes.filter { $0.user_id != user_id }
+        }
+    }
 }

@@ -8,11 +8,17 @@
 
 import UIKit
 
+protocol DetailPostDelegate{
+    func updateLike(index: Int, like: Like)
+}
+
 class DetailPostController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate, CommentsDelegate{
     
     let cellId = "cellId"
+    var index: Int?
     var post: Post?
     var user: User?
+    var delegate: DetailPostDelegate?
     
     lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: #imageLiteral(resourceName: "back_arrow").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleDismiss))
@@ -80,14 +86,10 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         navigationController?.pushViewController(commentsController, animated: true)
         hidesBottomBarWhenPushed = false
     }
-    //delegate for comments
-    func setComment(comment: Comment) {
-        self.post?.comments.append(comment)
-    }
-    //------
-    
+
     //Like User Post
     func didLike(for cell: DetailPostCell) {
+        
         guard let user_id = self.user?.id else {return}
         guard let post_id = self.post?.id else {return}
         let post_like = !cell.isLiked!
@@ -100,6 +102,7 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
             switch result {
             case .success(let like):
                 print("SUCCESS LIKE:", like)
+                self.delegate?.updateLike(index: self.index!, like: like)
                 break
             case .failure(let error):
                 print("FAILURE LIKE:", error)
@@ -121,6 +124,8 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     }
 }
 
-//extension DetailPostController  {
-//
-//}
+extension DetailPostController  {
+    func setComment(comment: Comment) {
+        self.post?.comments.append(comment)
+    }
+}
