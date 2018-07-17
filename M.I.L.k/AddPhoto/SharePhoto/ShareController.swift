@@ -124,29 +124,31 @@ class ShareController: UITableViewController {
         
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         
-        DispatchQueue.main.async {
-            createPost(image: image, caption: caption) { (result) in
-                switch result {
-                case .success(let post):
-                    print("SUCCESS POST: ", post)
-                    //Todo add upload progress bar
-                    
+        createPost(image: image, caption: caption) { (result) in
+            switch result {
+            case .success(let post):
+                print("SUCCESS POST: ", post)
+                //Todo add upload progress bar
+                DispatchQueue.main.async(execute: {
                     //Notify new post has been created
                     NotificationCenter.default.post(name: ShareController.updateFeedNotificationName, object: nil)
                     //cancel to home
                     self.dismiss(animated: true, completion: nil)
-                    break
-                    
-                case .failure(let error):
-                    print("FAILURE POST:", error)
-                    //Todo, need more advanced error handling
-                    
-                    //renable create if failure occurs
+                })
+                break
+                
+            case .failure(let error):
+                print("FAILURE POST:", error)
+                //Todo, need more advanced error handling
+                
+                //renable create if failure occurs
+                DispatchQueue.main.async(execute: {
                     self.navigationItem.rightBarButtonItem?.isEnabled = true
-                    break
-                }
+                })
+                break
             }
         }
+        
     }
     
     override var prefersStatusBarHidden: Bool{

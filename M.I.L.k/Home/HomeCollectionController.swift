@@ -58,9 +58,9 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
 
     fileprivate func fetchAllPosts(){
         // Update UI
-        //DispatchQueue.main.async {
+        DispatchQueue.main.async(execute: {
             self.collectionView?.refreshControl?.endRefreshing()
-        // }
+        })
         
         let dict = ["limit":"24","page":"\(self.page)"]
         FetchPosts(dict: dict) { (result) in
@@ -68,7 +68,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
             case .success(let posts):
                 guard let total = posts.count else {return}
                 guard let objects = posts.rows else {return}
-                print("SUCCESS POSTS", posts)
+//                print("SUCCESS POSTS", posts)
                 //remove all posts and restart list if pagination is from beginning
                 if (self.page == 1) {
                     self.posts.removeAll()
