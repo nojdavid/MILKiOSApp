@@ -86,7 +86,7 @@ class DetailPostCell : UICollectionViewCell{
         let iv = CustomImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.backgroundColor = .red
+        iv.backgroundColor = .unselectedGrey()
         return iv
     }()
     

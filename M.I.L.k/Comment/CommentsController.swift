@@ -161,7 +161,7 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     @objc func handleSend() {
         guard let text = commentTextField.text else {return}
         guard let id = self.post_id else {return}
-        let values = ["text": text]
+        let values = ["text": text, "user": self.user] as [String:Any]
 
         emptyContainerView()
         

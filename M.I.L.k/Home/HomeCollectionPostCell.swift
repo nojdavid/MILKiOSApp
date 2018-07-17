@@ -19,7 +19,7 @@ class HomeCollectionPostCell: UICollectionViewCell {
     
     let photoImageView: CustomImageView = {
         let iv = CustomImageView()
-        iv.backgroundColor = .red
+        iv.backgroundColor = .unselectedGrey()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
