@@ -33,10 +33,7 @@ struct Post : Codable{
 //    }
 }
 
-struct PostTest: Codable {
-    let userId: Int
-    let id: Int
-    let title: String
-    let body: String
+struct PostPag : Codable {
+    var count: Int?
+    var rows: [Post]?
 }
-

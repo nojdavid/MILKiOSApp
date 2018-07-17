@@ -11,6 +11,9 @@ import UIKit
 class HomeCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     let cellId = "cellId"
+    var page: Int = 1
+    var totalCells: Int? = 0
+    var posts = [Post]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +33,6 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo2"))
         
         collectionView?.register(HomeCollectionPostCell.self, forCellWithReuseIdentifier: cellId)
-        
-        
     }
     
     fileprivate func initPage(){
@@ -47,30 +48,43 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
     //MANUAL SCROLL REFRESH
     @objc func handleRefresh(){
         print("handle refresh...")
-        posts.removeAll()
+        self.page = 1
         fetchAllPosts()
     }
-    
-    var posts = [Post]()
+
     fileprivate func fetchAllPosts(){
         // Update UI
-        self.collectionView?.refreshControl?.endRefreshing()
+        //DispatchQueue.main.async {
+            self.collectionView?.refreshControl?.endRefreshing()
+        // }
         
-        FetchPosts(dict: nil) { (result) in
+        let dict = ["limit":"24","page":"\(self.page)"]
+        FetchPosts(dict: dict) { (result) in
             switch result {
             case .success(let posts):
-                //print("SUCCESS POSTS: ", posts)
-                for (_, post) in posts.enumerated() {
+                guard let total = posts.count else {return}
+                guard let objects = posts.rows else {return}
+                
+                //remove all posts and restart list if pagination is from beginning
+                if (self.page == 1) {
+                     self.posts.removeAll()
+                }
+                
+                //TODO REMOVE THIS LOGIC AND ALWAYS HAVE POSTS WITH IMAGES
+                for (_, post) in objects.enumerated() {
                     if post.images.count > 0 {
                         self.posts.append(post)
+                    } else {
+                        //if not valid image, lower total
+                        self.totalCells = total - 1
                     }
                 }
                 
                 //self.posts = posts
                 
-                self.posts.sort { (p1, p2) -> Bool in
-                    return p1.created_at?.compare(p2.created_at!) == .orderedDescending
-                }
+//                self.posts.sort { (p1, p2) -> Bool in
+//                    return p1.created_at?.compare(p2.created_at!) == .orderedDescending
+//                }
                 
                 self.collectionView?.reloadData()
                 return
@@ -96,10 +110,23 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HomeCollectionPostCell
-            cell.post = posts[indexPath.item]
+            cell.post = self.posts[indexPath.item]
             return cell
+        
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard let totalCells = self.totalCells else {return}
+        if indexPath.row == self.posts.count - 1 { // last cell
+            if totalCells > self.posts.count { // more items to fetch
+                print("GET MORE")
+                self.page += 1
+                fetchAllPosts()
+            }
+        }
         
     }
     

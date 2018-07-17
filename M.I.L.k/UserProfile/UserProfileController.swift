@@ -53,6 +53,7 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         userProfileViewModel?.reloadAllSections = { [weak self] () in
             print("reloadALLSections")
             self?.collectionView?.reloadData()
+            
         }
 
         collectionView?.dataSource = userProfileViewModel
@@ -70,24 +71,6 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         collectionView?.register(UserProfileFactCell.self, forCellWithReuseIdentifier: UserProfileFactCell.identifier)
         
         setupLogoutButton()
-    }
-
-    //Todo refactor fetch likes and user posts
-    fileprivate func fetchOrderedPosts(){
-        guard let user_id = Store.shared().user?.id else {return}
-        
-        FetchPosts(dict: ["author":"\(user_id)"]) { (result) in
-            switch result {
-            case .success(let posts):
-                print("SUCCESS POSTS: ", posts)
-                self.posts = posts
-                self.collectionView?.reloadData()
-                return
-            case .failure(let error):
-                print("FAILURE POSTS:", error)
-                return
-            }
-        }
     }
     
     fileprivate func setupLogoutButton(){

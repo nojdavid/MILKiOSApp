@@ -25,6 +25,8 @@ class UserProfileViewModel: NSObject {
     var delegate: UserProfileViewModelDelegate?
     
     var items = [UserProfileViewModelItem]()
+    var page: Int = 1
+    var totalCells: Int? = 0
     
     var reloadSections: ((_ section: Int,_ numberOfItems: Int,_ collapsed: Bool) -> Void)?
     var reloadAllSections: (() -> Void)?
@@ -99,20 +101,9 @@ extension UserProfileViewModel : UserProfileHeaderDelegate {
         
         mode = .postView
         
-        guard let user_id = Store.shared().user?.id else {return}
+        self.page = 1
         
-        FetchPosts(dict: ["author":"\(user_id)"]) { (result) in
-            switch result {
-            case .success(let posts):
-                print("SUCCESS GET USER POSTS: ", posts.count)
-                self.userHeader.photos = posts
-                self.reloadAllSections?()
-            case .failure(let error):
-                print("FAILURE POSTS:", error)
-            }
-        }
-        
-        self.reloadAllSections?()
+        getAuthoredPosts()
     }
     
     //clicked liked view
@@ -125,21 +116,82 @@ extension UserProfileViewModel : UserProfileHeaderDelegate {
         removeItems()
         
         mode = .likeView
-
-        //FETCH LIKED POSTS
-        FetchPosts(dict: ["liked":"\(true)"]) { (result) in
+        
+        self.page = 1
+        
+        getLikedPosts()
+    }
+    
+    func getAuthoredPosts() {
+        let user_id = self.user.id
+        
+        let dict = ["author":"\(user_id)","limit":"24","page":"\(self.page)"]
+        FetchPosts(dict: dict) { (result) in
             switch result {
             case .success(let posts):
-                print("--SUCCESS GET LIKED POSTS: ", posts.count)
-                self.userHeader.photos = posts
-                self.reloadAllSections?()
-            case .failure(let error):
-                print("--FAILURE POSTS:", error)
+                guard let total = posts.count else {return}
+                guard let objects = posts.rows else {return}
                 
+                //remove all posts and restart list if pagination is from beginning
+                if (self.page == 1) {
+                    self.userHeader.photos.removeAll()
+                }
+                
+                //TODO REMOVE THIS LOGIC AND ALWAYS HAVE POSTS WITH IMAGES
+                for (_, post) in objects.enumerated() {
+                    if post.images.count > 0 {
+                        self.userHeader.photos.append(post)
+                    } else {
+                        //if not valid image, lower total
+                        self.totalCells = total - 1
+                    }
+                }
+                
+                //self.posts = posts
+                
+                self.reloadAllSections?()
+                return
+                
+            case .failure(let error):
+                print("FAILURE POSTS:", error)
+                return
             }
         }
-        
-        self.reloadAllSections?()
+    }
+    
+    func getLikedPosts() {
+        let dict = ["liked":"\(true)","limit":"24","page":"\(self.page)"]
+        FetchPosts(dict: dict) { (result) in
+            switch result {
+            case .success(let posts):
+                guard let total = posts.count else {return}
+                guard let objects = posts.rows else {return}
+                
+                //remove all posts and restart list if pagination is from beginning
+                if (self.page == 1) {
+                    self.userHeader.photos.removeAll()
+                }
+                
+                //TODO REMOVE THIS LOGIC AND ALWAYS HAVE POSTS WITH IMAGES
+                for (_, post) in objects.enumerated() {
+                    if post.images.count > 0 {
+                        self.userHeader.photos.append(post)
+                    } else {
+                        //if not valid image, lower total
+                        self.totalCells = total - 1
+                    }
+                }
+                
+                //self.posts = posts
+                
+                self.reloadAllSections?()
+                return
+                
+            case .failure(let error):
+                print("FAILURE POSTS:", error)
+                return
+            }
+        }
     }
     
     //clicked facts view
@@ -269,6 +321,25 @@ extension UserProfileViewModel : UICollectionViewDelegateFlowLayout {
 
 //MARK :- DATA SOURCE
 extension UserProfileViewModel : UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let totalCells = self.totalCells else {return}
+        if indexPath.row == self.userHeader.photos.count - 1 { // last cell
+            if totalCells > self.userHeader.photos.count { // more items to fetch
+                print("GET MORE")
+                self.page += 1
+
+                switch mode {
+                case .likeView:
+                    getLikedPosts()
+                case .postView:
+                    getAuthoredPosts()
+                default:
+                    break
+                }
+            }
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //if picture cell

@@ -8,7 +8,7 @@
 
 import Foundation
 
-func FetchPosts(dict: [String: String]?, completion: ((Result<[Post]>) -> Void)? ){
+func FetchPosts(dict: [String: String]?, completion: ((Result<PostPag>) -> Void)? ){
     
     var body : [String: Any] = ["path": "/posts", "http": "GET"]
     
@@ -36,7 +36,7 @@ func FetchPosts(dict: [String: String]?, completion: ((Result<[Post]>) -> Void)?
                 jsonData = try checkResponse(responseData: responseData, responseError: responseError)
 
                 //decode response object
-                let responseObject = try? createDecoder().decode([Post].self, from: jsonData!)
+                let responseObject = try? createDecoder().decode(PostPag.self, from: jsonData!)
 
                 //if user.id == nil then no user id
                 if let responseObject = responseObject {
