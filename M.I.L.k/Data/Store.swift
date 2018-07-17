@@ -9,8 +9,8 @@
 import Foundation
 
 class Store {
-    // MARK: - Properties
     
+    // MARK: - Properties
     private static var store: Store = {
         let appStore = Store()
         
@@ -19,15 +19,11 @@ class Store {
         
         return appStore
     }()
-    
-    // MARK: -
-    
+
     var user: User?
-    
-    // Initialization
-    
     var statues: [Statue]?
 
+    // Initialization
     private init() {
         FetchStatues(dict: nil) { (result) in
             switch result {
@@ -43,9 +39,8 @@ class Store {
             }
         }
     }
-    
+
     // MARK: - Accessors
-    
     class func shared() -> Store {
         return store
     }

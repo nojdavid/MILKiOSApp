@@ -36,7 +36,10 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
     }
     
     fileprivate func initPage(){
+        //get user
         self.user = Store.shared().user
+        
+        //get all posts
         fetchAllPosts()
     }
     
@@ -65,27 +68,23 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
             case .success(let posts):
                 guard let total = posts.count else {return}
                 guard let objects = posts.rows else {return}
-                
+                print("SUCCESS POSTS", posts)
                 //remove all posts and restart list if pagination is from beginning
                 if (self.page == 1) {
-                     self.posts.removeAll()
+                    self.posts.removeAll()
+                    
                 }
                 
                 //TODO REMOVE THIS LOGIC AND ALWAYS HAVE POSTS WITH IMAGES
+                //self.posts = posts
                 for (_, post) in objects.enumerated() {
                     if post.images.count > 0 {
-                        self.posts.append(post)
+                         self.posts.append(post)
                     } else {
                         //if not valid image, lower total
                         self.totalCells = total - 1
                     }
                 }
-                
-                //self.posts = posts
-                
-//                self.posts.sort { (p1, p2) -> Bool in
-//                    return p1.created_at?.compare(p2.created_at!) == .orderedDescending
-//                }
                 
                 self.collectionView?.reloadData()
                 return
@@ -156,5 +155,9 @@ extension HomeCollectionController {
             guard let user_id = self.user?.id else {return}
             self.posts[index].likes = self.posts[index].likes.filter { $0.user_id != user_id }
         }
+    }
+    
+    func updateComment(index: Int, comment: Comment) {
+        self.posts[index].comments.append(comment)
     }
 }

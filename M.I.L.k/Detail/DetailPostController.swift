@@ -10,9 +10,10 @@ import UIKit
 
 protocol DetailPostDelegate{
     func updateLike(index: Int, like: Like)
+    func updateComment(index: Int, comment: Comment)
 }
 
-class DetailPostController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate, CommentsDelegate{
+class DetailPostController : UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate, CommentsDelegate {
     
     let cellId = "cellId"
     var index: Int?
@@ -31,7 +32,6 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("LOADING DETAIL")
         
         self.user = Store.shared().user
         
@@ -60,7 +60,6 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DetailPostCell
-        
         cell.user = self.user
         cell.post = self.post
         cell.delegate = self
@@ -76,15 +75,21 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         self.handleDismiss()
     }
     
-    func didTabComment(post: Post) {
+    func didTabComment(for cell: DetailPostCell) {
+        guard let post = self.post else {return}
+        
+        guard let indexPath = collectionView?.indexPath(for: cell) else {return}
+        
         hidesBottomBarWhenPushed = true
         let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
         commentsController.delegate = self
         commentsController.post_id = post.id
         commentsController.comments = post.comments
-        
+
         navigationController?.pushViewController(commentsController, animated: true)
         hidesBottomBarWhenPushed = false
+        
+        cell.post = self.post
     }
 
     //Like User Post
@@ -97,7 +102,6 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         guard let indexPath = collectionView?.indexPath(for: cell) else {return}
         
         let like = LikeConfig(is_liked: post_like)
-        //print("SEND LINK", post_id,like)
         createLikePost(post_id: post_id, like: like)  { (result) in
             switch result {
             case .success(let like):
@@ -112,13 +116,13 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
         
         //remove or append Like to post list
         if (post_like) {
-            post?.likes.append(Like(user_id: user_id))
+            self.post?.likes.append(Like(user_id: user_id))
         } else {
             let likes = post?.likes.filter { $0.user_id != user_id }
-            post?.likes = likes!
+            self.post?.likes = likes!
         }
         
-        cell.post = post
+        cell.post = self.post
         
         self.collectionView?.reloadItems(at: [indexPath])
     }
@@ -126,6 +130,8 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
 
 extension DetailPostController  {
     func setComment(comment: Comment) {
+        guard let index = self.index else {return}
         self.post?.comments.append(comment)
+        self.delegate?.updateComment(index: index, comment: comment)
     }
 }

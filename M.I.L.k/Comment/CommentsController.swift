@@ -171,7 +171,7 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         sendCommentToDB(post_id: id, comment: comment) { (result) in
             switch result {
             case .success(let comment):
-                print("SUCCESS COMMENT: ", comment)
+                //print("SUCCESS COMMENT: ", comment)
                 return
                 
             case .failure(let error):
@@ -180,10 +180,10 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
             }
         }
         
-        //Add comment in real time
+        //Add comment sync
         self.comments.append(comment)
         delegate?.setComment(comment: comment)
-        
+
         self.collectionView?.reloadData()
         
         scrollToBottomAnimated(animated: true)
@@ -206,15 +206,16 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         
         let items = self.collectionView?.numberOfItems(inSection: 0)
         if items == 0 { return }
+ 
         
         let collectionViewContentHeight = self.collectionView?.collectionViewLayout.collectionViewContentSize.height
         let isContentTooSmall: Bool = (collectionViewContentHeight! < self.collectionView!.bounds.size.height)
-        
+
         if isContentTooSmall {
             self.collectionView?.scrollRectToVisible(CGRect(x: 0, y: collectionViewContentHeight! - 1, width: 1, height: 1), animated: animated)
             return
         }
-        
+
         self.collectionView?.scrollToItem(at: NSIndexPath(item: items! - 1, section: 0) as IndexPath, at: .bottom, animated: animated)
         
     }

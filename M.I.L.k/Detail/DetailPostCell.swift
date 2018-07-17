@@ -9,7 +9,7 @@
 import UIKit
 
 protocol HomePostCellDelegate {
-    func didTabComment(post: Post)
+    func didTabComment(for cell: DetailPostCell)
     func didLike(for cell: DetailPostCell)
     func presentAlert(alert: UIAlertController)
     func closeAlert()
@@ -27,7 +27,7 @@ class DetailPostCell : UICollectionViewCell{
             guard let postImageUrl = post.images[0].url else {return}
             
             photoImageView.loadImage(urlString: postImageUrl)
-            
+
             //TODO MAKE THIS THE POST AUTHOR USERNAME
             usernameLabel.text = "MY USERNAME HERE"
             
@@ -143,9 +143,7 @@ class DetailPostCell : UICollectionViewCell{
     }()
     
     @objc func handleComment(){
-        guard let post = post else {return}
-        
-        delegate?.didTabComment(post: post)
+        delegate?.didTabComment(for: self)
     }
     
 //    let sendMessageButton: UIButton = {
