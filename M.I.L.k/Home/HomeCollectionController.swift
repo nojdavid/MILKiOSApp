@@ -74,7 +74,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
                     self.posts.removeAll()
                     
                 }
-                
+
                 //TODO REMOVE THIS LOGIC AND ALWAYS HAVE POSTS WITH IMAGES
                 //self.posts = posts
                 for (_, post) in objects.enumerated() {
@@ -85,7 +85,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
                         self.totalCells = total - 1
                     }
                 }
-                
+                print(self.posts.count)
                 self.collectionView?.reloadData()
                 return
                 

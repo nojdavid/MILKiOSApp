@@ -159,7 +159,7 @@ class ShareController: UITableViewController {
 //
 // MARK :- HEADER
 //
-class CustomTableViewHeader: UITableViewHeaderFooterView {
+class CustomTableViewHeader: UITableViewHeaderFooterView, UITextViewDelegate {
     
     static var identifier  = "headerId"
     
@@ -176,22 +176,40 @@ class CustomTableViewHeader: UITableViewHeaderFooterView {
         return iv
     }()
     
-    public var textView: UITextView = {
+    var placeholderLabel: UILabel = {
+        let holder = UILabel()
+        holder.text = "Write a caption here..."
+        holder.font = UIFont.systemFont(ofSize: 14)
+        holder.sizeToFit()
+        holder.textColor = UIColor.lightGray
+        return holder
+    }()
+    
+    var textView: UITextView = {
         let tv = UITextView()
         tv.font = UIFont.systemFont(ofSize: 14)
         return tv
     }()
     
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !textView.text.isEmpty
+    }
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = .white
-        
+
         addSubview(imageView)
         imageView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 84, height: 0)
-        
+    
         addSubview(textView)
+        textView.delegate = self
         textView.anchor(top: topAnchor, left: imageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 4, paddingBottom: 8, paddingRight: 0, width: 0, height: 0)
+        
+        textView.addSubview(placeholderLabel)
+        placeholderLabel.frame.origin = CGPoint(x: 5, y: (textView.font?.pointSize)! / 2)
+        placeholderLabel.isHidden = !textView.text.isEmpty
     }
     
     required init?(coder aDecoder: NSCoder) {
