@@ -87,6 +87,22 @@ class UserProfileViewModel: NSObject {
             }
         }
     }
+    
+    func refreshActiveSection() {
+        switch mode {
+        case .likeView:
+            getLikedPosts()
+            break
+        case .postView:
+            getAuthoredPosts()
+            break
+        case .factView:
+            getFacts()
+            break
+        default:
+            break
+        }
+    }
 }
 
 //MARK:- USER PROFILE HEADER

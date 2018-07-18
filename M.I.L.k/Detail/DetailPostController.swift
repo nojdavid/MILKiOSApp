@@ -107,6 +107,7 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
             case .success(let like):
                 print("SUCCESS LIKE:", like)
                 self.delegate?.updateLike(index: self.index!, like: like)
+                
                 break
             case .failure(let error):
                 print("FAILURE LIKE:", error)

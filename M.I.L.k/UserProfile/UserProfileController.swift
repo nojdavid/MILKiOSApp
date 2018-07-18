@@ -53,7 +53,6 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         userProfileViewModel?.reloadAllSections = { [weak self] () in
             print("reloadALLSections")
             self?.collectionView?.reloadData()
-            
         }
 
         collectionView?.dataSource = userProfileViewModel
@@ -71,6 +70,12 @@ class UserProfileController : UICollectionViewController, UserProfileViewModelDe
         collectionView?.register(UserProfileFactCell.self, forCellWithReuseIdentifier: UserProfileFactCell.identifier)
         
         setupLogoutButton()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidLoad()
+
+        userProfileViewModel?.refreshActiveSection()
     }
     
     fileprivate func setupLogoutButton(){
