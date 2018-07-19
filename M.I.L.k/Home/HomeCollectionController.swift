@@ -85,7 +85,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
                         self.totalCells = total - 1
                     }
                 }
-                print(self.posts.count)
+
                 self.collectionView?.reloadData()
                 return
                 

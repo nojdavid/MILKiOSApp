@@ -106,7 +106,6 @@ class SettingsController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseIdentifer) as? SettingsCell
-        //let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.reuseIdentifer, for: indexPath as IndexPath)
         let setting = settings[indexPath.row]
         cell?.cellSetting = setting
         cell?.selectionStyle = UITableViewCellSelectionStyle.none
@@ -142,19 +141,48 @@ class SettingsController: UIViewController, UITableViewDelegate, UITableViewData
     }()
     
     @objc func handleDone(){
+        var email: String?
+        var username: String?
+        let cells = self.tableView.visibleCells as! Array<SettingsCell>
+        
+        //get all setting sinfo from the cells
+        for cell in cells {
+            guard let setting = cell.cellSetting else {continue}
+            guard let text = cell.textField.text else {continue}
+            switch(setting) {
+                case "Email":
+                    email = text
+                    break
+                case "Username":
+                    username = text
+                    break
+                default:
+                    break
+            }
+        }
+        //check values arent nil
+        if email == nil || user == nil {return}
+        
+        //save if different from user info
+        if (self.user?.email != email && self.user?.username != username) {
+            let settings = Settings(email: email!, username: username!)
+            
+            UpdateUserSettings(settings: settings) { (result) in
+                switch result {
+                case .success(let user):
+                    print("SUCCESS SETTINGS", user)
+                    Store.shared().user = user
+//                  self.navigationController?.dismiss(animated: true, completion:nil)
+                    break
+                case .failure(let error) :
+                    print("SETTINGS ERROR", error)
+                    break
+                }
+            }
+        }
+        
         self.navigationController?.dismiss(animated: true, completion:nil)
     }
-    
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//
-//        if emailTextField.isFirstResponder {
-//            userNameTextField.becomeFirstResponder()
-//            return false
-//        }else {
-//            view.endEditing(true)
-//            return true
-//        }
-//    }
     
     @objc func dismissKeyboard() {
         view.endEditing(true)

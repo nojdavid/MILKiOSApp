@@ -30,6 +30,16 @@ struct LoginUser : Codable{
     }
 }
 
+struct Settings : Codable {
+    let email: String
+    let username: String
+    
+    init(email: String, username: String) {
+        self.username = username
+        self.email = email
+    }
+}
+
 struct User : Codable{
     let id: Int
     let username: String
