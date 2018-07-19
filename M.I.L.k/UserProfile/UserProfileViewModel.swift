@@ -454,7 +454,6 @@ class UserProfileViewModelHeader : UserProfileViewModelItem {
     }
 }
 
-
 protocol FactViewModelItem : UserProfileViewModelItem{
     var isCollapsible: Bool {get}
     var isCollapsed: Bool {get set}
@@ -469,8 +468,6 @@ extension FactViewModelItem {
         return true
     }
 }
-
-//TODO make generic fact model array maintained at runtime
 
 class FactViewModelSection: FactViewModelItem {
     

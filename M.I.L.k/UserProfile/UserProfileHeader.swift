@@ -24,8 +24,12 @@ class UserProfileHeader: UICollectionViewCell{
     
     var user: User? {
         didSet{
+            //Todo get user profile image
             //guard let profileImageUrl = user?.profileImageUrl else {return}
             //profileImageView.loadImage(urlString: profileImageUrl)
+            
+            let image = UIImage(named: "profile_default")
+            profileImageView.image = image
             
             usernameLabel.text = user?.username
             
@@ -52,7 +56,6 @@ class UserProfileHeader: UICollectionViewCell{
     
     let profileImageView: CustomImageView = {
         let iv = CustomImageView()
-        iv.backgroundColor = .red
         return iv
     }()
     
@@ -183,6 +186,7 @@ class UserProfileHeader: UICollectionViewCell{
         //ADD PROFILE IMAGE AND ANCHOR TO VIEW
         addSubview(profileImageView)
         profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
+        profileImageView.contentMode = .scaleAspectFit
         profileImageView.layer.cornerRadius = 80 / 2
         profileImageView.clipsToBounds = true
         
