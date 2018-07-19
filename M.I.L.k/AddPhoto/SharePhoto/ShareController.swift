@@ -9,11 +9,14 @@
 import UIKit
 import AWSCore
 import AWSS3
-
+import CoreLocation
+import MapKit
 //
 // MARK :- TableViewController
 //
-class ShareController: UITableViewController {
+class ShareController: UITableViewController, CLLocationManagerDelegate, StatueSelectionDelegate {
+    
+    var locationManager: CLLocationManager?
     
     var selectedImage: UIImage?{
         didSet{
@@ -21,6 +24,26 @@ class ShareController: UITableViewController {
         }
     }
     
+    var selectedStatueId: Int?
+    func setSelectedStatueId(id: Int) {
+        self.selectedStatueId = id
+    }
+    
+    var location: String?
+    func setLocation() {
+        locationManager = CLLocationManager()
+        locationManager?.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager?.delegate = self
+            locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            let coordinates = locationManager?.location?.coordinate
+            guard let latitude = coordinates?.latitude else {return}
+            guard let longitude = coordinates?.longitude else {return}
+            self.location = "\(latitude):\(longitude)"
+        }
+    }
+ 
     //
     // MARK: BUTTONS
     //
@@ -84,6 +107,7 @@ class ShareController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableCell.identifier, for: indexPath) as! CustomTableCell
         cell.selectionStyle = .default
+        cell.delegate = self
         return cell
     }
     
@@ -95,11 +119,16 @@ class ShareController: UITableViewController {
         navigationItem.rightBarButtonItem = shareButton
         navigationItem.leftBarButtonItem = backButton
         
+        setLocation()
+        
         setupTableView()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+            print("locations = \(locValue.latitude) \(locValue.longitude)")
+        }
     }
     
     func setupTableView() {
@@ -124,7 +153,7 @@ class ShareController: UITableViewController {
         
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         
-        createPost(image: image, caption: caption) { (result) in
+        createPost(image: image, caption: caption, location: self.location, statue_id: self.selectedStatueId) { (result) in
             switch result {
             case .success(let post):
                 print("SUCCESS POST: ", post)
@@ -219,7 +248,12 @@ class CustomTableViewHeader: UITableViewHeaderFooterView, UITextViewDelegate {
 //
 // MARK :- CELL
 //
+protocol StatueSelectionDelegate {
+    func setSelectedStatueId(id: Int)
+}
+
 class CustomTableCell: UITableViewCell, ShareStatueDelegate {
+    var delegate: StatueSelectionDelegate?
     
     lazy var removeStatueButton : UIButton = {
         let button = UIButton(type: UIButtonType.system)
@@ -237,12 +271,12 @@ class CustomTableCell: UITableViewCell, ShareStatueDelegate {
         textLabel?.text = "Add Statue Location"
     }
     
-    func selectStatueCell(StatueName: String) {
-
-        textLabel?.text = StatueName
+    func selectStatueCell(statue: Statue) {
+        self.delegate?.setSelectedStatueId(id: statue.id)
+        textLabel?.text = statue.title
         accessoryType = .none
         selectionStyle = .none
-        
+
         self.addSubview(removeStatueButton)
         removeStatueButton.anchor(top: topAnchor, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 30, paddingRight: 10, width: 20, height: 20)
     }

@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 
 protocol ShareStatueDelegate {
-    func selectStatueCell(StatueName: String)
+    func selectStatueCell(statue: Statue)
 }
 
 class ShareStatue : UITableViewController {
@@ -39,8 +39,6 @@ class ShareStatue : UITableViewController {
 
         if let storeStatues = Store.shared().statues {
             self.items = storeStatues
-        } else {
-            return
         }
 
         navigationItem.rightBarButtonItem = cancelButton
@@ -75,8 +73,8 @@ class ShareStatue : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let statueName = (tableView.cellForRow(at: indexPath) as! StatueSelectionCell).statueLabel.text else {return}
-        delegate?.selectStatueCell(StatueName: statueName)
+        guard let statue = (tableView.cellForRow(at: indexPath) as! StatueSelectionCell).statue else {return}
+        delegate?.selectStatueCell(statue: statue)
         navigationController?.dismiss(animated: true, completion: nil)
     }
 }

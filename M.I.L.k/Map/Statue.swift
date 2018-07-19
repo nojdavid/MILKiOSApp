@@ -12,6 +12,7 @@ import Contacts
 
 
 class Statue: NSObject, MKAnnotation {
+    let id: Int
     let title: String?
     let locationName: String
     let discipline: String
@@ -27,9 +28,9 @@ class Statue: NSObject, MKAnnotation {
     var images: [Image]?
     var likes: [Like]?
     
-    init(title: String, locationName: String, discipline: String, coordinate: CLLocationCoordinate2D, artist_desc: String,
+    init(id: Int, title: String, locationName: String, discipline: String, coordinate: CLLocationCoordinate2D, artist_desc: String,
          artist_name: String, artist_url: String, statue_desc: String, comments: [Comment], images: [Image], likes: [Like] ) {
-        
+        self.id = id
         self.title = title
         self.locationName = locationName
         self.discipline = discipline
@@ -109,7 +110,7 @@ class Statue: NSObject, MKAnnotation {
  
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
             
-            let statue = Statue(title: model.title, locationName: "", discipline: "Statue", coordinate: coordinate, artist_desc: model.artist_desc, artist_name: model.artist_name, artist_url: model.artist_url, statue_desc: model.statue_desc, comments: model.comments, images: model.images, likes: model.likes)
+            let statue = Statue(id: model.id, title: model.title, locationName: "", discipline: "Statue", coordinate: coordinate, artist_desc: model.artist_desc, artist_name: model.artist_name, artist_url: model.artist_url, statue_desc: model.statue_desc, comments: model.comments, images: model.images, likes: model.likes)
             
             getPlacemark(forLocation: statue.coordinate, completionHandler: { (placemark, nil) in
                 if let addressDict = placemark?.postalAddress, let coordinate = placemark?.location?.coordinate {

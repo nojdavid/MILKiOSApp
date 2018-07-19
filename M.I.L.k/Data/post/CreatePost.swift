@@ -9,9 +9,13 @@
 import Foundation
 import UIKit
 
-func createPost(image: UIImage, caption: String, completion: ((Result<Any>) -> Void)? ) {
+func createPost(image: UIImage, caption: String, location: String?, statue_id: Int?, completion: ((Result<Any>) -> Void)? ) {
+    //Todo add in statue_id as NON OPTIONAL VALUE
     
-    let parameters = ["location": "MY LOCATION", "caption": caption]
+    let postLocation = location != nil ? location! : ""
+    let postStatueId = statue_id != nil ? statue_id! : -1
+    
+    let parameters = ["location": postLocation, "caption": caption] //, "statue_id": "\(postStatueID)"
     
     guard let mediaImage = Media(withImage: image, forKey: "file") else {return}
     
