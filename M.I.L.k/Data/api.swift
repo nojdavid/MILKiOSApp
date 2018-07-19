@@ -64,3 +64,39 @@ func checkResponse(responseData : Data?, responseError: Error?) throws -> Data {
     
     return jsonData
 }
+
+//create data body for multipart POST request
+typealias Parameters = [String:String]
+func createDataBody(withParameters params: Parameters?, media: [Media]?, boundary: String) -> Data {
+    
+    let linebreak = "\r\n"
+    var body = Data()
+    
+    if let parameters = params {
+        for (key,value) in parameters {
+            body.append("--\(boundary + linebreak)")
+            //name = api required fields, key is its value
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\(linebreak + linebreak)")
+            body.append("\(value + linebreak)")
+        }
+    }
+    
+    if let media = media {
+        for photo in media {
+            body.append("--\(boundary + linebreak)")
+            body.append("Content-Disposition: form-data; name\"\(photo.key)\"; filename=\"\(photo.filename)\"\(linebreak)")
+            body.append("Content-type: \(photo.mimetype + linebreak + linebreak)")
+            body.append(photo.data)
+            body.append(linebreak)
+        }
+    }
+    
+    body.append("--\(boundary)--\(linebreak)")
+    
+    return body
+}
+
+//generate multipart POST form boundarys
+func generateBoundary() -> String {
+    return "Bounday-\(NSUUID().uuidString)"
+}

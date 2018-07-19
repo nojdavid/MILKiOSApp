@@ -9,27 +9,24 @@
 import Foundation
 import UIKit
 
-func createPost(image: UIImage, caption: String, completion: ((Result<Any>) -> Void)? ) {
-    
-    let parameters = ["location": "MY LOCATION", "caption": caption]
-    
+func UpdateProfileImage(image: UIImage, completion: ((Result<Any>) -> Void)? ) {
     guard let mediaImage = Media(withImage: image, forKey: "file") else {return}
     
-    guard let url = URL(string: "https://milk-backend.herokuapp.com/posts") else {return}
+    guard let url = URL(string: "https://milk-backend.herokuapp.com/users/image") else {return}
     var request = URLRequest(url: url)
-    request.httpMethod = "POST"
+    request.httpMethod = "PUT"
     
     let boundary = generateBoundary()
     
     request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
     
-    let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
+    let dataBody = createDataBody(withParameters: nil, media: [mediaImage], boundary: boundary)
     request.httpBody = dataBody
     
     let session = URLSession.shared
     session.dataTask(with: request) { (data, response, error) in
         if let response = response {
-            print("POST POST", response)
+            print("PUT USER IMAGE", response)
         }
         
         if let data = data {

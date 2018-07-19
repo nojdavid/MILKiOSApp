@@ -27,16 +27,46 @@ class SettingsController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        var finalImage: UIImage?
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage{
             userImage = editedImage.withRenderingMode(.alwaysOriginal)
-            //plusPhotoButton.setImage( editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+            finalImage = editedImage
         } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage{
             userImage = originalImage.withRenderingMode(.alwaysOriginal)
-            //plusPhotoButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
+            finalImage = originalImage
         }
         
-        dismiss(animated: true, completion: nil)
+        //if no image then gtfo
+        guard let image = finalImage else {return}
         
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        UpdateProfileImage(image: image) { (result) in
+            switch result {
+            case .success(let user):
+                print("SUCCESS USER IMAGE: ", user)
+                //Todo add upload progress bar
+                DispatchQueue.main.async(execute: {
+                    //Notify new post has been created
+                    NotificationCenter.default.post(name: ShareController.updateFeedNotificationName, object: nil)
+                    //cancel to home
+                    self.dismiss(animated: true, completion: nil)
+                    self.tableView.reloadData()
+                })
+                break
+                
+            case .failure(let error):
+                print("FAILURE USER IMAGE:", error)
+                //renable create if failure occurs
+                DispatchQueue.main.async(execute: {
+                    self.navigationItem.rightBarButtonItem?.isEnabled = true
+                })
+                break
+            }
+        }
+        
+        //TODO move these inside success
+        dismiss(animated: true, completion: nil)
         tableView.reloadData()
     }
     

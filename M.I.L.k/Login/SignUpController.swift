@@ -37,7 +37,7 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
         plusPhotoButton.layer.borderColor = UIColor.black.cgColor
         plusPhotoButton.layer.borderWidth = 3
         
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     let emailTextField: UITextField = {
@@ -108,7 +108,7 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
         }
     }
     
-    @objc func handleSignUp(){
+    @objc func handleSignUp() {
         //NEED TO UPDATE: VALIDATE EMAIL BETTER
         guard let email = emailTextField.text, email.count > 0 else {return}
         if validateEmail(enteredEmail: email) == false {
@@ -131,33 +131,64 @@ class SignUpController: UIViewController,UITextFieldDelegate, UIImagePickerContr
         signUpUserToDB(user: user) { (result) in
             switch result {
                 case .success(let user):
-                    
+                    print("SUCCESS USER SINGUP: ", user)
                     //save user to disk
                     saveUserToDisk(user: user)
-
-                    //get reference to maintab bar
-                    guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
                     
-                    //reset all views
-                    mainTabBarController.setupViewController(user: user)
-                    
-                    self.dismiss(animated: true, completion: nil)
+                    if let image = self.plusPhotoButton.imageView?.image {
+                        UpdateProfileImage(image: image) { (result) in
+                            switch result {
+                            case .success(let user):
+                                print("SUCCESS USER SINGUP IMAGE: ", user)
+                                saveUserToDisk(user: user as! User)
+                                
+                                DispatchQueue.main.async(execute: {
+                                    self.transitionToMainController(user: user as! User)
+                                })
+                                
+                                break
+                                
+                            case .failure(let error):
+                                print("FAILURE USER SIGNUP IMAGE:", error)
+                                DispatchQueue.main.async(execute: {
+                                    self.transitionToMainController(user: user as! User)
+                                })
+                                break
+                            }
+                        }
+                    } else {
+                        DispatchQueue.main.async(execute: {
+                            self.transitionToMainController(user: user as! User)
+                        })
+                    }
                 
                 case .failure(let error):
                     print("SIGN UP FAILURE")
                     print("error: \(error.localizedDescription)")
                     
-                    let message = error.localizedDescription
-                     //remove error message if already there
-                     if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
-                        self.stackView?.removeFromSuperview()
-                     }
- 
-                    //add error message
-                    self.present(customUserError(title: "Signup Failed", message: message), animated: true, completion: nil)
-                    return
+                    DispatchQueue.main.async(execute: {
+                        let message = error.localizedDescription
+                        //remove error message if already there
+                        if self.userErrorLabel.isDescendant(of: self.stackView!) == true {
+                            self.stackView?.removeFromSuperview()
+                        }
+                        
+                        //add error message
+                        self.present(customUserError(title: "Signup Failed", message: message), animated: true, completion: nil)
+                        return
+                    })
             }
         }
+    }
+    
+    func transitionToMainController(user: User) {
+        //get reference to maintab bar
+        guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
+        
+        //reset all views
+        mainTabBarController.setupViewController(user: user)
+        
+        self.dismiss(animated: true, completion: nil)
     }
     
     func validateEmail(enteredEmail: String) -> Bool {

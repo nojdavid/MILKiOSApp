@@ -148,7 +148,6 @@ class ShareController: UITableViewController {
                 break
             }
         }
-        
     }
     
     override var prefersStatusBarHidden: Bool{

@@ -32,7 +32,7 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("POST", self.post)
         self.user = Store.shared().user
         
         collectionView?.backgroundColor = .white
