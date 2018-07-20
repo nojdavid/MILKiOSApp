@@ -45,7 +45,7 @@ class HomeCollectionController: UICollectionViewController, UICollectionViewDele
     
     //UPDATE FEED WHEN SOMEONE SHARES A NEW PHOTO
     @objc func handleUpdateFeed(){
-        print("Shared a new photo")
+        //print("Updated photos")
         handleRefresh()
     }
     

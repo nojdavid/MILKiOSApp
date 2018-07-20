@@ -72,7 +72,12 @@ class DetailPostController : UICollectionViewController, UICollectionViewDelegat
     }
     
     func closeAlert() {
-        self.handleDismiss()
+        DispatchQueue.main.async(execute: {
+            //Notify new post has been created
+            NotificationCenter.default.post(name: ShareController.updateFeedNotificationName, object: nil)
+            //cancel to home
+            self.handleDismiss()
+        })
     }
     
     func didTabComment(for cell: DetailPostCell) {

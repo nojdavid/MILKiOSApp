@@ -22,10 +22,10 @@ class DetailPostCell : UICollectionViewCell{
     
     var post: Post?{
         didSet{
-            guard let user_id = self.user?.id else {return}
             guard let post = post else {return}
+            guard let user_id = self.user?.id else {return}
             guard let postImageUrl = post.images[0].url else {return}
-            
+            print("--Post", post)
             photoImageView.loadImage(urlString: postImageUrl)
 
             //TODO MAKE THIS THE POST AUTHOR USERNAME
@@ -37,7 +37,6 @@ class DetailPostCell : UICollectionViewCell{
             print("POST LIKES:", post.likes, user_id)
             let isLiked = post.likes.first(where: {$0.user_id == user_id})
             self.isLiked = (isLiked != nil) ? true : false
-            
             
             captionLabel.text = post.caption
             setupAttributedCaption()
@@ -98,7 +97,7 @@ class DetailPostCell : UICollectionViewCell{
     }()
     
     //TODO options button is not responsive
-    let optionsButton: UIButton = {
+    lazy var optionsButton: UIButton = {
         let button = UIButton(type: UIButtonType.system)
         button.setTitle("•••", for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -114,21 +113,45 @@ class DetailPostCell : UICollectionViewCell{
     }()
     
     @objc func handleOptions() {
-        //if user owns the post
-        print("--HANDLE OPTIONS")//,self.post?.user_id, self.user?.id)
-//        if self.post?.user_id == self.user?.id {
+        //post options alert
+         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        guard let post = self.post else {return}
+        
+        if self.post?.user_id == self.user?.id {
+            alertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+                //Todo add add DELETE route here
+                DeletePost(post_id: post.id!) { (result) in
+                    switch result {
+                    case .success(let posts):
+                         self.delegate?.closeAlert()
+                        return
+                        
+                    case .failure(let error):
+                        print("FAILURE POSTS:", error)
+                        return
+                    }
+                }
+            }))
+        } else {
+            alertController.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { (_) in
+                //TODO ADD reporting
+//                DeletePost(post_id: post.id!) { (result) in
+//                    switch result {
+//                    case .success(let posts):
+//                        self.delegate?.closeAlert()
+//                        return
 //
-//            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//
-//            alertController.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
-//                //Todo add add DELETE route here
-//                self.delegate?.closeAlert()
-//            }))
-//
-//            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-//
-//            self.delegate?.presentAlert(alert: alertController)
-//        }
+//                    case .failure(let error):
+//                        print("FAILURE POSTS:", error)
+//                        return
+//                    }
+//                }
+            }))
+        }
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.delegate?.presentAlert(alert: alertController)
     }
     
     @objc func handleLike(){
@@ -176,7 +199,7 @@ class DetailPostCell : UICollectionViewCell{
         
         photoImageView.anchor(top: userProfileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         photoImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
-        
+
         setupActionButtons()
         
         addSubview(captionLabel)
